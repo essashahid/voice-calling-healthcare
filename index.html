@@ -4,29 +4,30 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Proposal for phone coverage and patient follow-up workflows at an ophthalmology clinic: scope, three versions, build prices, delivery targets and estimated vendor costs.">
+  <meta name="description" content="Proposal for phone coverage and patient follow-up at an ophthalmology clinic: implementation options, detailed scope, delivery plan, estimated vendor costs and terms.">
   <meta name="robots" content="noindex, nofollow">
   <title>Clinic Phone Proposal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
   <style>
-    /* Layout: one 1120px document column; section headings and body share the left edge; tables and rules carry structure, cards only for the three versions. */
+    /* Layout: a 1120px document column. Serif for section titles and prices, Plex Sans for everything read or compared.
+       One bordered comparison panel for the options; everything else is rules, tables and open space. */
     :root{
       color-scheme:light;
-      --bg:#f6f7f8;--surface:#ffffff;--ink:#17212b;--muted:#4c5966;--line:#dce1e6;--line-strong:#b3bdc7;
-      --accent:#1c5871;--accent-tint:#ecf3f6;--accent-line:#86aabb;--on-accent:#ffffff;
+      --bg:#f6f7f8;--surface:#ffffff;--ink:#16202a;--muted:#4b5865;--line:#dde2e7;--line-strong:#aab5c0;
+      --accent:#1c5871;--accent-tint:#edf4f7;--accent-line:#8db0c0;
       --serif:"Source Serif 4","Source Serif Pro",Georgia,"Times New Roman",serif;
       --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
-      --max:1120px;--gutter:32px;
+      --max:1120px;--gutter:40px;
     }
-    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e3e8ec;--muted:#a2aeb9;--line:#28323b;--line-strong:#46525d;--accent:#88bfd6;--accent-tint:#14252e;--accent-line:#3f6d81;--on-accent:#0d1a20}}
-    :root[data-theme="dark"]{color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e3e8ec;--muted:#a2aeb9;--line:#28323b;--line-strong:#46525d;--accent:#88bfd6;--accent-tint:#14252e;--accent-line:#3f6d81;--on-accent:#0d1a20}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e4e9ed;--muted:#a3afba;--line:#27313a;--line-strong:#4a5661;--accent:#89c0d7;--accent-tint:#15262f;--accent-line:#3f6d81}}
+    :root[data-theme="dark"]{color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e4e9ed;--muted:#a3afba;--line:#27313a;--line-strong:#4a5661;--accent:#89c0d7;--accent-tint:#15262f;--accent-line:#3f6d81}
 
     *,*::before,*::after{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:24px;-webkit-text-size-adjust:100%}
+    html{scroll-behavior:smooth;scroll-padding-top:20px;-webkit-text-size-adjust:100%}
     body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
-    h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+    h1,h2,h3,h4,p,ul,ol,dl,dd{margin:0}
     ul,ol{padding:0;list-style:none}
     button,select{font:inherit;color:inherit}
     a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
@@ -36,355 +37,327 @@
     .skip{position:absolute;left:16px;top:-60px;background:var(--ink);color:var(--bg);padding:8px 14px;z-index:5}
     .skip:focus{top:12px}
     .wrap{max-width:calc(var(--max) + 2*var(--gutter));margin-inline:auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
-    .muted{color:var(--muted)}
-    .label{display:block;font-size:13px;line-height:1.4;color:var(--muted)}
-    .ino{display:inline-block;min-width:2.1em;color:var(--muted);font-weight:500}
-    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .lbl{display:block;font-size:13px;line-height:1.4;color:var(--muted)}
+    .no{color:var(--muted)}
+    .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+    .table-wrap{overflow-x:auto}
     table{border-collapse:collapse;width:100%}
     th{text-align:left;font-weight:600}
 
     /* Header */
     .site-header{border-bottom:1px solid var(--line)}
-    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-block:16px}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:10px 24px;flex-wrap:wrap;padding-block:16px}
     .identity{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink);text-decoration:none}
     .monogram{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--ink);font:600 13px/1 var(--serif);letter-spacing:.03em}
-    .header-right{display:flex;align-items:center;gap:12px 24px;flex-wrap:wrap}
-    .doc-meta{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:13px;color:var(--muted)}
+    .header-right{display:flex;align-items:center;gap:10px 24px;flex-wrap:wrap}
+    .doc-meta{display:flex;flex-wrap:wrap;gap:2px 20px;font-size:13px;color:var(--muted)}
     .doc-meta b{font-weight:500;color:var(--ink)}
     .controls{display:flex;gap:8px}
     .ctl{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);font-size:13px;cursor:pointer}
     .ctl:hover{border-color:var(--ink)}
     .ctl svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
-    /* Opening */
-    .opening{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:56px;padding-block:56px 56px}
+    /* Overview */
+    .overview{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 64px;padding-block:56px 48px;align-items:end}
     .kicker{font-size:15px;font-weight:500;color:var(--accent)}
-    h1{font:600 clamp(32px,3.6vw,44px)/1.14 var(--serif);letter-spacing:-.012em;margin:10px 0 20px;text-wrap:balance;max-width:22ch}
-    .lede{font-size:18px;line-height:1.6;max-width:62ch}
-    .lede+.lede{margin-top:14px}
-    .contents{margin-top:32px;padding-top:20px;border-top:1px solid var(--line)}
-    .contents ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 32px;margin-top:10px;counter-reset:toc;font-size:15px}
-    .contents li{counter-increment:toc;display:flex;gap:10px}
-    .contents li::before{content:counter(toc);min-width:1.2em;color:var(--muted)}
-    .brief{align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px}
-    .brief h2{font:600 15px/1.4 var(--sans)}
-    .brief .src{font-size:13px;color:var(--muted);margin-top:2px}
-    .brief dl{margin-top:16px}
-    .brief dl>div{padding-block:12px;border-top:1px solid var(--line)}
-    .brief dt{font-size:13px;color:var(--muted)}
-    .brief dd{font-size:16px;margin-top:2px}
-    .brief dd strong{font:600 22px/1.25 var(--sans);letter-spacing:-.01em}
+    h1{font:600 clamp(34px,4vw,48px)/1.08 var(--serif);letter-spacing:-.015em;margin-top:10px;text-wrap:balance}
+    .overview .lede{font-size:18px;line-height:1.62}
+    .overview .lede+.lede{margin-top:14px;color:var(--muted);font-size:17px}
+    .toc{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 28px;padding-top:20px;border-top:1px solid var(--line);font-size:15px}
 
     /* Sections */
-    .section{border-top:1px solid var(--line);padding-block:64px}
-    .section-head{margin-bottom:32px;max-width:72ch}
-    h2.sh{font:600 clamp(25px,2.4vw,31px)/1.2 var(--serif);letter-spacing:-.008em;text-wrap:balance}
-    .sec-no{font:500 .62em/1 var(--sans);color:var(--accent);margin-right:12px;vertical-align:.18em}
-    .section-lede{margin-top:12px;font-size:17px;color:var(--muted)}
-    h3.sub{font:600 18px/1.35 var(--sans);margin-bottom:14px}
-    .block{margin-top:48px}
-    .note{font-size:14px;color:var(--muted);max-width:80ch}
-    .note strong{color:var(--ink);font-weight:600}
+    .section{padding-block:56px}
+    .section+.section{border-top:1px solid var(--line)}
+    .sec-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px 64px;align-items:baseline;margin-bottom:32px}
+    h2{font:600 clamp(26px,2.6vw,32px)/1.15 var(--serif);letter-spacing:-.01em;text-wrap:balance}
+    .sec-head p{font-size:16px;color:var(--muted);max-width:64ch}
+    .sec-head p+p{margin-top:8px}
+    h3.sub{font:600 18px/1.35 var(--sans);margin-bottom:6px}
+    .sub-lede{font-size:15px;color:var(--muted);margin-bottom:16px;max-width:72ch}
+    .part+.part{margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
 
-    /* Requested work */
-    .req{border-top:1px solid var(--ink)}
-    .req th,.req td{padding:16px 16px 16px 0;vertical-align:top;border-bottom:1px solid var(--line)}
-    .req thead th{font-size:13px;font-weight:500;color:var(--muted);padding-block:12px}
-    .req .n{width:44px;color:var(--muted);font-weight:500}
-    .req .ask{width:30%;font-weight:600}
-    .req .ver{width:120px;padding-right:0;font-size:14px;color:var(--muted);white-space:nowrap}
+    /* Options comparison */
+    .cmp{display:grid;grid-template-columns:200px repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,auto);background:var(--surface);border:1px solid var(--line-strong);border-radius:10px 10px 0 0;overflow:hidden}
+    .cmp-labels,.opt{grid-row:1/span 6;display:grid;grid-template-rows:subgrid;min-width:0}
+    .cmp-labels{background:var(--bg)}
+    .cmp-labels>*,.opt>*{padding:16px 22px;border-top:1px solid var(--line)}
+    .cmp-labels>:first-child,.opt>:first-child{border-top:0}
+    .cmp-labels>*{font-size:14px;font-weight:500;color:var(--muted)}
+    .opt{border-left:1px solid var(--line)}
+    .opt.rec{background:var(--accent-tint);box-shadow:inset 0 3px 0 var(--accent)}
+    .opt-head{padding-top:22px!important}
+    .opt-top{display:flex;justify-content:space-between;gap:8px;font-size:14px;color:var(--muted)}
+    .opt-top .rec-label{color:var(--accent);font-weight:600}
+    .opt h3{font:600 24px/1.2 var(--serif);margin-top:4px}
+    .opt .desc{font-size:15px;color:var(--muted);margin-top:4px}
+    .price{font:600 40px/1.05 var(--serif);letter-spacing:-.01em}
+    .price-sub{font-size:13px;color:var(--muted);margin-top:6px}
+    .big{font:600 20px/1.3 var(--sans)}
+    .big small{font-size:14px;font-weight:400;color:var(--muted)}
+    .opt .txt{font-size:15px;line-height:1.5}
+    .opt .txt.out{color:var(--muted)}
+    .cell-lbl{display:none}
+    .cmp-foot{display:grid;grid-template-columns:200px minmax(0,1fr);border:1px solid var(--line-strong);border-top:0;border-radius:0 0 10px 10px;background:var(--bg)}
+    .cmp-foot>*{padding:14px 22px}
+    .cmp-foot h3{font:500 14px/1.5 var(--sans);color:var(--muted)}
+    .incl{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:14.5px}
+    .incl li{position:relative;padding-left:14px}
+    .incl li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    .cmp-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 48px;margin-top:18px;font-size:14px;color:var(--muted)}
+    .cmp-notes strong{color:var(--ink);font-weight:600}
 
-    /* Versions */
-    .plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,auto);gap:0 20px}
-    .plan{grid-row:span 6;display:grid;grid-template-rows:subgrid;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px;min-width:0}
-    .plan.rec{border:2px solid var(--accent);padding:23px}
-    .plan>*+*{border-top:1px solid var(--line);margin-top:18px;padding-top:18px}
-    .plan-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px;color:var(--muted)}
-    .plan-top .rec-label{color:var(--accent);font-weight:600}
-    .plan h3{font:600 26px/1.2 var(--serif);margin-top:6px}
-    .plan .descriptor{margin-top:6px;font-size:15px;color:var(--muted)}
-    .plan .suits p{font-size:15px}
-    .price{font:600 38px/1.1 var(--sans);letter-spacing:-.02em;margin-top:4px}
-    .price-sub{font-size:13px;color:var(--muted);margin-top:8px}
-    .figure{font:600 19px/1.3 var(--sans);margin-top:2px}
-    .figure small{font-size:14px;font-weight:400;color:var(--muted)}
-    .monthly .figure{font-weight:500}
-    .scope-list li{display:flex;font-size:15px;line-height:1.45;padding-block:4px}
-    .scope-list li small{display:block;font-size:13px;color:var(--muted);margin-top:2px}
-    .scope-list .base{font-weight:500}
-    .scope-list+.label{margin-top:14px}
-    .scope-list.out li{color:var(--muted)}
-    .plans-foot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 48px;margin-top:20px}
-    .shared{margin-top:48px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px 48px;padding-top:28px;border-top:1px solid var(--line)}
-    .shared h3{font:600 18px/1.35 var(--sans)}
-    .shared h3+p{font-size:14px;color:var(--muted);margin-top:6px}
-    .shared dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 40px}
-    .shared dt{font-weight:600;font-size:15px}
-    .shared dd{font-size:15px;color:var(--muted);margin-top:2px}
-
-    /* Detailed scope */
-    .scope-key{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:14px;color:var(--muted);margin-bottom:16px}
-    .scope{border-top:1px solid var(--ink);font-size:14.5px;line-height:1.5}
-    .scope col.c-item{width:17%}.scope col.c-del{width:auto}.scope col.c-price{width:9%}.scope col.c-target{width:12%}.scope col.c-month{width:11%}.scope col.c-v{width:4.6%}
-    .scope thead th{font-size:13px;font-weight:500;color:var(--muted);padding:12px 12px 12px 0;vertical-align:bottom;border-bottom:1px solid var(--line-strong)}
-    .scope thead th.v,.scope td.v{text-align:center;padding-right:0}
-    .scope .grp th{font:600 14px/1.4 var(--sans);color:var(--accent);padding:28px 0 10px;border-bottom:1px solid var(--line-strong)}
-    .scope .main>*{padding:16px 12px 8px 0;vertical-align:top}
-    .scope .main th{font-weight:600;padding-bottom:16px;border-bottom:1px solid var(--line)}
-    .scope .main th .ino{display:block;margin-bottom:2px}
-    .scope .detail td{padding:6px 12px 18px 0;border-bottom:1px solid var(--line)}
-    .scope .money{font-weight:600;white-space:nowrap}
-    .scope .sub{display:block;font-size:13px;color:var(--muted);margin-top:2px}
-    .scope .row-note{display:block;font-size:13.5px;color:var(--muted);margin-top:6px;font-style:italic}
-    .detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 32px;font-size:14px;color:var(--muted)}
-    .detail-grid .label{font-weight:500;color:var(--ink);font-size:13px}
-    .yes{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);vertical-align:middle}
-    .no{color:var(--muted)}
-    .records{display:none}
-    .rec-group{font:600 15px/1.4 var(--sans);color:var(--accent);padding:24px 0 8px;border-bottom:1px solid var(--line-strong)}
-    .record{padding:18px 0;border-bottom:1px solid var(--line)}
-    .record h4{font:600 17px/1.35 var(--sans)}
-    .record h4 .ino{min-width:2.3em}
-    .record>p{margin-top:8px;font-size:15px}
-    .record .row-note{display:block;font-size:14px;color:var(--muted);font-style:italic;margin-top:6px}
-    .record dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px;margin-top:14px}
-    .record dl .full{grid-column:1/-1}
-    .record dt{font-size:13px;color:var(--muted)}
-    .record dd{font-size:15px}
-    .gates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 48px;margin-top:28px}
-    .gates p{font-size:15px;color:var(--muted)}
-    .gates strong{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
-
-    /* Technical */
-    .stack{border-top:1px solid var(--ink);font-size:15px}
-    .stack thead th{font-size:13px;font-weight:500;color:var(--muted);padding:12px 16px 12px 0;border-bottom:1px solid var(--line-strong)}
-    .stack td,.stack tbody th{padding:14px 16px 14px 0;vertical-align:top;border-bottom:1px solid var(--line)}
-    .stack tbody th{width:19%}
-    .stack td:nth-child(2){width:33%}
-    .stack td:nth-child(3){width:20%;font-weight:500}
-    .stack td:nth-child(4){color:var(--muted);font-size:14px}
-    .stack-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 40px;margin-top:24px}
-    .stack-notes p{font-size:14.5px;color:var(--muted)}
-    .stack-notes strong{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
-    .flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;counter-reset:flow}
-    .flow li{position:relative;padding:14px 28px 0 0;border-top:2px solid var(--line-strong);counter-increment:flow}
-    .flow li:not(:last-child)::after{content:"";position:absolute;top:-6px;right:12px;width:10px;height:10px;border-top:2px solid var(--line-strong);border-right:2px solid var(--line-strong);transform:rotate(45deg)}
-    .flow li.ai{border-top-color:var(--accent)}
-    .flow strong{display:block;font-size:15px}
-    .flow strong::before{content:counter(flow) ". ";color:var(--muted);font-weight:500}
-    .flow p{font-size:14px;color:var(--muted);margin-top:4px}
-    .callout{margin-top:24px;padding:14px 18px;border-left:3px solid var(--accent);background:var(--surface);font-size:15px;max-width:80ch}
+    /* Scope */
+    .scope-tools{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;margin-bottom:12px;font-size:14px;color:var(--muted)}
+    .linkbtn{border:1px solid var(--line-strong);background:var(--surface);border-radius:6px;padding:6px 12px;font-size:14px;cursor:pointer}
+    .linkbtn:hover{border-color:var(--ink)}
+    .srow{display:grid;grid-template-columns:minmax(0,1fr) 92px 150px 128px 34px 34px 34px 28px;align-items:center;column-gap:12px}
+    .scope-head{padding:10px 0;border-bottom:1px solid var(--ink);font-size:13px;font-weight:500;color:var(--muted)}
+    .scope-head .c{text-align:center}
+    .grp{font:600 15px/1.4 var(--sans);color:var(--accent);padding:26px 0 8px;border-bottom:1px solid var(--line-strong)}
+    .it{border-bottom:1px solid var(--line)}
+    .it>summary{list-style:none;cursor:pointer;padding:14px 0;font-size:15px}
+    .it>summary::-webkit-details-marker{display:none}
+    .it>summary:hover .nm>span:last-child{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong)}
+    .it>summary:focus-visible{outline-offset:-2px}
+    .nm{font-weight:600;display:flex;gap:10px;min-width:0}
+    .no-tag{min-width:2.2em;color:var(--muted);font-weight:500}
+    .money{font-weight:600}
+    .s-sub{display:block;font-size:13px;color:var(--muted);line-height:1.35}
+    .srow .c{text-align:center}
+    .chev{width:14px;height:14px;justify-self:end;transition:transform .15s;stroke:var(--muted);fill:none;stroke-width:2}
+    .it[open] .chev{transform:rotate(180deg)}
+    .it-body{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:16px 32px;padding:4px 0 20px calc(2.2em + 10px);font-size:14.5px;line-height:1.55}
+    .it-body .note{display:block;color:var(--muted);font-style:italic;margin-top:6px;font-size:14px}
+    .it-body .lbl{font-weight:500;margin-bottom:3px}
+    .m-meta{display:none}
+    .gates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 48px;margin-top:24px;font-size:14.5px;color:var(--muted)}
+    .gates strong{color:var(--ink);font-weight:600}
 
     /* Delivery */
-    .gantt{display:grid;grid-template-columns:150px repeat(8,minmax(0,1fr));align-items:center;row-gap:8px;font-size:13px}
-    .gantt .wk{color:var(--muted);text-align:left;padding:0 0 6px 6px;border-left:1px solid var(--line)}
-    .gantt .vn{grid-column:1;font-size:14px;font-weight:500;padding-right:12px}
-    .gantt .bar{height:26px;background:var(--accent-tint);border:1px solid var(--accent-line);border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding:0 10px;font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;grid-column-start:2}
-    .weeks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 32px;margin-top:36px}
-    .weeks li{border-top:1px solid var(--line-strong);padding-top:12px}
-    .weeks .wl{font-size:13px;color:var(--muted)}
-    .weeks h4{font:600 15px/1.4 var(--sans);margin-top:2px}
-    .weeks p{font-size:14px;color:var(--muted);margin-top:4px}
-    .weeks .ms{display:block;font-size:14px;font-weight:600;color:var(--accent);margin-top:8px}
-    .deps{border-top:1px solid var(--ink);font-size:15px}
-    .deps thead th{font-size:13px;font-weight:500;color:var(--muted);padding:12px 16px 12px 0;border-bottom:1px solid var(--line-strong)}
-    .deps td,.deps tbody th{padding:13px 16px 13px 0;vertical-align:top;border-bottom:1px solid var(--line)}
-    .deps tbody th{font-weight:500;width:38%}
+    .flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+    .flow li{position:relative;padding:12px 26px 0 0;border-top:2px solid var(--line-strong)}
+    .flow li:not(:last-child)::after{content:"";position:absolute;top:-6px;right:12px;width:9px;height:9px;border-top:2px solid var(--line-strong);border-right:2px solid var(--line-strong);transform:rotate(45deg)}
+    .flow li.ai{border-top-color:var(--accent)}
+    .flow strong{display:block;font-size:15px}
+    .flow p{font-size:14px;color:var(--muted);margin-top:2px}
+    .emerg{margin-top:16px;font-size:14.5px;color:var(--muted)}
+    .emerg strong{color:var(--ink)}
+    .tl{display:grid;grid-template-columns:110px repeat(8,minmax(0,1fr));row-gap:8px}
+    .tl .wk{padding:0 10px 10px;border-left:1px solid var(--line);font-size:13.5px;line-height:1.4}
+    .tl .wk b{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+    .tl .wk .t{display:block;font-weight:600}
+    .tl .wk small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+    .tl .vn{grid-column:1;font-size:14px;font-weight:500;align-self:center}
+    .tl .bar{grid-column-start:2;height:28px;border-radius:4px;background:var(--accent-tint);border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:flex-end;padding:0 10px;font-size:13px;font-weight:600;white-space:nowrap}
+    .weeklist{display:none;grid-template-columns:1fr 1fr;gap:10px 20px;margin-top:16px;font-size:14px}
+    .weeklist b{display:block}
+    .weeklist span{color:var(--muted)}
+    .deps{font-size:14.5px;border-top:1px solid var(--ink)}
+    .deps thead th{font-size:13px;font-weight:500;color:var(--muted);padding:10px 16px 10px 0;border-bottom:1px solid var(--line-strong)}
+    .deps td,.deps tbody th{padding:11px 16px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+    .deps tbody th{font-weight:500;width:46%}
     .deps td:nth-child(2){width:24%;color:var(--muted)}
 
-    /* Costs */
-    .costs{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px}
-    .num-table{font-size:15px;border-top:1px solid var(--ink)}
-    .num-table thead th{font-size:13px;font-weight:500;color:var(--muted);padding:12px 0 12px 12px;border-bottom:1px solid var(--line-strong);text-align:right;white-space:nowrap}
-    .num-table thead th:first-child{text-align:left;padding-left:0}
-    .num-table td,.num-table tbody th,.num-table tfoot th{padding:11px 0 11px 12px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;white-space:nowrap}
-    .num-table tbody th,.num-table tfoot th{text-align:left;padding-left:0;font-weight:500;white-space:normal}
-    .num-table th small{display:block;font-size:13px;color:var(--muted);font-weight:400}
-    .num-table .no{color:var(--muted)}
-    .num-table tfoot th,.num-table tfoot td{font-weight:600;border-top:1px solid var(--ink);border-bottom:0}
-    .basis p{font-size:15px;color:var(--muted)}
-    .basis p+p{margin-top:12px}
-    .basis strong{color:var(--ink);font-weight:600}
-
-    /* Terms */
-    .terms{display:grid;grid-template-columns:240px minmax(0,1fr);border-top:1px solid var(--ink)}
-    .terms dt,.terms dd{padding-block:16px;border-bottom:1px solid var(--line)}
-    .terms dt{font-weight:600;padding-right:24px}
-    .terms dd{color:var(--muted)}
+    /* Costs, security, terms */
+    .costs{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0 40px}
+    .costs-head{grid-column:1/-1}
+    .num{font-size:14.5px;border-top:1px solid var(--ink)}
+    .num thead th{font-size:13px;font-weight:500;color:var(--muted);padding:10px 0 10px 12px;border-bottom:1px solid var(--line-strong);text-align:right;white-space:nowrap}
+    .num thead th:first-child{text-align:left;padding-left:0}
+    .num td,.num tbody th,.num tfoot th{padding:9px 0 9px 12px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;white-space:nowrap}
+    .num tbody th,.num tfoot th{text-align:left;padding-left:0;font-weight:500;white-space:normal}
+    .num th small{display:block;font-size:13px;color:var(--muted);font-weight:400}
+    .num tfoot th,.num tfoot td{font-weight:600;border-top:1px solid var(--ink);border-bottom:0}
+    .notes{font-size:14.5px;color:var(--muted);margin-top:14px}
+    .notes li+li{margin-top:8px}
+    .notes strong{color:var(--ink);font-weight:600}
+    .vend{font-size:14.5px;border-top:1px solid var(--ink)}
+    .vend thead th{font-size:13px;font-weight:500;color:var(--muted);padding:10px 16px 10px 0;border-bottom:1px solid var(--line-strong)}
+    .vend td,.vend tbody th{padding:11px 16px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+    .vend tbody th{width:19%}
+    .vend td:nth-child(2){width:34%}
+    .vend .st{display:block;font-weight:600}
+    .vend .dt{display:block;color:var(--muted);font-size:14px}
+    .sec-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 36px;margin-top:20px;font-size:14.5px;color:var(--muted)}
+    .sec-notes strong{display:block;color:var(--ink);font-weight:600}
+    .terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
+    .terms>div{padding:14px 0;border-top:1px solid var(--line)}
+    .terms dt{font-weight:600;font-size:15px}
+    .terms dd{font-size:14.5px;color:var(--muted);margin-top:2px}
 
     /* Next steps */
-    .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 32px;counter-reset:step}
-    .steps li{border-top:2px solid var(--accent);padding-top:12px;counter-increment:step}
-    .steps strong{display:block;font-size:16px}
-    .steps strong::before{content:counter(step) ". ";color:var(--muted);font-weight:500}
-    .steps p{font-size:15px;color:var(--muted);margin-top:4px}
-    .acceptance{margin-top:40px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px}
-    .acceptance h3{font:600 18px/1.35 var(--sans)}
-    .acc-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:18px;align-items:end}
-    .acc-grid label,.acc-grid .label{margin-bottom:8px}
-    .acc-grid select{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:6px;background:var(--bg);font-size:15px}
-    .sig{height:44px;border-bottom:1px solid var(--line-strong)}
-    .acc-note{margin-top:16px;font-size:14px;color:var(--muted)}
+    .close{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 64px}
+    .steps{display:grid;gap:14px;margin-top:18px;counter-reset:s}
+    .steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;font-size:15px}
+    .steps li::before{content:counter(s);font-weight:600;color:var(--accent)}
+    .steps strong{display:block}
+    .steps p{color:var(--muted);font-size:14.5px}
+    .acceptance{background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:22px 24px}
+    .acceptance h3{font:600 17px/1.35 var(--sans)}
+    .acc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 24px;margin-top:14px}
+    .acc-grid .full{grid-column:1/-1}
+    .acc-grid select{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:6px;background:var(--bg);font-size:15px;margin-top:6px}
+    .sig{height:40px;border-bottom:1px solid var(--line-strong)}
+    .acc-note{margin-top:14px;font-size:14px;color:var(--muted)}
     .acc-note output{color:var(--ink);font-weight:500}
 
     .site-footer{border-top:1px solid var(--line)}
-    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;padding-block:24px 40px;font-size:13px;color:var(--muted)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding-block:22px 36px;font-size:13px;color:var(--muted)}
     .footer-inner .identity{font-size:14px}
     .error{max-width:720px;margin:64px auto;padding:24px;border:1px solid var(--ink)}
 
-    @media (max-width:1100px){
-      .plan{padding:20px}.plan.rec{padding:19px}
+    @media screen and (max-width:1100px){
+      .cmp{grid-template-columns:160px repeat(3,minmax(0,1fr))}
+      .cmp-labels>*,.opt>*{padding:14px 16px}
+      .cmp-foot{grid-template-columns:160px minmax(0,1fr)}
+      .cmp-foot>*{padding:14px 16px}
       .price{font-size:34px}
-      .stack-notes{grid-template-columns:1fr 1fr}
+      .srow{grid-template-columns:minmax(0,1fr) 84px 130px 116px 30px 30px 30px 24px;column-gap:10px}
+      .sec-notes{grid-template-columns:1fr 1fr}
     }
-    @media (max-width:960px){
-      .scope-table-wrap{display:none}
-      .records{display:block}
-      .opening{grid-template-columns:1fr;gap:32px}
-      .plans{grid-template-columns:1fr;grid-template-rows:none;gap:20px}
-      .plan{grid-row:auto;grid-template-rows:none}
-      .shared{grid-template-columns:1fr;gap:16px}
-      .costs{grid-template-columns:1fr;gap:36px}
-      .weeks{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .flow{grid-template-columns:1fr;gap:0}
-      .flow li{border-top:0;border-left:2px solid var(--line-strong);padding:0 0 18px 18px}
+    @media screen and (max-width:900px){
+      :root{--gutter:24px}
+      .overview,.sec-head,.close{grid-template-columns:1fr}
+      .overview{padding-block:40px 36px;gap:16px}
+      .sec-head{margin-bottom:24px}
+      .cmp{grid-template-columns:1fr;grid-template-rows:none;border:0;background:transparent;border-radius:0;overflow:visible;gap:14px}
+      .cmp-labels{display:none}
+      .opt{grid-row:auto;grid-template-rows:none;grid-template-columns:1fr 1fr;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface)}
+      .opt.rec{background:var(--accent-tint);border-color:var(--accent);box-shadow:none}
+      .opt>*{padding:12px 16px}
+      .opt-head,.opt .pr,.opt .inc,.opt .exc{grid-column:1/-1}
+      .opt .mo{border-left:1px solid var(--line)}
+      .cell-lbl{display:block;font-size:13px;color:var(--muted);margin-bottom:2px}
+      .cmp-foot{grid-template-columns:1fr;margin-top:14px;border-top:1px solid var(--line-strong);border-radius:10px}
+      .cmp-foot>*+*{padding-top:0}
+      .cmp-notes,.gates,.costs,.terms{grid-template-columns:1fr}
+      .costs{gap:28px}
+      .scope-head{display:none}
+      .it>summary.srow{grid-template-columns:minmax(0,1fr) 20px;row-gap:4px}
+      .it>summary .d{display:none}
+      .m-meta{display:block;grid-column:1;font-size:14px;color:var(--muted);padding-left:calc(2.2em + 10px)}
+      .m-meta b{color:var(--ink);font-weight:600}
+      .chev{grid-column:2;grid-row:1}
+      .it-body{grid-template-columns:1fr;gap:12px}
+      .flow{grid-template-columns:1fr}
+      .flow li{border-top:0;border-left:2px solid var(--line-strong);padding:0 0 14px 16px}
       .flow li.ai{border-left-color:var(--accent)}
       .flow li:not(:last-child)::after{display:none}
+      .tl{grid-template-columns:44px repeat(8,minmax(0,1fr))}
+      .tl .wk{padding:0 4px 8px}
+      .tl .wk b .w{display:none}
+      .tl .wk .t,.tl .wk small{display:none}
+      .tl .bar{padding:0 6px;font-size:12px}
+      .tl .bar .w{display:none}
+      .weeklist{display:grid}
+      .sec-notes{grid-template-columns:1fr}
     }
-    @media (max-width:720px){
+    @media screen and (max-width:600px){
       :root{--gutter:16px}
-      body{font-size:16px}
-      .section{padding-block:44px}
-      .opening{padding-block:36px 40px}
-      .lede{font-size:17px}
-      .contents ol{grid-template-columns:1fr}
-      .doc-meta{width:100%;order:2}
+      .doc-meta{order:2;width:100%}
       .header-right{width:100%;justify-content:space-between}
-      .req thead{display:none}
-      .req tr{display:grid;grid-template-columns:32px minmax(0,1fr);padding:14px 0;border-bottom:1px solid var(--line)}
-      .req th,.req td{border:0;padding:0}
-      .req .n{grid-row:span 3;width:auto}
-      .req .ask,.req .ver{width:auto}
-      .req td:nth-child(3){margin-top:6px}
-      .req .ver{margin-top:6px;font-size:13px}
-      .plans-foot,.gates,.stack-notes{grid-template-columns:1fr}
-      .stack thead,.deps thead{display:none}
-      .stack tr,.deps tr{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
-      .stack td,.stack tbody th,.deps td,.deps tbody th{display:block;width:auto!important;padding:0;border:0}
-      .stack td+td,.deps td{margin-top:4px}
-      .stack td[data-label]::before,.deps td[data-label]::before{content:attr(data-label) ": ";color:var(--muted);font-weight:400}
-      .gantt{grid-template-columns:44px repeat(8,minmax(0,1fr))}
-      .gantt .wk{padding-left:3px;font-size:12px}
-      .gantt .bar{padding:0 6px;font-size:12px}
-      .weeks{grid-template-columns:1fr;gap:16px}
-      .terms{grid-template-columns:1fr}
-      .terms dt{border-bottom:0;padding-bottom:2px}
-      .terms dd{padding-top:0}
-      .steps{grid-template-columns:1fr}
+      .section{padding-block:40px}
+      .overview .lede{font-size:17px}
+      .weeklist{grid-template-columns:1fr}
+      .deps thead,.vend thead{display:none}
+      .deps tr,.vend tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
+      .deps td,.deps tbody th,.vend td,.vend tbody th{display:block;width:auto!important;padding:0;border:0}
+      .deps td,.vend td{margin-top:3px}
+      .deps td[data-lbl]::before{content:attr(data-lbl) ": ";color:var(--muted)}
       .acc-grid{grid-template-columns:1fr}
-      .record dl{grid-template-columns:1fr 1fr}
-      .hide-sm{display:none}
     }
-    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chev{transition:none}}
 
-    @page{size:Letter;margin:13mm 13mm 14mm}
+    @page{size:Letter;margin:12mm 13mm 13mm}
     @media print{
-      :root,:root[data-theme="dark"],:root:not([data-theme="light"]){color-scheme:light;--bg:#fff;--surface:#fff;--ink:#111a22;--muted:#3f4b57;--line:#d3d9df;--line-strong:#9aa6b2;--accent:#1c5871;--accent-tint:#ecf3f6;--accent-line:#86aabb;--gutter:0px}
-      body{font-size:9.5pt;line-height:1.45;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-      .no-print,.skip,.controls{display:none!important}
+      :root,:root[data-theme="dark"],:root:not([data-theme="light"]){color-scheme:light;--bg:#ffffff;--surface:#ffffff;--ink:#111a22;--muted:#3e4a56;--line:#d5dbe1;--line-strong:#9ca8b4;--accent:#1c5871;--accent-tint:#eef4f7;--accent-line:#8db0c0;--gutter:0px}
+      body{font-size:9.5pt;line-height:1.42;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .skip,.controls,.toc,.chev,.linkbtn,.weeklist,.m-meta{display:none!important}
       a{color:inherit;text-decoration:none}
       .wrap{max-width:none;padding:0}
-      .header-inner{padding-block:0 8pt}
+      .header-inner{padding-block:0 6pt}
       .doc-meta{font-size:8.5pt}
-      .opening{grid-template-columns:1fr;gap:12pt;padding-block:10pt 6pt}
-      .brief{display:grid;grid-template-columns:120pt 1fr;gap:0 16pt;align-items:start}
-      .brief h2,.brief .src{grid-column:1}
-      .brief dl{grid-column:2;grid-row:1/span 2;display:grid;grid-template-columns:1fr 1fr 1fr 2fr;gap:0 14pt;margin-top:0}
-      .brief dl>div{border-top:0;padding-block:0}
-      .brief .src{font-size:8pt}
-      h1{font-size:20pt;margin:2pt 0 8pt;max-width:none}
-      .kicker{font-size:9.5pt}
-      .lede{font-size:9.5pt;max-width:none}
-      .lede+.lede{margin-top:6pt}
-      .contents{display:none}
-      .brief{padding:12pt}
-      .brief dd strong{font-size:11pt}
-      .brief{align-content:start;padding:9pt 12pt}
-      .req .ver{font-size:9pt}
-      .section{padding-block:14pt;border-top:0}
-      .section-head{margin-bottom:12pt}
-      h2.sh{font-size:17pt}
-      .section-lede{font-size:10pt}
-      .block{margin-top:18pt}
-      h3.sub{font-size:11pt;margin-bottom:8pt}
-      section:has(#versions){break-before:page}
-      .section-head,h3.sub{break-after:avoid;break-inside:avoid}
-      section:has(#next),.stack,.plans-foot{break-inside:avoid}
-      .brief dd{font-size:9.5pt}
-      .req th,.req td{font-size:9pt}
-      .req tr{break-inside:avoid}
-      .req th,.req td{padding-block:4pt}
-      .plans{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,auto);gap:0 10pt}
-      .plan{grid-row:span 6;grid-template-rows:subgrid;padding:12pt;break-inside:avoid}
-      .plan.rec{padding:11pt}
-      .plan>*+*{margin-top:9pt;padding-top:9pt}
-      .plan h3{font-size:15pt}
+      .overview{grid-template-columns:5fr 7fr;gap:24pt;padding-block:14pt 12pt}
+      .kicker{font-size:9pt}
+      h1{font-size:24pt}
+      .overview .lede{font-size:10pt}.overview .lede+.lede{font-size:9.5pt;margin-top:5pt}
+      .section{padding-block:10pt 12pt}
+      .sec-head{grid-template-columns:5fr 7fr;gap:6pt 24pt;margin-bottom:10pt;break-inside:avoid;break-after:avoid}
+      h2{font-size:17pt}
+      .sec-head p{font-size:9pt}
+      h3.sub{font-size:11pt;margin-bottom:3pt;break-after:avoid}
+      .sub-lede{font-size:9pt;margin-bottom:6pt}
+      .part+.part{margin-top:10pt;padding-top:8pt}
+      .cmp{grid-template-columns:96pt repeat(3,minmax(0,1fr));break-inside:avoid}
+      .cmp-labels>*,.opt>*{padding:6pt 9pt}
+      .opt-head{padding-top:8pt!important}
+      .cmp-labels>*{font-size:8.5pt}
+      .opt h3{font-size:14pt}
+      .opt .desc,.opt .txt{font-size:8.8pt}
+      .opt-top{font-size:8.5pt}
       .price{font-size:22pt}
-      .figure{font-size:11.5pt}
-      .scope-list li{font-size:9pt;padding-block:1.5pt}
-      .plan .descriptor,.plan .suits p{font-size:9pt}
-      .label,.price-sub{font-size:8pt}
-      .plans-foot{font-size:8.5pt}
-      .note{font-size:8.5pt}
-      .shared{margin-top:16pt;padding-top:12pt;grid-template-columns:150pt 1fr}
-      .shared dl{gap:8pt 20pt}
-      .shared dt,.shared dd{font-size:9pt}
-      .records{display:none!important}
-      .scope-table-wrap{display:block!important;overflow:visible}
-      .scope{font-size:8.5pt}
-      .scope thead{display:table-header-group}
-      .scope .grp th{padding-top:12pt;font-size:9pt}
-      .scope tbody.item{break-inside:avoid}
-      .scope .main>*{padding:7pt 7pt 4pt 0}
-      .scope .main th{padding-bottom:7pt}
-      .scope .detail td{padding:2pt 7pt 8pt 0}
-      .detail-grid{font-size:8pt;gap:4pt 18pt}
-      .detail-grid .label,.scope .sub,.scope .row-note{font-size:7.5pt}
-      .gates{gap:10pt 24pt;break-inside:avoid}
-      .gates p{font-size:8.5pt}
-      .stack{font-size:8.5pt}
-      .stack td:nth-child(4){font-size:8pt}
-      .stack td,.stack tbody th{padding-block:6pt}
-      .stack-notes p{font-size:8.5pt}
-      .flow{grid-template-columns:repeat(5,minmax(0,1fr));break-inside:avoid}
-      .flow li{border-left:0;border-top:2px solid var(--line-strong);padding:8pt 16pt 0 0}
+      .price-sub{font-size:8pt;margin-top:2pt}
+      .big{font-size:11.5pt}.big small{font-size:8.5pt}
+      .cmp-foot{grid-template-columns:96pt 1fr;break-inside:avoid}
+      .cmp-foot>*{padding:6pt 9pt}
+      .cmp-foot h3{font-size:8.5pt}
+      .incl{font-size:8.8pt;gap:2pt 16pt}
+      .cmp-notes{font-size:8.5pt;margin-top:8pt;gap:6pt 24pt}
+      .scope-tools{font-size:8.5pt;margin-bottom:4pt}
+      .srow{grid-template-columns:minmax(0,1fr) 56pt 96pt 76pt 20pt 20pt 20pt}
+      .scope-head{font-size:8pt;padding:5pt 0}
+      .scope-head>span:last-child{display:none}
+      .grp{font-size:9.5pt;padding:9pt 0 4pt;break-after:avoid}
+      .it{break-inside:avoid}
+      .it>summary{padding:6pt 0 3pt;font-size:9.5pt}
+      .s-sub{font-size:7.8pt}
+      .it-body{grid-template-columns:1.3fr 1fr 1fr;gap:4pt 16pt;padding:0 0 7pt calc(2.2em + 10px);font-size:8.6pt;line-height:1.4}
+      .it-body .lbl{font-size:7.8pt;margin-bottom:1pt}
+      .it-body .note{font-size:8pt;margin-top:2pt}
+      details.it>.it-body{display:grid!important}
+      details.it::details-content{content-visibility:visible;display:contents}
+      .dot{width:6.5pt;height:6.5pt}
+      .gates{font-size:8.6pt;gap:6pt 24pt;margin-top:8pt;break-inside:avoid}
+      .flow{grid-template-columns:repeat(5,1fr);break-inside:avoid}
+      .flow li{border-left:0;border-top:2px solid var(--line-strong);padding:6pt 14pt 0 0}
       .flow li.ai{border-top-color:var(--accent)}
       .flow li:not(:last-child)::after{display:block;top:-5px;right:8px;width:7px;height:7px}
-      .section-head{max-width:none}
-      .plans-foot{margin-top:10pt}
-      .shared{margin-top:12pt}
       .flow strong{font-size:9pt}.flow p{font-size:8.5pt}
-      .callout{font-size:9pt;padding:8pt 12pt}
-      .gantt{font-size:8pt;break-inside:avoid;grid-template-columns:110pt repeat(8,minmax(0,1fr))}
-      .gantt .bar{height:16pt;font-size:8pt}
-      .weeks{grid-template-columns:repeat(4,minmax(0,1fr));gap:10pt 16pt;margin-top:16pt;break-inside:avoid}
-      .weeks h4{font-size:9pt}.weeks p,.weeks .ms{font-size:8.5pt}
-      .deps{font-size:8.5pt}
-      .deps td,.deps tbody th{padding-block:6pt}
-      .deps tr,.stack tr,.terms dt,.terms dd{break-inside:avoid}
-      .costs{grid-template-columns:1.2fr 1fr;gap:24pt}
-      .num-table{font-size:8.5pt}
-      .num-table td,.num-table tbody th,.num-table tfoot th{padding-block:5pt}
-      .num-table th small{font-size:7.5pt}
-      .basis p{font-size:8.5pt}
-      .terms{grid-template-columns:150pt 1fr}
-      .terms dt,.terms dd{padding-block:7pt;font-size:9pt}
-      .steps{grid-template-columns:repeat(3,1fr);gap:14pt}
-      .steps strong{font-size:10pt}.steps p{font-size:9pt}
-      .acceptance{padding:12pt;margin-top:16pt;break-inside:avoid}
-      .acc-grid select{appearance:none;-webkit-appearance:none;border:0;border-bottom:1px solid var(--line-strong);border-radius:0;padding:4pt 0;min-height:0;background:transparent;font-size:9.5pt}
-      .acc-note{font-size:8.5pt}
-      .footer-inner{padding-block:10pt 0;font-size:8pt}
+      .emerg{font-size:8.6pt;margin-top:6pt}
+      .tl{grid-template-columns:40pt repeat(8,minmax(0,1fr));row-gap:3pt;break-inside:avoid}
+      .tl .wk small{display:none!important}
+      .tl .wk{padding:0 5pt 5pt;font-size:8pt}
+      .tl .wk b{font-size:7.8pt}.tl .wk small{font-size:7.5pt}
+      .tl .wk .t,.tl .wk small{display:block}
+      .tl .w{display:inline!important}
+      .tl .vn{font-size:8.5pt}
+      .tl .bar{height:14pt;font-size:7.8pt}
+      .deps,.vend,.num{font-size:8.6pt}
+      .deps thead th,.vend thead th,.num thead th{font-size:7.8pt;padding-block:4pt}
+      .deps td,.deps tbody th,.vend td,.vend tbody th{padding-block:4.5pt}
+      .num td,.num tbody th,.num tfoot th{padding-block:3.5pt}
+      .num th small,.vend .dt{font-size:7.8pt}
+      .deps tr,.vend tr,.num tr{break-inside:avoid}
+      .costs{grid-template-columns:1.15fr 1fr;gap:0 20pt}
+      .costs-head{break-after:avoid}
+      tfoot{display:table-row-group}
+      .sec-head+.part h3.sub{break-before:avoid}
+      .notes{font-size:8.5pt;margin-top:6pt}.notes li+li{margin-top:3pt}
+      .sec-notes{grid-template-columns:repeat(3,1fr);font-size:8.5pt;gap:6pt 18pt;margin-top:8pt;break-inside:avoid}
+      .terms{gap:0 24pt}
+      .terms>div{padding:5pt 0;break-inside:avoid}
+      .terms dt{font-size:9pt}.terms dd{font-size:8.6pt}
+      .close{grid-template-columns:5fr 7fr;gap:20pt;break-inside:avoid}
+      .steps{gap:5pt;margin-top:8pt}
+      .steps li{font-size:9pt;grid-template-columns:16pt 1fr}
+      .steps p{font-size:8.6pt}
+      .acceptance{padding:9pt 12pt;border-radius:4pt}
+      .acceptance h3{font-size:10pt}
+      .acc-grid{gap:8pt 16pt;margin-top:6pt}
+      .acc-grid select{appearance:none;-webkit-appearance:none;border:0;border-bottom:1px solid var(--line-strong);border-radius:0;padding:2pt 0;min-height:0;background:transparent;font-size:9.5pt;margin-top:2pt}
+      .sig{height:22pt}
+      .acc-note{font-size:8pt;margin-top:6pt}
+      .footer-inner{padding-block:8pt 0;font-size:8pt}
       h2,h3,h4{break-after:avoid}
       p{orphans:3;widows:3}
     }
@@ -399,70 +372,62 @@
        Version values, savings, monthly totals and displayed calculations are derived below. */
     const PROPOSAL = {
       meta: { author: "Essa Arshad", monogram: "EA", number: "EA-2026-1101", issued: "2026-11-01", validUntil: "2026-11-30", currency: "USD", locale: "en-US", title: "Clinic Phone Proposal" },
-      facts: { callsMonthly: 3700, newPatientsMonthly: [30, 40], systems: ["Weave", "ModMed", "Klara"], priority: "Fix the phones first.", desiredApproach: "An add-on to the current systems, not a replacement." },
+      facts: { callsMonthly: 3700, newPatientsMonthly: [30, 40], systems: ["Weave", "ModMed", "Klara"] },
       settings: { clinicTimezone: "Clinic local time", morningReport: "7:30 AM", weeklyReport: "Monday", firstSupportMonths: 1, extraSupportMonths: 2, kickoffPercent: 50, acceptancePercent: 50, callbackFallbackReduction: 500 },
       assumptions: { surgeryCalls: 185, surgeryMinutesPerCall: 3, missedCalls: 450, callbackMinutes: 1100, afterHoursCalls: 400, afterHoursMinutesPerCall: 2.5, appointments: 1500, eligibilityChecks: 1200, phoneNumbers: 3, surgeryMessageSegments: 200, winbackMinutes: 600 },
       rates: { voiceMinute: 0.13, phoneNumberMonthly: 2, eligibilityFirst: { count: 250, rate: 0.30 }, eligibilityNext: 0.15, confirmationSegmentEstimate: 0.015, budgetRoundTo: 5 },
       accessPolicy: "No shared staff logins. The clinic provides approved service connections and named, limited-access accounts.",
-      pricingPolicy: "Prices are fixed for the documented scope and integration approach. A different integration route needs agreement on scope, price and schedule before that work starts.",
-      timingPolicy: "Delivery targets assume the required access and approvals arrive on time. Vendor delays move the affected milestones. Delivery may be faster if the needed APIs are already available and approved.",
+      pricingPolicy: "Implementation prices are fixed for the documented scope and integration approach. Changes to scope, price, or schedule require agreement before additional work begins.",
+      runningCostPolicy: "Monthly running costs are estimates based on current vendor pricing and expected usage. Actual charges may vary and are paid directly to the service providers.",
+      timingPolicy: "Delivery dates are targets based on timely access and approvals. Vendor or integration delays may shift affected milestones.",
       groups: { core: "Foundation and phone workflows", patient: "Patient workflows and reporting", support: "Support", extras: "Version 3 additions" },
-      requests: [
-        { itemId: "surgery", ask: "A clear route for surgery inquiries", proposed: "A dedicated surgery option in the phone menu. The AI assistant takes the inquiry, sends a confirmation text and creates a coordinator task, and each inquiry is tracked through to booking." },
-        { itemId: "callbacks", ask: "Follow-up when a caller hangs up", proposed: "During business hours, an AI callback within minutes to eligible callers. It answers approved basic questions, transfers the call or creates a booking task, and logs the outcome." },
-        { itemId: "afterhours", ask: "Evening and weekend coverage", proposed: "Non-emergency calls answered after hours and at weekends, emergencies routed to the answering service, and a morning report for staff." },
-        { itemId: "reminders", ask: "Reminders and recalls the clinic controls", proposed: "Reminders with an on/off control, a message at booking and an automatic stop on cancellation, for every appointment type, plus yearly outreach to past patients." },
-        { itemId: "insurance", ask: "Insurance checks before the visit", proposed: "Electronic eligibility checks for BCBS, Aetna, Humana, UHC and Medicare, plus a Medicare supplement call list and answer form for staff." },
-        { itemId: "dashboard", ask: "A view of results", proposed: "A weekly dashboard of calls, recovered hang-ups, surgery inquiries, surgeries booked, recalls and no-shows." }
-      ],
       items: [
-        { id: "foundation", number: "0", group: "core", name: "Foundation", short: "Foundation: hosting, database, audit log, staff task page", price: 500, monthly: [45,75], week: 1, deliveryNote: "Once access is ready", delivers: "US-region hosting, encrypted database, audit log, staff task page, automated uptime alerts and daily backups.", access: "Clinic-owned AWS account in an approved US region, vendor agreements, and named owners for access and alerts.", done: "Restricted staff access, a sample audit event, a backup restore and a monitoring alert are each tested." },
-        { id: "surgery", number: "1", group: "core", name: "Surgery phone line", short: "Surgery phone line", price: 800, monthly: { basis: "voice", stream: "surgery", confirmationTexts: true, headroom: 10 }, week: 2, deliveryNote: "Pilot; live with Version 1", delivers: "Weave option 1 reaches the AI assistant, which states that it is the office’s virtual assistant, collects the patient’s details, sends a confirmation text and creates a coordinator task and alert. Each inquiry is tracked through to surgery booked.", access: "Option 1 routing in Weave, an approved intake script and fields, the coordinator who receives tasks, and task access.", done: "A test inquiry produces the confirmation text and coordinator task, and staff can update its status through to booked.", note: "Until ModMed is connected, booking status comes from coordinator updates." },
-        { id: "callbacks", number: "2", group: "core", name: "AI hang-up callbacks", short: "AI hang-up callbacks", price: 1100, monthly: { basis: "voice", stream: "callbacks", headroom: 10 }, week: 3, deliveryNote: "Pilot; live with Version 1", delivers: "During business hours, calls eligible callers back within minutes of a hang-up, asks the reason, answers approved basic questions, transfers the call or creates a booking task, and logs every outcome.", access: "Live Weave missed-call events, or routing the main line through the AI number (neither route is verified yet); consent lookup, opening hours and the transfer extension.", done: "An eligible test hang-up receives an AI callback within the agreed minutes. Duplicate and already-answered calls are suppressed, and the outcome is logged." },
-        { id: "afterhours", number: "3", group: "core", name: "After-hours and weekend answering", short: "After-hours and weekend answering", price: 600, monthly: { basis: "voice", stream: "afterhours", headroom: 10 }, week: 2, deliveryNote: "Pilot; live with Version 1", delivers: "Takes non-emergency calls in the evening and at weekends, routes emergencies to the answering service, and sends staff a secure morning report.", access: "After-hours routing, the answering-service number, the clinic-approved emergency script and report recipients.", done: "A non-emergency call is captured, an emergency test call reaches the answering service, and the morning report link arrives." },
-        { id: "reminders", number: "4", group: "patient", name: "Reminders and recalls", short: "Reminders and yearly recalls", price: 900, monthly: [35,55], week: 5, deliveryNote: "Live with Version 2", delivers: "Reminders with an on/off control, a message at booking and an automatic stop on cancellation, for every appointment type; yearly outreach to past patients. Runs alongside Klara.", access: "ModMed appointment changes and contacts, an approved texting connection, Klara overlap settings and confirmed recall consent.", done: "Booking sends the agreed message and cancellation stops future sends. Each appointment type and the yearly recall group pass tests without duplicate Klara messages.", note: "The monthly messaging figure is a provisional allowance." },
-        { id: "insurance", number: "5", group: "patient", name: "Insurance eligibility", short: "Insurance eligibility and supplement workflow", price: 800, monthly: { basis: "eligibility", headroom: 30 }, week: 6, deliveryNote: "Live with Version 2", delivers: "Electronic eligibility checks for BCBS, Aetna, Humana, UHC and Medicare, plus a Medicare supplement call list and an answer form for staff.", access: "Patient, appointment and payer data; NPI and TIN; a Stedi account; required payer and Medicare HETS enrollment.", done: "Agreed payer tests return logged results, exceptions create staff tasks, and the supplement call list and answer form both work.", note: "An eligibility result does not guarantee coverage or payment." },
-        { id: "dashboard", number: "6", group: "patient", name: "Weekly dashboard", short: "Weekly dashboard", price: 500, monthly: [0,0], week: 6, deliveryNote: "Live with Version 2", delivers: "Weekly counts of calls, hang-ups recovered, surgery inquiries, surgeries booked, recalls and no-shows, with an email linking to a login-protected dashboard.", access: "Weave feed or export, ModMed API or export, recall results and coordinator surgery-status updates.", done: "Sample counts reconcile to source records, and the weekly email opens the login-protected dashboard.", monthlyLabel: "No added cost" },
-        { id: "support", number: "S", group: "support", name: "First month of support", short: "First month of support", price: 300, monthly: [0,0], week: null, deliveryNote: "Starts at acceptance", delivers: "post-launch fixes and workflow support for the selected version, plus operating notes and staff handover.", access: "A named support contact and approved access to reproduce issues.", done: "Handover is delivered, and issues can be reported through the agreed channel.", monthlyLabel: "None", feeNote: "Included in every version" },
-        { id: "spanish", number: "X1", group: "extras", name: "Spanish on the AI phone lines", short: "Spanish on the AI phone lines", price: 400, monthly: [0,0], week: 7, deliveryNote: "Live with Version 3", delivers: "Spanish-language support on the surgery, callback and after-hours agents.", access: "Approved translations and pronunciations, and a bilingual reviewer at the clinic.", done: "Approved Spanish test calls pass intake, handoff and emergency-routing checks.", monthlyLabel: "None modeled", note: "No separate vendor estimate at the modeled call volume." },
-        { id: "booking", number: "X2", group: "extras", name: "Direct ModMed booking", short: "Direct ModMed booking", condition: "Requires approved ModMed access", price: 700, monthly: [0,0], week: 7, deliveryNote: "Depends on access approval", delivers: "For agreed appointment types, books an available slot in ModMed instead of creating a booking task.", access: "Clinic-approved ModMed access to read slots and write appointments; booking rules, providers and appointment types.", done: "A test booking appears in ModMed, and stale slots are handled without duplicate appointments.", monthlyLabel: "None modeled", note: "Depends on approved ModMed access. Vendor and API fees are excluded." },
-        { id: "winback", number: "X3", group: "extras", name: "Lapsed-patient calls", short: "Lapsed-patient win-back calls", price: 600, monthly: { basis: "winback", headroom: 20 }, week: 8, deliveryNote: "Live with Version 3", delivers: "A clinic-approved call workflow for an agreed group of lapsed patients.", access: "The approved patient group, campaign purpose and script, and a confirmed consent and suppression source.", done: "An approved test campaign logs outcomes, creates follow-up tasks and honors opt-outs." },
-        { id: "support-extra", number: "X4", group: "extras", name: "Extended support and tuning", short: "Two more months of support", price: 600, monthly: [0,0], week: null, deliveryNote: "Starts at acceptance", delivers: "with a monthly call review and tuning.", access: "A named support contact and approved review material.", done: "Monthly reviews and agreed tuning are delivered during the support period.", monthlyLabel: "None" }
+        { id: "foundation", number: "0", group: "core", name: "HIPAA foundation", short: "foundation", price: 500, monthly: [45,75], week: 1, deliveryNote: "Once access is ready", delivers: "US-region hosting, encrypted database, audit log, staff task page, automated uptime alerts and daily backups. Patient data stays in US-hosted systems.", access: "Clinic-owned AWS account in an approved US region, vendor agreements, and named owners for access and alerts.", done: "Restricted staff access, a sample audit event, a backup restore and a monitoring alert are each tested." },
+        { id: "surgery", number: "1", group: "core", name: "Surgery phone line", short: "surgery line", price: 800, monthly: { basis: "voice", stream: "surgery", confirmationTexts: true, headroom: 10 }, week: 2, deliveryNote: "Pilot; live with V1", delivers: "Surgery is option 1 in Weave. The AI identifies itself as the office’s virtual assistant, collects the caller’s information, sends an SMS confirmation and creates a callback task for the surgery coordinator. Each inquiry and its outcome are logged and tracked through to surgery booked.", access: "Option 1 routing in Weave, an approved intake script and fields, the coordinator who receives tasks, and task access.", done: "A test inquiry produces the SMS confirmation and coordinator task, and staff can update its status through to booked.", note: "Until ModMed is connected, booking status comes from coordinator updates." },
+        { id: "callbacks", number: "2", group: "core", name: "AI hang-up callbacks", short: "AI hang-up callbacks", price: 1100, monthly: { basis: "voice", stream: "callbacks", headroom: 10 }, week: 3, deliveryNote: "Pilot; live with V1", delivers: "During business hours, the AI calls eligible hang-ups back within minutes, collects the reason for the call, answers basic questions from an approved script, transfers the caller or creates a booking task, and logs each callback attempt and outcome.", access: "Live Weave missed-call events, or routing the main line through the AI number; consent lookup, opening hours and the transfer extension.", done: "An eligible test hang-up receives an AI callback within the agreed minutes. Duplicate and already-answered calls are suppressed, and the outcome is logged.", note: "Depends on approved Weave events or routing. Neither route is verified yet." },
+        { id: "afterhours", number: "3", group: "core", name: "After-hours and weekend AI", short: "after-hours answering", price: 600, monthly: { basis: "voice", stream: "afterhours", headroom: 10 }, week: 2, deliveryNote: "Pilot; live with V1", delivers: "Handles non-emergency calls on evenings and weekends, captures messages and appointment requests, keeps the existing emergency routing to the answering service, and sends staff a secure morning report.", access: "After-hours routing, the answering-service number, the clinic-approved emergency script and report recipients.", done: "A non-emergency call is captured, an emergency test call reaches the answering service, and the morning report link arrives." },
+        { id: "reminders", number: "4", group: "patient", name: "Reminders and recalls", short: "reminders and recalls", price: 900, monthly: [35,55], week: 5, deliveryNote: "Live with V2", delivers: "On/off control, a reminder at booking and an automatic stop on cancellation, for all appointment types; annual outreach to past patients. Coordinated with Klara so patients do not receive duplicate reminders.", access: "ModMed appointment changes and contacts, an approved texting connection, Klara overlap settings and confirmed recall consent.", done: "Booking sends the agreed message and cancellation stops future sends. Each appointment type and the yearly recall group pass tests without duplicate Klara messages.", note: "The monthly messaging figure is a provisional allowance." },
+        { id: "insurance", number: "5", group: "patient", name: "Insurance eligibility", short: "insurance eligibility", price: 800, monthly: { basis: "eligibility", headroom: 30 }, week: 6, deliveryNote: "Live with V2", delivers: "Electronic eligibility verification for BCBS, Aetna, Humana, UHC and Medicare, with outcomes visible to staff. Includes a Medicare supplement call list and a Medicare supplement answer form.", access: "Patient, appointment and payer data; NPI and TIN; a Stedi account; required payer and Medicare HETS enrollment.", done: "Agreed payer tests return logged results, exceptions create staff tasks, and the supplement call list and answer form both work.", note: "An eligibility result does not guarantee coverage or payment." },
+        { id: "dashboard", number: "6", group: "patient", name: "Reporting dashboard", short: "reporting", price: 500, monthly: [0,0], week: 6, deliveryNote: "Live with V2", delivers: "Weekly dashboard of total calls, recovered hang-ups, surgery inquiries, surgeries booked, recalls and no-shows, with a weekly email linking to the login-protected dashboard.", access: "Weave feed or export, ModMed API or export, recall results and coordinator surgery-status updates.", done: "Sample counts reconcile to source records, and the weekly email opens the login-protected dashboard.", monthlyLabel: "No added cost" },
+        { id: "support", number: "S", group: "support", name: "First month of support", short: "first month of support", price: 300, monthly: [0,0], week: null, deliveryNote: "Starts at acceptance", delivers: "post-launch fixes and workflow support for the selected version, plus operating notes and staff handover.", access: "A named support contact and approved access to reproduce issues.", done: "Handover is delivered, and issues can be reported through the agreed channel.", monthlyLabel: "None", feeNote: "In every version" },
+        { id: "spanish", number: "X1", group: "extras", name: "Spanish on the AI phone lines", short: "Spanish on the AI phone lines", price: 400, monthly: [0,0], week: 7, deliveryNote: "Live with V3", delivers: "Spanish-language support on the surgery, callback and after-hours agents.", access: "Approved translations and pronunciations, and a bilingual reviewer at the clinic.", done: "Approved Spanish test calls pass intake, handoff and emergency-routing checks.", monthlyLabel: "None modeled", note: "No separate vendor estimate at the modeled call volume." },
+        { id: "booking", number: "X2", group: "extras", name: "Direct ModMed booking", short: "direct ModMed booking (with approved access)", price: 700, monthly: [0,0], week: 7, deliveryNote: "Depends on access", delivers: "For agreed appointment types, books an available slot in ModMed instead of creating a booking task.", access: "Clinic-approved ModMed access to read slots and write appointments; booking rules, providers and appointment types.", done: "A test booking appears in ModMed, and stale slots are handled without duplicate appointments.", monthlyLabel: "None modeled", note: "Conditional on approved ModMed access. Vendor and API fees are excluded." },
+        { id: "winback", number: "X3", group: "extras", name: "Lapsed-patient win-back calls", short: "win-back calls", price: 600, monthly: { basis: "winback", headroom: 20 }, week: 8, deliveryNote: "Live with V3", delivers: "A clinic-approved call workflow for an agreed group of lapsed patients.", access: "The approved patient group, campaign purpose and script, and a confirmed consent and suppression source.", done: "An approved test campaign logs outcomes, creates follow-up tasks and honors opt-outs." },
+        { id: "support-extra", number: "X4", group: "extras", name: "Extended support and tuning", short: "extended support", price: 600, monthly: [0,0], week: null, deliveryNote: "Starts at acceptance", delivers: "with a monthly call review and tuning.", access: "A named support contact and approved review material.", done: "Monthly reviews and agreed tuning are delivered during the support period.", monthlyLabel: "None" }
       ],
       versions: [
-        { id: "v1", number: 1, name: "Quick Start", descriptor: "The phone workflows first", price: 3000, weeks: 4, itemIds: ["foundation","surgery","callbacks","afterhours","support"], suits: "A clinic that wants the phones addressed first and can add the other workflows later." },
-        { id: "v2", number: 2, name: "Complete", descriptor: "All six requested workflows", price: 4000, weeks: 6, base: "v1", itemIds: ["reminders","insurance","dashboard"], suits: "A clinic that wants every requested workflow delivered in one project." },
-        { id: "v3", number: 3, name: "Complete Plus", descriptor: "Complete scope with additional automation", price: 5000, weeks: 8, base: "v2", itemIds: ["spanish","booking","winback","support-extra"], recommended: true, suits: "A clinic that also wants Spanish-language calls, direct booking, win-back calls and a longer support period." }
+        { id: "v1", number: 1, name: "Quick Start", descriptor: "The phone priorities", price: 3000, weeks: 4, itemIds: ["foundation","surgery","callbacks","afterhours","support"] },
+        { id: "v2", number: 2, name: "Complete", descriptor: "All six requested workflows", price: 4000, weeks: 6, base: "v1", itemIds: ["reminders","insurance","dashboard"] },
+        { id: "v3", number: 3, name: "Complete Plus", descriptor: "All workflows, plus additional automation and support", price: 5000, weeks: 8, base: "v2", itemIds: ["spanish","booking","winback","support-extra"], recommended: true }
       ],
       stack: [
-        { name: "Retell AI", role: "Live voice conversations: surgery intake, callbacks and after-hours answering; Spanish and win-back calls in Version 3.", status: "Vendor offers a BAA; not yet signed for the clinic", detail: "Clinic-owned account, configured for HIPAA use before any live patient calls." },
-        { name: "AWS, US region", role: "Hosting (EC2), encrypted database, S3 backups, audit records, staff task and report pages.", status: "Vendor offers a BAA; to be signed in the clinic’s account", detail: "Only HIPAA-eligible services are used." },
-        { name: "Claude via AWS Bedrock", role: "Call summaries and report preparation. It does not handle live voice; Retell does.", status: "Covered once the clinic’s AWS BAA is signed", detail: "US-region model configuration, with no cross-region routing outside the US." },
-        { name: "n8n, self-hosted", role: "Runs the workflows that connect the systems.", status: "Runs in the clinic’s AWS account", detail: "Hosting on AWS does not by itself make the application compliant. Its configuration and access controls are part of this build." },
-        { name: "Amazon SES", role: "Task alerts, morning reports and weekly dashboard emails.", status: "Covered once the clinic’s AWS BAA is signed", detail: "Generic notices and secure links only. Patient details are excluded from message bodies." },
-        { name: "Telnyx", role: "Confirmation, reminder and recall texts.", status: "BAA to be confirmed", detail: "An approved messaging configuration, sender registration and commercial terms are needed before use." },
-        { name: "Stedi", role: "Electronic insurance eligibility checks.", status: "BAA required before use", detail: "Clinic account, plus the applicable payer and Medicare HETS enrollment." },
-        { name: "Weave, ModMed, Klara", role: "The clinic’s existing phone, records, scheduling and patient-texting systems.", status: "Existing clinic vendors", detail: "Clinic-held agreements and approved connections." }
+        { name: "Retell AI", role: "Live voice conversations for the AI phone lines.", status: "BAA available; to be signed for the clinic", detail: "Clinic-owned account, configured for HIPAA use before any live patient calls." },
+        { name: "AWS (US region)", role: "Hosting, encrypted database, backups, audit records, staff pages.", status: "BAA available; to be signed in the clinic’s account", detail: "Only HIPAA-eligible services are used." },
+        { name: "Claude via AWS Bedrock", role: "Call summaries and report preparation. Does not handle live voice.", status: "Covered by the clinic’s AWS BAA once signed", detail: "US-region model configuration, no cross-region routing outside the US." },
+        { name: "n8n (self-hosted)", role: "Workflow automation inside the clinic’s AWS account.", status: "No separate vendor agreement", detail: "Hosting on AWS does not make the application compliant by itself. Its security configuration and access controls are part of this build." },
+        { name: "Amazon SES", role: "Task alerts, morning reports and weekly report emails.", status: "Covered by the clinic’s AWS BAA once signed", detail: "Generic notices and secure links only. Patient details are excluded from message bodies." },
+        { name: "Telnyx", role: "SMS confirmations, reminders and recalls.", status: "BAA to be confirmed", detail: "Approved messaging configuration, sender registration and commercial terms are needed before use." },
+        { name: "Stedi", role: "Electronic insurance eligibility checks.", status: "BAA required before use", detail: "Clinic account, plus payer and Medicare HETS enrollment." },
+        { name: "Weave, ModMed, Klara", role: "The clinic’s existing phone, records, scheduling and texting systems.", status: "Existing clinic vendors", detail: "Clinic-held agreements and approved connections." }
       ],
       dependencies: [
-        { what: "Live Weave missed-call events, or routing the main line through the AI number", affects: "Item 2", status: "Unverified. Both routes need testing." },
-        { what: "Approved ModMed API access for appointments, contacts and reporting data", affects: "Items 4–6", status: "Needs clinic and vendor approval" },
-        { what: "ModMed access to read slots and write appointments", affects: "Item X2", status: "Needs approval. Direct booking stays conditional until then." },
-        { what: "Signed BAAs with Retell and AWS, and with Stedi before eligibility checks", affects: "All items handling patient data", status: "Available from these vendors; not yet signed" },
-        { what: "Telnyx BAA, messaging configuration and sender registration", affects: "Items 1 and 4 (texts)", status: "To be confirmed" },
-        { what: "A retrievable consent source, with suppression rules for recalls and win-back calls", affects: "Items 2, 4 and X3", status: "Clinic confirms before launch" },
-        { what: "Clinic-approved emergency script and answering-service destination", affects: "Item 3", status: "Clinic approval" },
-        { what: "Stedi account, payer coverage and Medicare HETS enrollment", affects: "Item 5", status: "Clinic arranges" }
+        { what: "Signed BAAs and Telnyx confirmation (see vendor agreements below)", item: "foundation", affects: "All items handling patient data", status: "Not yet signed" },
+        { what: "Clinic-approved emergency script and answering-service destination", item: "afterhours", status: "Clinic approval" },
+        { what: "Live Weave missed-call events, or routing the main line through the AI number", item: "callbacks", status: "Unverified; both routes need testing" },
+        { what: "Retrievable consent source, with suppression rules for recalls and win-back calls", item: "callbacks", also: "4, X3", status: "Clinic confirms before launch" },
+        { what: "Approved ModMed API access for appointments, contacts and reporting data", item: "reminders", also: "5, 6", status: "Needs clinic and vendor approval" },
+        { what: "Stedi account, payer coverage and Medicare HETS enrollment", item: "insurance", status: "Clinic arranges" },
+        { what: "ModMed access to read slots and write appointments", item: "booking", status: "Needs approval; direct booking stays conditional" }
       ],
       weeks: [
-        { number: 1, title: "Onboarding", detail: "Accounts, BAAs, approved access, US hosting and call routing." },
-        { number: 2, title: "Phone agents", detail: "Surgery and after-hours agents; handoff testing." },
-        { number: 3, title: "Callbacks", detail: "Missed-call trigger, consent checks and front-desk testing." },
-        { number: 4, title: "Phone pilot", detail: "Acceptance tests, staff handover and phone launch." },
-        { number: 5, title: "Patient workflows", detail: "ModMed connection, reminders, cancellations and recalls." },
-        { number: 6, title: "Eligibility and reporting", detail: "Payer checks, supplement workflow and dashboard." },
-        { number: 7, title: "Spanish and booking", detail: "Language review and the approved ModMed write connection." },
-        { number: 8, title: "Win-back and tuning", detail: "Consent-approved campaign, call review and full handover." }
+        { number: 1, title: "Onboarding", detail: "Accounts, BAAs, access, US hosting" },
+        { number: 2, title: "Phone agents", detail: "Surgery and after-hours agents" },
+        { number: 3, title: "Callbacks", detail: "Missed-call trigger, consent checks" },
+        { number: 4, title: "Phone pilot", detail: "Acceptance tests, handover" },
+        { number: 5, title: "Patient workflows", detail: "ModMed, reminders, recalls" },
+        { number: 6, title: "Eligibility, reports", detail: "Payer checks, dashboard" },
+        { number: 7, title: "Spanish, booking", detail: "Language review, ModMed write" },
+        { number: 8, title: "Win-back, tuning", detail: "Campaign, call review, handover" }
       ]
     };
 
@@ -477,11 +442,13 @@
       const date = (v) => new Intl.DateTimeFormat(PROPOSAL.meta.locale,{month:"long",day:"numeric",year:"numeric",timeZone:"UTC"}).format(new Date(`${v}T12:00:00Z`));
       const cents = (v) => Math.round(v*100);
       const sum = (a) => a.reduce((x,y)=>x+y,0);
+      const listJoin = (a) => a.length<2?a.join(""):`${a.slice(0,-1).join(", ")} and ${a[a.length-1]}`;
       const assert = (condition,message) => { if(!condition) throw new Error(`Quote validation: ${message}`); };
       const icons = {
         moon:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>',
         sun:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>',
-        print:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7z"/></svg>'
+        print:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7z"/></svg>',
+        chev:'<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
       };
       const model = new Map();
       const voice = { surgery: PROPOSAL.assumptions.surgeryCalls*PROPOSAL.assumptions.surgeryMinutesPerCall, callbacks: PROPOSAL.assumptions.callbackMinutes, afterhours: PROPOSAL.assumptions.afterHoursCalls*PROPOSAL.assumptions.afterHoursMinutesPerCall };
@@ -513,7 +480,7 @@
           assert(i.delivers&&i.access&&i.done,`${i.id}: missing required scope field.`);
           assert(PROPOSAL.groups[i.group],`${i.id}: unknown group.`);
         });
-        PROPOSAL.requests.forEach(r=>assert(itemMap.has(r.itemId),`Request maps to unknown item ${r.itemId}.`));
+        PROPOSAL.dependencies.forEach(d=>assert(itemMap.has(d.item),`Dependency maps to unknown item ${d.item}.`));
         PROPOSAL.versions.forEach(v=>{
           assert(!model.has(v.id),"Version IDs must be unique.");
           assert(!v.base||model.has(v.base),`${v.id}: base must precede version.`);
@@ -535,247 +502,233 @@
       }
 
       const versions = () => Array.from(model.values());
-      const firstVersion = (id) => versions().find(v=>v.ids.includes(id));
-      const isRequest = (i) => /^\d$/.test(i.number) && i.number!=="0";
-      const sectionHead = (n,id,title,lede="") => `<div class="section-head"><h2 class="sh" id="${id}"><span class="sec-no">${n}</span>${title}</h2>${lede?`<p class="section-lede">${lede}</p>`:""}</div>`;
+      const isRequest = (i) => /^[1-9]$/.test(i.number);
+      const numRange = (list) => list.length>1?`${list[0].number}–${list[list.length-1].number}`:list[0].number;
+      const supportTotal = () => PROPOSAL.settings.firstSupportMonths+PROPOSAL.settings.extraSupportMonths;
       const itemDelivers = (i) => {
         const s=PROPOSAL.settings;
         if(i.id==="afterhours") return `${i.delivers} The report arrives at ${s.morningReport}, ${s.clinicTimezone.toLowerCase()}.`;
-        if(i.id==="dashboard") return `${i.delivers} Sent each ${s.weeklyReport}.`;
+        if(i.id==="dashboard") return `${i.delivers} The email is sent each ${s.weeklyReport}.`;
         if(i.id==="support") return `${s.firstSupportMonths} month of ${i.delivers}`;
-        if(i.id==="support-extra") return `${s.extraSupportMonths} more months of support (${s.firstSupportMonths+s.extraSupportMonths} in total), ${i.delivers}`;
+        if(i.id==="support-extra") return `${s.extraSupportMonths} more months of support (${supportTotal()} in total), ${i.delivers}`;
         return i.delivers;
       };
       const itemTarget = (i) => i.week?`Week ${i.week}`:"After go-live";
-      const itemMonthly = (i) => i.monthly[1]?`${range(i.monthly)}<span class="sub">per month</span>`:escape(i.monthlyLabel||"None");
-      const itemMonthlyText = (i) => i.monthly[1]?`${range(i.monthly)} per month`:(i.monthlyLabel||"None");
+      const itemMonthly = (i) => i.monthly[1]?`${range(i.monthly)}<span class="s-sub">per month</span>`:escape(i.monthlyLabel||"None");
+      const itemMonthlyShort = (i) => i.monthly[1]?`${range(i.monthly)}/mo`:escape(i.monthlyLabel||"None");
+      const sectionHead = (id,title,...paras) => `<div class="sec-head"><h2 id="${id}">${title}</h2><div>${paras.map(p=>`<p>${p}</p>`).join("")}</div></div>`;
 
-      function renderPlan(v) {
+      function optionCells(v) {
         const prior=v.base?model.get(v.base):null;
         const own=v.itemIds.map(id=>itemMap.get(id)).filter(i=>i.group!=="support");
-        const inList=[
-          prior?`<li class="base"><span class="ino"></span>Everything in Version ${prior.number}</li>`:"",
-          ...own.map(i=>`<li><span class="ino">${escape(i.number)}</span><span>${escape(i.id==="support-extra"?`${PROPOSAL.settings.extraSupportMonths} more months of support (${PROPOSAL.settings.firstSupportMonths+PROPOSAL.settings.extraSupportMonths} in total)`:i.short)}${i.condition?`<small>${escape(i.condition)}</small>`:""}</span></li>`)
-        ].join("");
+        const ownReq=own.filter(isRequest), ownOther=own.filter(i=>!isRequest(i));
+        let inc;
+        if(!prior) inc=`Items ${numRange(own)}: ${listJoin(own.map(i=>i.short))}.`;
+        else if(ownReq.length) inc=`Everything in V${prior.number}, plus items ${numRange(ownReq)}: ${listJoin(ownReq.map(i=>i.short))}.`;
+        else inc=`Everything in V${prior.number}, plus ${listJoin(ownOther.map(i=>i.id==="support-extra"?`${PROPOSAL.settings.extraSupportMonths} extra months of support (${supportTotal()} in total)`:i.short))}.`;
         const missing=items.filter(i=>!v.ids.includes(i.id));
-        const missingReq=missing.filter(isRequest);
-        const missingExtras=missing.filter(i=>i.group==="extras");
-        let outList=missingReq.map(i=>`<li><span class="ino">${escape(i.number)}</span><span>${escape(i.short)}</span></li>`).join("");
-        if(missingExtras.length) outList+=`<li><span class="ino"></span><span>Version 3 additions (${escape(missingExtras[0].number)}–${escape(missingExtras[missingExtras.length-1].number)})</span></li>`;
-        if(!outList) outList=`<li><span class="ino"></span><span>Nothing in the proposed scope</span></li>`;
-        return `<article class="plan${v.recommended?" rec":""}" aria-labelledby="plan-${v.id}">
-          <header><p class="plan-top"><span>Version ${v.number}</span>${v.recommended?'<span class="rec-label">Recommended</span>':""}</p><h3 id="plan-${v.id}">${escape(v.name)}</h3><p class="descriptor">${escape(v.descriptor)}</p></header>
-          <div class="suits"><span class="label">Suits</span><p>${escape(v.suits)}</p></div>
-          <div><span class="label">One-time build fee</span><p class="price">${dollars(v.price)}</p><p class="price-sub">Items priced separately: ${dollars(v.value)}. This version is ${dollars(v.savings)} less.</p></div>
-          <div><span class="label">Target go-live</span><p class="figure">${v.weeks} weeks <small>from kickoff</small></p></div>
-          <div class="monthly"><span class="label">Estimated vendor costs, paid monthly by the clinic</span><p class="figure">${range(v.monthly)} <small>per month</small></p></div>
-          <div><span class="label">Includes</span><ul class="scope-list">${inList}</ul><span class="label">Not included</span><ul class="scope-list out">${outList}</ul></div>
+        const missReq=missing.filter(isRequest), missExtra=missing.filter(i=>i.group==="extras");
+        const out=[];
+        if(missReq.length) out.push(`Items ${numRange(missReq)}: ${listJoin(missReq.map(i=>i.short))}`);
+        if(missExtra.length) out.push("Version 3 additions");
+        const exc=out.length?`${out.join("; ")}.`:"No requested items excluded.";
+        return `<article class="opt${v.recommended?" rec":""}" aria-labelledby="opt-${v.id}">
+          <div class="opt-head"><p class="opt-top"><span>Version ${v.number}</span>${v.recommended?'<span class="rec-label">Recommended</span>':""}</p><h3 id="opt-${v.id}">${escape(v.name)}</h3><p class="desc">${escape(v.descriptor)}</p></div>
+          <div class="pr"><span class="cell-lbl">Build price, one-time</span><p class="price">${dollars(v.price)}</p><p class="price-sub">Items priced separately: ${dollars(v.value)}</p></div>
+          <div class="tg"><span class="cell-lbl">Target go-live</span><p class="big">${v.weeks} weeks</p></div>
+          <div class="mo"><span class="cell-lbl">Est. vendor costs</span><p class="big">${range(v.monthly)} <small>/ month</small></p></div>
+          <div class="inc"><span class="cell-lbl">Includes</span><p class="txt">${escape(inc)}</p></div>
+          <div class="exc"><span class="cell-lbl">Not included</span><p class="txt out">${escape(exc)}</p></div>
         </article>`;
       }
 
-      function renderScopeTable() {
+      function renderScope() {
+        const vs=versions();
         let last="", out="";
         items.forEach(i=>{
-          if(i.group!==last){ out+=`<tbody><tr class="grp"><th colspan="8" scope="colgroup">${escape(PROPOSAL.groups[i.group])}</th></tr></tbody>`; last=i.group; }
-          const cells=versions().map(v=>v.ids.includes(i.id)?`<td class="v"><span class="yes" aria-hidden="true"></span><span class="sr-only">Included in Version ${v.number}</span></td>`:`<td class="v"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in Version ${v.number}</span></td>`).join("");
-          out+=`<tbody class="item" data-item="${i.id}"><tr class="main"><th scope="row" rowspan="2"><span class="ino">${escape(i.number)}</span>${escape(i.name)}</th><td>${escape(itemDelivers(i))}${i.note?`<span class="row-note">${escape(i.note)}</span>`:""}</td><td><span class="money">${dollars(i.price)}</span>${i.feeNote?`<span class="sub">${escape(i.feeNote)}</span>`:""}</td><td>${itemTarget(i)}<span class="sub">${escape(i.deliveryNote)}</span></td><td>${itemMonthly(i)}</td>${cells}</tr><tr class="detail"><td colspan="7"><div class="detail-grid"><div><span class="label">Clinic provides</span>${escape(i.access)}</div><div><span class="label">Accepted when</span>${escape(i.done)}</div></div></td></tr></tbody>`;
-        });
-        return out;
-      }
-      function renderScopeRecords() {
-        let last="", out="";
-        items.forEach(i=>{
-          if(i.group!==last){ out+=`<h3 class="rec-group">${escape(PROPOSAL.groups[i.group])}</h3>`; last=i.group; }
-          const inc=versions().filter(v=>v.ids.includes(i.id)).map(v=>v.number);
-          const incText=inc.length===versions().length?"All three versions":inc.length===1?`Version ${inc[0]} only`:`Versions ${inc.join(" and ")}`;
-          out+=`<article class="record" data-item="${i.id}"><h4><span class="ino">${escape(i.number)}</span>${escape(i.name)}</h4><p>${escape(itemDelivers(i))}${i.note?`<span class="row-note">${escape(i.note)}</span>`:""}</p><dl><div><dt>Build price</dt><dd>${dollars(i.price)}${i.feeNote?` <span class="muted">(${escape(i.feeNote.toLowerCase())})</span>`:""}</dd></div><div><dt>Target</dt><dd>${itemTarget(i)}<br><span class="muted">${escape(i.deliveryNote)}</span></dd></div><div><dt>Monthly estimate</dt><dd>${escape(itemMonthlyText(i))}</dd></div><div><dt>Included in</dt><dd>${incText}</dd></div><div class="full"><dt>Clinic provides</dt><dd>${escape(i.access)}</dd></div><div class="full"><dt>Accepted when</dt><dd>${escape(i.done)}</dd></div></dl></article>`;
+          if(i.group!==last){ out+=`<h3 class="grp">${escape(PROPOSAL.groups[i.group])}</h3>`; last=i.group; }
+          const dots=vs.map(v=>v.ids.includes(i.id)?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In V${v.number}</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in V${v.number}</span></span>`).join("");
+          const inV=vs.filter(v=>v.ids.includes(i.id)).map(v=>`V${v.number}`);
+          out+=`<details class="it" data-item="${i.id}"><summary class="srow">
+            <span class="nm"><span class="no-tag">${escape(i.number)}</span><span>${escape(i.name)}</span></span>
+            <span class="d"><span class="sr-only">Price </span><span class="money">${dollars(i.price)}</span>${i.feeNote?`<span class="s-sub">${escape(i.feeNote)}</span>`:""}</span>
+            <span class="d"><span class="sr-only">Target </span>${itemTarget(i)}<span class="s-sub">${escape(i.deliveryNote)}</span></span>
+            <span class="d"><span class="sr-only">Estimated monthly </span>${itemMonthly(i)}</span>
+            ${dots}
+            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · ${itemTarget(i)} · ${itemMonthlyShort(i)} · ${inV.join(", ")}</span>
+            ${icons.chev}
+          </summary><div class="it-body">
+            <div><span class="lbl">Scope</span><p>${escape(itemDelivers(i))}${i.note?`<span class="note">${escape(i.note)}</span>`:""}</p></div>
+            <div><span class="lbl">Required access</span><p>${escape(i.access)}</p></div>
+            <div><span class="lbl">Acceptance criteria</span><p>${escape(i.done)}</p></div>
+          </div></details>`;
         });
         return out;
       }
 
       function renderCosts() {
         const vs=versions();
-        const costed=items.filter(i=>i.monthly[1]>0);
-        const uncosted=items.filter(i=>i.monthly[1]===0);
-        const rows=costed.map(i=>`<tr><th scope="row"><span class="ino">${escape(i.number)}</span>${escape(i.name)}</th>${vs.map(v=>v.ids.includes(i.id)?`<td>${range(i.monthly)}</td>`:`<td class="no">–</td>`).join("")}</tr>`).join("");
-        const other=`<tr><th scope="row">Other items<small>${uncosted.map(i=>escape(i.number)).join(", ")}: no separate estimate</small></th>${vs.map(()=>`<td>$0</td>`).join("")}</tr>`;
-        return `<table class="num-table"><caption class="sr-only">Estimated monthly vendor costs by item and version, in US dollars</caption><thead><tr><th scope="col">Item</th>${vs.map(v=>`<th scope="col">Version ${v.number}</th>`).join("")}</tr></thead><tbody>${rows}${other}</tbody><tfoot><tr><th scope="row">Monthly estimate</th>${vs.map(v=>`<td data-version="${v.id}">${range(v.monthly)}</td>`).join("")}</tr></tfoot></table>`;
+        const costed=items.filter(i=>i.monthly[1]>0), rest=items.filter(i=>i.monthly[1]===0);
+        const rows=costed.map(i=>`<tr><th scope="row">${escape(i.number)} · ${escape(i.name)}</th>${vs.map(v=>v.ids.includes(i.id)?`<td>${range(i.monthly)}</td>`:`<td class="no">–</td>`).join("")}</tr>`).join("");
+        return `<table class="num"><caption class="sr-only">Estimated monthly vendor costs by item and version, US dollars</caption><thead><tr><th scope="col">Item</th>${vs.map(v=>`<th scope="col">V${v.number}</th>`).join("")}</tr></thead><tbody>${rows}<tr><th scope="row">Other items<small>${rest.map(i=>escape(i.number)).join(", ")}: no separate estimate</small></th>${vs.map(()=>`<td>$0</td>`).join("")}</tr></tbody><tfoot><tr><th scope="row">Estimated total per month</th>${vs.map(v=>`<td data-version="${v.id}">${range(v.monthly)}</td>`).join("")}</tr></tfoot></table>`;
       }
 
       function render() {
         const s=PROPOSAL.settings,a=PROPOSAL.assumptions,r=PROPOSAL.rates,m=PROPOSAL.meta,f=PROPOSAL.facts;
         const vs=versions();
-        const lastWeek=Math.max(...vs.map(v=>v.weeks));
-        const rec=vs.find(v=>v.recommended);
-        const recPrior=rec&&rec.base?model.get(rec.base):null;
-        const sections=[["requested","Requested work"],["versions","Versions and pricing"],["scope","Detailed scope"],["technical","Technical approach"],["delivery","Delivery plan"],["costs","Monthly vendor costs"],["terms","Terms"],["next","Next steps"]];
+        const rec=vs.find(v=>v.recommended), recPrior=rec&&rec.base?model.get(rec.base):null;
+        const nav=[["options","Implementation options"],["scope","Detailed scope"],["implementation","Delivery and dependencies"],["commercial","Costs, security and terms"],["next","Next steps"]];
+        const reqNames=items.filter(isRequest).map(i=>i.short);
         document.title=m.title;
         $("#app").innerHTML=`
 <header class="site-header"><div class="wrap header-inner">
   <a class="identity" href="#main"><span class="monogram" aria-hidden="true">${escape(m.monogram)}</span>${escape(m.author)}</a>
   <div class="header-right">
-    <p class="doc-meta"><span>Proposal <b>${escape(m.number)}</b></span><span>Issued <b><time datetime="${m.issued}">${date(m.issued)}</time></b></span><span>Valid until <b><time datetime="${m.validUntil}">${date(m.validUntil)}</time></b></span></p>
+    <p class="doc-meta"><span>Quote <b>${escape(m.number)}</b></span><span>Issued <b><time datetime="${m.issued}">${date(m.issued)}</time></b></span><span>Valid until <b><time datetime="${m.validUntil}">${date(m.validUntil)}</time></b></span></p>
     <div class="controls"><button type="button" class="ctl" id="theme-toggle"></button><button type="button" class="ctl" id="print-button">${icons.print}<span>Print</span></button></div>
   </div>
 </div></header>
 <main id="main" tabindex="-1">
-  <section class="wrap opening" aria-labelledby="title">
+  <section class="wrap overview" aria-labelledby="title">
+    <div><p class="kicker">Proposal for an ophthalmology clinic</p><h1 id="title">Phone Coverage &amp; Patient Follow-Up</h1></div>
     <div>
-      <p class="kicker">Proposal for an ophthalmology clinic</p>
-      <h1 id="title">Phone coverage and patient follow-up</h1>
-      <p class="lede">The clinic asked for help with six workflows, starting with the phones. This proposal sets out the work for each request, offered as three versions with fixed build prices from ${dollars(Math.min(...vs.map(v=>v.price)))} to ${dollars(Math.max(...vs.map(v=>v.price)))} and target go-live dates of ${vs.map(v=>v.weeks).join(", ").replace(/, (\d+)$/," or $1")} weeks.</p>
-      <p class="lede">The work adds to ${escape(f.systems.slice(0,-1).join(", "))} and ${escape(f.systems[f.systems.length-1])} rather than replacing them. Vendor accounts belong to the clinic, and vendor costs are billed to the clinic directly.</p>
-      <nav class="contents no-print" aria-label="Contents"><span class="label">Contents</span><ol>${sections.map(([id,t])=>`<li><a href="#${id}">${t}</a></li>`).join("")}</ol></nav>
+      <p class="lede">The clinic handles about ${count(f.callsMonthly)} calls and ${f.newPatientsMonthly.join("–")} new patients a month, and the owner’s priority is improving phone coverage. This proposal adds an AI phone and follow-up layer to ${listJoin(f.systems)}; those systems stay in place.</p>
+      <p class="lede">It covers the six workflows the clinic requested (${listJoin(reqNames)}) in three implementation options with fixed build prices.</p>
     </div>
-    <aside class="brief" aria-labelledby="brief-title">
-      <h2 id="brief-title">The clinic’s situation</h2>
-      <p class="src">As stated by the clinic</p>
-      <dl>
-        <div><dt>Calls per month</dt><dd><strong>About ${count(f.callsMonthly)}</strong></dd></div>
-        <div><dt>New patients per month</dt><dd><strong>${f.newPatientsMonthly.join("–")}</strong></dd></div>
-        <div><dt>Priority</dt><dd>${escape(f.priority)}</dd></div>
-        <div><dt>Approach</dt><dd>${escape(f.desiredApproach)} Current systems: ${escape(f.systems.join(", "))}.</dd></div>
-      </dl>
-    </aside>
+    <nav class="toc" aria-label="Contents">${nav.map(([id,t])=>`<a href="#${id}">${t}</a>`).join("")}</nav>
   </section>
 
-  <section class="section" aria-labelledby="requested"><div class="wrap">
-    ${sectionHead(1,"requested","Requested work","Each of the clinic’s six requests, keeping the clinic’s numbering, with the proposed work and the first version that includes it.")}
-    <div class="table-wrap"><table class="req"><caption class="sr-only">Client requests mapped to proposed work</caption><thead><tr><th scope="col">No.</th><th scope="col">Clinic request</th><th scope="col">Proposed work</th><th scope="col">First included</th></tr></thead><tbody>
-    ${PROPOSAL.requests.map(q=>{const i=itemMap.get(q.itemId),v=firstVersion(i.id);return `<tr><td class="n">${escape(i.number)}</td><th scope="row" class="ask">${escape(q.ask)}</th><td>${escape(q.proposed)}</td><td class="ver">Version ${v.number}</td></tr>`;}).join("")}
-    </tbody></table></div>
-  </div></section>
-
-  <section class="section" aria-labelledby="versions"><div class="wrap">
-    ${sectionHead(2,"versions","Versions and pricing","Each version builds on the one before it. The build fee is a one-time payment. Vendor costs are separate, monthly and paid by the clinic directly to each vendor.")}
-    <div class="plans">${vs.map(renderPlan).join("")}</div>
-    <div class="plans-foot">
-      ${rec&&recPrior?`<p class="note"><strong>Why Version ${rec.number} is recommended.</strong> It covers every request and adds ${rec.itemIds.length} items for ${dollars(rec.price-recPrior.price)} more than Version ${recPrior.number}. Priced separately, those additions total ${dollars(rec.value-recPrior.value)}.</p>`:""}
-      <p class="note"><strong>About the figures.</strong> “Items priced separately” is the sum of the line-item prices in the detailed scope. Vendor costs are planning estimates with no markup; <a href="#costs">see how they are calculated</a>.</p>
+  <section class="section" aria-labelledby="options"><div class="wrap">
+    ${sectionHead("options","Implementation options","Each option builds on the one before it. The build price is fixed and paid once. Vendor costs are monthly estimates, paid by the clinic directly to the service providers.")}
+    <div class="cmp">
+      <div class="cmp-labels" aria-hidden="true"><div class="opt-head"></div><div>Build price, one-time</div><div>Target go-live</div><div>Estimated vendor costs</div><div>Includes</div><div>Not included</div></div>
+      ${vs.map(optionCells).join("")}
     </div>
-    <div class="shared">
-      <div><h3>Included in every version</h3><p>Stated once here rather than in each version.</p></div>
-      <dl>
-        <div><dt>Automated monitoring</dt><dd>Uptime checks with alerts to named owners. This is automated, not round-the-clock human support.</dd></div>
-        <div><dt>Daily backups</dt><dd>Encrypted daily database backups, with a restore tested before launch.</dd></div>
-        <div><dt>${s.firstSupportMonths} month of support</dt><dd>Starts when the selected version is accepted as live. Covers fixes and workflow support.</dd></div>
-        <div><dt>Handover</dt><dd>Operating notes and a staff handover for the workflows delivered.</dd></div>
-        <div><dt>Audit log</dt><dd>A record of calls and actions taken by the system and staff.</dd></div>
-        <div><dt>Access</dt><dd>${escape(PROPOSAL.accessPolicy)}</dd></div>
-      </dl>
+    <div class="cmp-foot"><h3>In every version</h3><ul class="incl">
+      <li>Automated monitoring with alerts (not 24/7 human support)</li>
+      <li>Daily encrypted backups</li>
+      <li>Audit log</li>
+      <li>${s.firstSupportMonths} month of support from acceptance</li>
+      <li>Operating notes and staff handover</li>
+      <li>No shared staff logins</li>
+    </ul></div>
+    <div class="cmp-notes">
+      ${rec&&recPrior?`<p><strong>Why Version ${rec.number} is recommended:</strong> it adds ${rec.itemIds.length} items for ${dollars(rec.price-recPrior.price)} more than Version ${recPrior.number}. Priced separately, those items total ${dollars(rec.value-recPrior.value)}.</p>`:""}
+      <p><strong>Items priced separately</strong> is the sum of the line-item prices in the detailed scope. Vendor estimates carry no markup; <a href="#commercial">see the basis</a>.</p>
     </div>
   </div></section>
 
   <section class="section" aria-labelledby="scope"><div class="wrap">
-    ${sectionHead(3,"scope","Detailed scope","Every item with its fixed build price, target, estimated monthly vendor cost, the access the clinic provides and the check that marks it complete. Items 1–6 follow the clinic’s numbering; item 0 is the shared foundation and X1–X4 are Version 3 additions.")}
-    <p class="scope-key"><span>Prices are for each item on its own; version prices are lower.</span><span>Weeks count from kickoff.</span></p>
-    <div class="scope-table-wrap"><table class="scope"><caption class="sr-only">Detailed scope: item, deliverable, build price, target, monthly estimate and inclusion in each version, with the access the clinic provides and the acceptance check</caption>
-      <colgroup><col class="c-item"><col class="c-del"><col class="c-price"><col class="c-target"><col class="c-month"><col class="c-v"><col class="c-v"><col class="c-v"></colgroup>
-      <thead><tr><th scope="col">Item</th><th scope="col">What it delivers</th><th scope="col">Build price</th><th scope="col">Target</th><th scope="col">Monthly estimate</th>${vs.map(v=>`<th scope="col" class="v"><abbr title="Version ${v.number}">V${v.number}</abbr></th>`).join("")}</tr></thead>
-      ${renderScopeTable()}
-    </table></div>
-    <div class="records">${renderScopeRecords()}</div>
+    ${sectionHead("scope","Detailed scope","Each item’s fixed price, target delivery, estimated monthly vendor cost, required access and acceptance criteria. Items 1–6 follow the clinic’s numbering; item 0 is the shared foundation and X1–X4 are Version 3 additions.")}
+    <div class="scope-tools"><span>Item prices apply to each item on its own; option prices are lower. Weeks count from kickoff.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
+    <div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Price</span><span>Target</span><span>Est. monthly</span>${vs.map(v=>`<span class="c">V${v.number}</span>`).join("")}<span></span></div>
+    <div id="scope-list">${renderScope()}</div>
     <div class="gates">
-      <p><strong>If neither callback route works</strong>Both proposed routes for item 2 are unverified. If neither is available, a staff callback list is an alternative at a build fee ${dollars(s.callbackFallbackReduction)} lower. It needs written agreement and does not fulfill the requested AI callback workflow.</p>
-      <p><strong>Patient workflows depend on approved connections</strong>Items 4–6 need the source connections listed above. Direct booking (X2) also needs ModMed write access and stays conditional until that is approved. Items added on their own reuse the foundation and need a scheduling agreement.</p>
+      <p><strong>If neither callback route works:</strong> both proposed routes for item 2 are unverified. A staff callback list is an alternative at a build fee ${dollars(s.callbackFallbackReduction)} lower. It needs written agreement and does not fulfill the requested AI callback workflow.</p>
+      <p><strong>Items 4–6 and X2</strong> need the approved ModMed connections listed above; direct booking also needs write access and stays conditional until approved. Items added on their own reuse the foundation and need a scheduling agreement.</p>
     </div>
   </div></section>
 
-  <section class="section" aria-labelledby="technical"><div class="wrap">
-    ${sectionHead(4,"technical","Technical approach","A small set of tools, each with one job, running in accounts the clinic owns. A vendor offering a BAA is not the same as a BAA signed for this clinic; the status column shows where each one stands.")}
-    <div class="table-wrap"><table class="stack"><caption class="sr-only">Tools, their roles and agreement status</caption><thead><tr><th scope="col">Tool</th><th scope="col">What it does</th><th scope="col">Agreement status</th><th scope="col">Configuration</th></tr></thead><tbody>
-      ${PROPOSAL.stack.map(t=>`<tr><th scope="row">${escape(t.name)}</th><td>${escape(t.role)}</td><td data-label="Agreement">${escape(t.status)}</td><td data-label="Configuration">${escape(t.detail)}</td></tr>`).join("")}
-    </tbody></table></div>
-    <div class="stack-notes">
-      <p><strong>Voice and summaries are separate</strong>Retell handles the live voice conversations. Claude via AWS Bedrock writes call summaries and prepares reports.</p>
-      <p><strong>Email alerts</strong>Amazon SES sends generic notices and secure links. Patient details are not included in message bodies.</p>
-      <p><strong>Compliance</strong>Every tool that handles patient data needs a signed BAA and approved configuration before live use. This setup supports the clinic’s HIPAA obligations; it does not guarantee compliance on its own.</p>
-    </div>
-    <div class="block">
-      <h3 class="sub">How a call reaches the team</h3>
+  <section class="section" aria-labelledby="implementation"><div class="wrap">
+    ${sectionHead("implementation","Delivery and dependencies",escape(PROPOSAL.timingPolicy),"Weeks count from kickoff.")}
+    <div class="part">
+      <h3 class="sub">How calls reach the team</h3>
       <ol class="flow">
-        <li><strong>Patient calls</strong><p>The clinic’s existing number.</p></li>
-        <li><strong>Weave routes</strong><p>Surgery option, approved missed-call trigger or after-hours routing.</p></li>
+        <li><strong>Patient</strong><p>Calls the clinic’s existing number.</p></li>
+        <li><strong>Weave</strong><p>Routes the surgery option, approved missed-call triggers and after-hours calls.</p></li>
         <li class="ai"><strong>AI assistant</strong><p>Identifies itself as the office’s virtual assistant, then answers or calls back.</p></li>
-        <li><strong>Secure records</strong><p>Stores the intake, outcome and next action.</p></li>
-        <li><strong>Clinic staff</strong><p>Receive a transfer, a task or a secure report link.</p></li>
+        <li><strong>Secure automation</strong><p>Records the intake, outcome and next action.</p></li>
+        <li><strong>Staff</strong><p>Receive a transfer, a task or a secure report link.</p></li>
       </ol>
-      <p class="callout"><strong>Emergencies:</strong> calls that need the answering service are transferred there using the clinic-approved script. The AI assistant gives no medical advice.</p>
+      <p class="emerg"><strong>Emergency calls</strong> continue to the clinic’s answering service under the clinic-approved script. The AI gives no medical advice.</p>
     </div>
-  </div></section>
-
-  <section class="section" aria-labelledby="delivery"><div class="wrap">
-    ${sectionHead(5,"delivery","Delivery plan",`Weeks count from kickoff. ${escape(PROPOSAL.timingPolicy)}`)}
-    <div class="gantt" role="img" aria-label="${vs.map(v=>`Version ${v.number} target go-live week ${v.weeks}`).join("; ")}">
-      <span></span>${PROPOSAL.weeks.map(w=>`<span class="wk" aria-hidden="true"><span class="hide-sm">Wk </span>${w.number}</span>`).join("")}
-      ${vs.map(v=>`<span class="vn" aria-hidden="true">V${v.number}<span class="hide-sm"> ${escape(v.name)}</span></span><span class="bar" style="grid-column-end:span ${v.weeks}" aria-hidden="true">Week ${v.weeks}</span>`).join("")}
+    <div class="part">
+      <h3 class="sub">Delivery timeline</h3>
+      <div class="tl" role="img" aria-label="${vs.map(v=>`Version ${v.number} target go-live week ${v.weeks}`).join("; ")}">
+        <span></span>${PROPOSAL.weeks.map(w=>`<span class="wk" aria-hidden="true"><b><span class="w">Week </span>${w.number}</b><span class="t">${escape(w.title)}</span><small>${escape(w.detail)}</small></span>`).join("")}
+        ${vs.map(v=>`<span class="vn" aria-hidden="true">V${v.number}</span><span class="bar" style="grid-column-end:span ${v.weeks}" aria-hidden="true"><span class="w">Go-live&nbsp;</span>wk ${v.weeks}</span>`).join("")}
+      </div>
+      <ol class="weeklist" aria-label="Weekly plan">${PROPOSAL.weeks.map(w=>`<li><b>Week ${w.number}: ${escape(w.title)}</b><span>${escape(w.detail)}${vs.filter(v=>v.weeks===w.number).map(v=>`. Version ${v.number} go-live`).join("")}</span></li>`).join("")}</ol>
     </div>
-    <ol class="weeks">${PROPOSAL.weeks.map(w=>{const ms=vs.filter(v=>v.weeks===w.number);return `<li><span class="wl">Week ${w.number}</span><h4>${escape(w.title)}</h4><p>${escape(w.detail)}</p>${ms.map(v=>`<span class="ms">Version ${v.number} target go-live</span>`).join("")}</li>`;}).join("")}</ol>
-    <div class="block">
-      <h3 class="sub">What depends on access or approvals</h3>
-      <div class="table-wrap"><table class="deps"><caption class="sr-only">Dependencies, the items they affect and their status</caption><thead><tr><th scope="col">Dependency</th><th scope="col">Affects</th><th scope="col">Status</th></tr></thead><tbody>
-        ${PROPOSAL.dependencies.map(d=>`<tr><th scope="row">${escape(d.what)}</th><td data-label="Affects">${escape(d.affects)}</td><td data-label="Status">${escape(d.status)}</td></tr>`).join("")}
+    <div class="part">
+      <h3 class="sub">Dependencies and assumptions</h3>
+      <div class="table-wrap"><table class="deps"><caption class="sr-only">Access and approvals the schedule depends on</caption><thead><tr><th scope="col">Needed</th><th scope="col">Affects</th><th scope="col">Status</th></tr></thead><tbody>
+        ${PROPOSAL.dependencies.map(d=>{const i=itemMap.get(d.item);const aff=d.affects?`${d.affects} (from week ${i.week})`:`Item${d.also?"s":""} ${i.number}${d.also?`, ${d.also}`:""} (week ${i.week})`;return `<tr><th scope="row">${escape(d.what)}</th><td data-lbl="Affects">${escape(aff)}</td><td data-lbl="Status">${escape(d.status)}</td></tr>`;}).join("")}
       </tbody></table></div>
     </div>
   </div></section>
 
-  <section class="section" aria-labelledby="costs"><div class="wrap">
-    ${sectionHead(6,"costs","Monthly vendor costs","Planning estimates for the vendor charges the clinic pays directly. They are not quotes or guaranteed bills, and the usage split is an assumption, not a measured call breakdown.")}
-    <div class="costs">
-      <div><h3 class="sub">Estimate by item and version</h3><div class="table-wrap">${renderCosts()}</div></div>
-      <div>
-        <h3 class="sub">Usage basis</h3>
-        <div class="table-wrap"><table class="num-table"><caption class="sr-only">Modeled monthly voice usage</caption><tbody>
-          <tr><th scope="row">Surgery intake<small>${count(a.surgeryCalls)} calls × ${a.surgeryMinutesPerCall} min</small></th><td>${count(voice.surgery)} min</td></tr>
-          <tr><th scope="row">Hang-up callbacks<small>${count(a.missedCalls)} hang-ups; modeled talk time</small></th><td>${count(voice.callbacks)} min</td></tr>
-          <tr><th scope="row">After-hours intake<small>${count(a.afterHoursCalls)} calls × ${a.afterHoursMinutesPerCall} min</small></th><td>${count(voice.afterhours)} min</td></tr>
-        </tbody><tfoot><tr><th scope="row">Voice total<small>${count(voiceMinutes)} min × ${dollars(r.voiceMinute,2)} per minute</small></th><td>${dollars(voiceCost,2)}</td></tr></tfoot></table></div>
-        <div class="basis" style="margin-top:20px">
-          <p><strong>Phone numbers.</strong> ${a.phoneNumbers} numbers at ${dollars(r.phoneNumberMonthly)} each per month (${dollars(a.phoneNumbers*r.phoneNumberMonthly)}), split across the three phone items. Item 1 also assumes ${count(a.surgeryMessageSegments)} confirmation text segments at about ${dollars(r.confirmationSegmentEstimate,3)} each, a provisional figure.</p>
-          <p><strong>Eligibility.</strong> ${count(a.eligibilityChecks)} checks a month for about ${count(a.appointments)} appointments; which appointments need a check is confirmed with the clinic. The first ${count(r.eligibilityFirst.count)} cost ${dollars(r.eligibilityFirst.rate,2)} each and the rest ${dollars(r.eligibilityNext,2)}, for ${dollars(eligibilityCost,2)} before recheck headroom. Payer surcharges may apply.</p>
-          <p><strong>Win-back calls (X3).</strong> ${count(a.winbackMinutes)} additional minutes, about ${dollars(a.winbackMinutes*r.voiceMinute)} before headroom.</p>
-          <p><strong>Rounding.</strong> Usage-based figures are rounded up to the nearest ${dollars(r.budgetRoundTo)} and given headroom. The foundation and reminder figures are allowances.</p>
-          <p><strong>Not included in these estimates.</strong> The ${dollars(r.voiceMinute,2)} rate is a working estimate; final bills depend on the voice model, call length, transfer and telephony charges, and message volume. Sender registration, vendor minimums, partner or API fees and any BAA-related commercial terms are excluded.</p>
+  <section class="section" aria-labelledby="commercial"><div class="wrap">
+    ${sectionHead("commercial","Costs, security and terms",escape(PROPOSAL.pricingPolicy),escape(PROPOSAL.runningCostPolicy))}
+    <div class="part">
+      <div class="costs">
+        <div class="costs-head"><h3 class="sub">Estimated vendor costs</h3><p class="sub-lede">Planning estimates, not quotes. The usage split is an assumption, not a measured call breakdown.</p></div>
+        <div class="table-wrap">${renderCosts()}</div>
+        <div>
+          <div class="table-wrap"><table class="num"><caption class="sr-only">Modeled monthly voice usage</caption><thead><tr><th scope="col">Voice usage</th><th scope="col">Minutes</th></tr></thead><tbody>
+            <tr><th scope="row">Surgery line<small>${count(a.surgeryCalls)} calls × ${a.surgeryMinutesPerCall} min</small></th><td>${count(voice.surgery)}</td></tr>
+            <tr><th scope="row">AI callbacks<small>${count(a.missedCalls)} hang-ups, modeled talk time</small></th><td>${count(voice.callbacks)}</td></tr>
+            <tr><th scope="row">After-hours<small>${count(a.afterHoursCalls)} calls × ${a.afterHoursMinutesPerCall} min</small></th><td>${count(voice.afterhours)}</td></tr>
+          </tbody><tfoot><tr><th scope="row">${count(voiceMinutes)} min × about ${dollars(r.voiceMinute,2)}</th><td>${dollars(voiceCost,2)}</td></tr></tfoot></table></div>
+          <ul class="notes">
+            <li><strong>Numbers and SMS:</strong> ${a.phoneNumbers} numbers at ${dollars(r.phoneNumberMonthly)} each per month, split across items 1–3; item 1 adds ${count(a.surgeryMessageSegments)} SMS segments at about ${dollars(r.confirmationSegmentEstimate,3)} (provisional).</li>
+            <li><strong>Insurance checks:</strong> ${count(a.eligibilityChecks)} a month for about ${count(a.appointments)} appointments (which appointments need a check is confirmed with the clinic). ${count(r.eligibilityFirst.count)} at ${dollars(r.eligibilityFirst.rate,2)}, then ${dollars(r.eligibilityNext,2)} each: ${dollars(eligibilityCost,2)} before recheck headroom. Payer surcharges may apply.</li>
+            <li><strong>Win-back (X3):</strong> ${count(a.winbackMinutes)} extra minutes, about ${dollars(a.winbackMinutes*r.voiceMinute)}.</li>
+            <li><strong>Method:</strong> usage figures are rounded up to the nearest ${dollars(r.budgetRoundTo)} with headroom; AWS (foundation) and reminder SMS are allowances. The ${dollars(r.voiceMinute,2)} rate is a working estimate. Registration, vendor minimums, API fees and BAA-related terms are excluded.</li>
+          </ul>
         </div>
       </div>
     </div>
+    <div class="part">
+      <h3 class="sub">Security and vendor agreements</h3>
+      <p class="sub-lede">A vendor offering a BAA is not the same as a BAA signed for this clinic. Every tool that handles patient data needs a signed BAA and approved configuration before live use.</p>
+      <div class="table-wrap"><table class="vend"><caption class="sr-only">Vendors, roles and agreement status</caption><thead><tr><th scope="col">Vendor</th><th scope="col">Role</th><th scope="col">Agreement and configuration</th></tr></thead><tbody>
+        ${PROPOSAL.stack.map(t=>`<tr><th scope="row">${escape(t.name)}</th><td>${escape(t.role)}</td><td><span class="st">${escape(t.status)}</span><span class="dt">${escape(t.detail)}</span></td></tr>`).join("")}
+      </tbody></table></div>
+      <div class="sec-notes">
+        <p><strong>Voice and summaries are separate</strong>Retell handles live calls; Claude via AWS Bedrock writes summaries and reports.</p>
+        <p><strong>Email alerts</strong>SES sends generic notices and secure links, with patient details excluded from message bodies.</p>
+        <p><strong>Compliance</strong>This setup supports the clinic’s HIPAA safeguards; it does not guarantee compliance on its own.</p>
+      </div>
+    </div>
+    <div class="part">
+      <h3 class="sub">Commercial terms</h3>
+      <dl class="terms">
+        <div><dt>Payment</dt><dd>${s.kickoffPercent}% at kickoff and ${s.acceptancePercent}% when the selected version is accepted as live.</dd></div>
+        <div><dt>Acceptance</dt><dd>A version is accepted as live when its items pass the acceptance criteria in the detailed scope. Pilot sign-off and the agreed test results establish acceptance.</dd></div>
+        <div><dt>Support and monitoring</dt><dd>Support starts when the selected version is accepted as live: ${s.firstSupportMonths} month in every version, ${supportTotal()} months in Version 3. It covers fixes and agreed workflow support; new features are additional scope. Monitoring is automated with alerts to named owners, not continuous human support.</dd></div>
+        <div><dt>Scope changes</dt><dd>A different integration route, changes to vendor access or work beyond the accepted scope need agreement on scope, price and schedule before that work starts.</dd></div>
+        <div><dt>Consent</dt><dd>AI callbacks go only to callers with call consent on file. The clinic confirms the source and permitted use of that consent, including before ModMed is connected. Recall and win-back activity require the clinic’s confirmation of consent and suppression rules.</dd></div>
+        <div><dt>Access</dt><dd>${escape(PROPOSAL.accessPolicy)}</dd></div>
+        <div><dt>Clinic responsibilities</dt><dd>Provide the required access, vendor agreements, approved scripts and emergency instructions, consent records and staff reviewers; confirm hours, report recipients, retention rules and booking permissions at onboarding.</dd></div>
+        <div><dt>Ownership</dt><dd>The clinic keeps its accounts and data. Configuration, operating notes and staff handover are included. Third-party software stays under its vendor agreements.</dd></div>
+        <div><dt>Not included in the build price</dt><dd>Vendor subscriptions and usage, partner or API charges, messaging registration, taxes, clinic IT time and legal review.</dd></div>
+        <div><dt>Validity</dt><dd>This quote is valid until ${date(m.validUntil)}.</dd></div>
+      </dl>
+    </div>
   </div></section>
 
-  <section class="section" aria-labelledby="terms"><div class="wrap">
-    ${sectionHead(7,"terms","Terms")}
-    <dl class="terms">
-      <dt>Price and scope</dt><dd>${escape(PROPOSAL.pricingPolicy)}</dd>
-      <dt>Delivery targets</dt><dd>${escape(PROPOSAL.timingPolicy)}</dd>
-      <dt>Payment</dt><dd>${s.kickoffPercent}% at kickoff and ${s.acceptancePercent}% when the selected version is accepted as live.</dd>
-      <dt>Acceptance</dt><dd>A version is accepted as live when its items pass the acceptance checks in the detailed scope. Pilot sign-off and the agreed test results establish acceptance.</dd>
-      <dt>Support and monitoring</dt><dd>Included support starts when the selected version is accepted as live. It covers fixes and agreed workflow support; new features are additional scope. Monitoring is automated, with alerts to named owners, and does not include continuous human support.</dd>
-      <dt>Consent</dt><dd>AI callbacks go only to callers with call consent on file. The clinic confirms the source and permitted use of that consent, including before ModMed is connected. Recall and win-back activity require the clinic’s confirmation of appropriate consent and suppression rules.</dd>
-      <dt>Access</dt><dd>${escape(PROPOSAL.accessPolicy)}</dd>
-      <dt>Clinic responsibilities</dt><dd>Provide the access listed for each item, vendor agreements, approved scripts and emergency instructions, consent records and staff reviewers. Confirm operating hours, report recipients, retention rules and booking permissions during onboarding.</dd>
-      <dt>Ownership and handover</dt><dd>The clinic keeps its accounts and data. Workflow configuration, operating notes and the staff handover are included. Third-party software and licenses remain under their vendor agreements.</dd>
-      <dt>Outside the build fee</dt><dd>Vendor subscriptions and usage, partner-program or API charges, messaging registration, taxes, clinic IT time and legal review. Changes to vendor access, unsupported integration routes and work beyond the accepted scope need agreement before implementation.</dd>
-    </dl>
-  </div></section>
-
-  <section class="section" aria-labelledby="next"><div class="wrap" id="next-wrap">
-    ${sectionHead(8,"next","Next steps")}
-    <ol class="steps">
-      <li><strong>Choose a version</strong><p>Confirm the version and any agreed changes in writing.</p></li>
-      <li><strong>Arrange access</strong><p>The clinic or its IT company arranges vendor access, agreements and call routing.</p></li>
-      <li><strong>Schedule kickoff</strong><p>Agree the pilot tests, staff reviewers and launch milestones. The first ${s.kickoffPercent}% is due at kickoff.</p></li>
-    </ol>
+  <section class="section" aria-labelledby="next"><div class="wrap close">
+    <div>
+      <h2 id="next">Next steps</h2>
+      <ol class="steps">
+        <li><div><strong>Select a version</strong><p>Confirm it, with any agreed changes, in writing.</p></div></li>
+        <li><div><strong>Arrange access and approvals</strong><p>The clinic or its IT company sets up vendor access, BAAs and call routing.</p></div></li>
+        <li><div><strong>Confirm scope and schedule for kickoff</strong><p>Agree pilot tests, staff reviewers and milestones. The first ${s.kickoffPercent}% is due at kickoff.</p></div></li>
+      </ol>
+    </div>
     <div class="acceptance" id="acceptance">
       <h3>Acceptance record</h3>
       <div class="acc-grid">
-        <div><label class="label" for="version-choice">Version</label><select id="version-choice"><option value="">Choose a version</option>${vs.map(v=>`<option value="${v.id}">Version ${v.number}, ${escape(v.name)}: ${dollars(v.price)}</option>`).join("")}</select></div>
-        <div><span class="label">Authorized name and company</span><div class="sig" aria-hidden="true"></div></div>
-        <div><span class="label">Signature and date</span><div class="sig" aria-hidden="true"></div></div>
+        <div class="full"><label class="lbl" for="version-choice">Selected version</label><select id="version-choice"><option value="">Choose a version</option>${vs.map(v=>`<option value="${v.id}">Version ${v.number}, ${escape(v.name)}: ${dollars(v.price)}</option>`).join("")}</select></div>
+        <div><span class="lbl">Authorized name and company</span><div class="sig" aria-hidden="true"></div></div>
+        <div><span class="lbl">Signature and date</span><div class="sig" aria-hidden="true"></div></div>
       </div>
-      <p class="acc-note"><output id="selection-note" aria-live="polite">No version selected.</output> This page does not submit or sign anything. To accept, send the chosen version and signed details to ${escape(m.author)}.</p>
+      <p class="acc-note"><output id="selection-note" aria-live="polite">No version selected.</output> This page does not submit or sign anything. To accept, send the selected version and signed details to ${escape(m.author)}.</p>
     </div>
   </div></section>
 </main>
-<footer class="site-footer"><div class="wrap footer-inner"><span class="identity"><span class="monogram" aria-hidden="true">${escape(m.monogram)}</span>${escape(m.author)}</span><span>Proposal ${escape(m.number)} · Valid until ${date(m.validUntil)}</span></div></footer>`;
+<footer class="site-footer"><div class="wrap footer-inner"><span class="identity"><span class="monogram" aria-hidden="true">${escape(m.monogram)}</span>${escape(m.author)}</span><span>Quote ${escape(m.number)} · Valid until ${date(m.validUntil)}</span></div></footer>`;
         root.dataset.quoteValidated="true";
       }
 
@@ -794,15 +747,26 @@
         $("#version-choice").value=v?v.id:"";
         $("#selection-note").textContent=v?`Version ${v.number} selected.`:"No version selected.";
       }
+      const details=()=>Array.from(document.querySelectorAll("details.it"));
+      function syncExpandButton(){const b=$("#expand-all");if(!b)return;const all=details().every(d=>d.open);b.textContent=all?"Collapse all":"Expand all";b.setAttribute("aria-expanded",String(all));}
+      let printOpened=[];
+      function openForPrint(){printOpened=details().filter(d=>!d.open);printOpened.forEach(d=>d.open=true);}
+      function restoreAfterPrint(){printOpened.forEach(d=>d.open=false);printOpened=[];syncExpandButton();}
       try {
         validateAndBuild();
         try{const saved=localStorage.getItem(THEME_KEY);if(saved==="light"||saved==="dark")root.dataset.theme=saved;}catch{}
         render();
         syncThemeButton();
+        syncExpandButton();
         systemDark.addEventListener("change",syncThemeButton);
         $("#theme-toggle").addEventListener("click",()=>{const next=effectiveTheme()==="dark"?"light":"dark";root.dataset.theme=next;try{localStorage.setItem(THEME_KEY,next);}catch{}syncThemeButton();});
         $("#print-button").addEventListener("click",async()=>{if(document.fonts)await document.fonts.ready;window.print();});
         $("#version-choice").addEventListener("change",e=>selectVersion(e.target.value));
+        $("#expand-all").addEventListener("click",()=>{const open=!details().every(d=>d.open);details().forEach(d=>d.open=open);syncExpandButton();});
+        details().forEach(d=>d.addEventListener("toggle",syncExpandButton));
+        addEventListener("beforeprint",openForPrint);
+        addEventListener("afterprint",restoreAfterPrint);
+        matchMedia("print").addEventListener("change",e=>e.matches?openForPrint():restoreAfterPrint());
       } catch(error) {
         console.error(error);
         $("#app").innerHTML='<div class="error" role="alert"><h1>The quote needs a data check.</h1><p>A price or scope entry could not be validated. Check the PROPOSAL object before sharing this page.</p></div>';
