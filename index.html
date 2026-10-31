@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
   <style>
-    /* Layout: a 1120px document column. Serif for section titles and prices, Plex Sans for everything read or compared.
+    /* Layout: one shared 1520px grid (header, sections, footer); tables, comparison and timeline use the full width, running text is capped near 70ch. Serif for section titles and prices, Plex Sans for everything read or compared.
        One bordered comparison panel for the options; everything else is rules, tables and open space. */
     :root{
       color-scheme:light;
@@ -19,7 +19,7 @@
       --accent:#1c5871;--accent-tint:#edf4f7;--accent-line:#8db0c0;
       --serif:"Source Serif 4","Source Serif Pro",Georgia,"Times New Roman",serif;
       --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
-      --max:1120px;--gutter:40px;
+      --max:1520px;--gutter:clamp(32px,3.2vw,48px);
     }
     @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e4e9ed;--muted:#a3afba;--line:#27313a;--line-strong:#4a5661;--accent:#89c0d7;--accent-tint:#15262f;--accent-line:#3f6d81}}
     :root[data-theme="dark"]{color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e4e9ed;--muted:#a3afba;--line:#27313a;--line-strong:#4a5661;--accent:#89c0d7;--accent-tint:#15262f;--accent-line:#3f6d81}
@@ -61,7 +61,7 @@
     .overview{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 64px;padding-block:56px 48px;align-items:end}
     .kicker{font-size:15px;font-weight:500;color:var(--accent)}
     h1{font:600 clamp(34px,4vw,48px)/1.08 var(--serif);letter-spacing:-.015em;margin-top:10px;text-wrap:balance}
-    .overview .lede{font-size:18px;line-height:1.62}
+    .overview .lede{font-size:18px;line-height:1.62;max-width:68ch}
     .overview .lede+.lede{margin-top:14px;color:var(--muted);font-size:17px}
     .toc{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 28px;padding-top:20px;border-top:1px solid var(--line);font-size:15px}
 
@@ -104,6 +104,7 @@
     .incl li{position:relative;padding-left:14px}
     .incl li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
     .cmp-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 48px;margin-top:18px;font-size:14px;color:var(--muted)}
+    .cmp-notes p{max-width:80ch}
     .cmp-notes strong{color:var(--ink);font-weight:600}
 
     /* Scope */
@@ -130,6 +131,7 @@
     .it-body .note{display:block;color:var(--muted);font-style:italic;margin-top:6px;font-size:14px}
     .it-body .lbl{font-weight:500;margin-bottom:3px}
     .m-meta{display:none}
+    .gates p{max-width:72ch}
     .gates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 48px;margin-top:24px;font-size:14.5px;color:var(--muted)}
     .gates strong{color:var(--ink);font-weight:600}
 
@@ -168,7 +170,7 @@
     .num tbody th,.num tfoot th{text-align:left;padding-left:0;font-weight:500;white-space:normal}
     .num th small{display:block;font-size:13px;color:var(--muted);font-weight:400}
     .num tfoot th,.num tfoot td{font-weight:600;border-top:1px solid var(--ink);border-bottom:0}
-    .notes{font-size:14.5px;color:var(--muted);margin-top:14px}
+    .notes{font-size:14.5px;color:var(--muted);margin-top:14px;max-width:72ch}
     .notes li+li{margin-top:8px}
     .notes strong{color:var(--ink);font-weight:600}
     .vend{font-size:14.5px;border-top:1px solid var(--ink)}
@@ -178,28 +180,15 @@
     .vend td:nth-child(2){width:34%}
     .vend .st{display:block;font-weight:600}
     .vend .dt{display:block;color:var(--muted);font-size:14px}
-    .sec-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 36px;margin-top:20px;font-size:14.5px;color:var(--muted)}
+    .sec-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 48px;margin-top:20px;font-size:14.5px;color:var(--muted)}
+    .sec-notes p{max-width:60ch}
     .sec-notes strong{display:block;color:var(--ink);font-weight:600}
-    .terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
+    .terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px}
     .terms>div{padding:14px 0;border-top:1px solid var(--line)}
     .terms dt{font-weight:600;font-size:15px}
-    .terms dd{font-size:14.5px;color:var(--muted);margin-top:2px}
+    .terms dd{font-size:14.5px;color:var(--muted);margin-top:2px;max-width:70ch}
+    @media screen and (min-width:1360px){.cmp-notes{grid-template-columns:1fr}}
 
-    /* Next steps */
-    .close{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 64px}
-    .steps{display:grid;gap:14px;margin-top:18px;counter-reset:s}
-    .steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;font-size:15px}
-    .steps li::before{content:counter(s);font-weight:600;color:var(--accent)}
-    .steps strong{display:block}
-    .steps p{color:var(--muted);font-size:14.5px}
-    .acceptance{background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:22px 24px}
-    .acceptance h3{font:600 17px/1.35 var(--sans)}
-    .acc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 24px;margin-top:14px}
-    .acc-grid .full{grid-column:1/-1}
-    .acc-grid select{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:6px;background:var(--bg);font-size:15px;margin-top:6px}
-    .sig{height:40px;border-bottom:1px solid var(--line-strong)}
-    .acc-note{margin-top:14px;font-size:14px;color:var(--muted)}
-    .acc-note output{color:var(--ink);font-weight:500}
 
     .site-footer{border-top:1px solid var(--line)}
     .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding-block:22px 36px;font-size:13px;color:var(--muted)}
@@ -217,7 +206,7 @@
     }
     @media screen and (max-width:900px){
       :root{--gutter:24px}
-      .overview,.sec-head,.close{grid-template-columns:1fr}
+      .overview,.sec-head{grid-template-columns:1fr}
       .overview{padding-block:40px 36px;gap:16px}
       .sec-head{margin-bottom:24px}
       .cmp{grid-template-columns:1fr;grid-template-rows:none;border:0;background:transparent;border-radius:0;overflow:visible;gap:14px}
@@ -264,7 +253,6 @@
       .deps td,.deps tbody th,.vend td,.vend tbody th{display:block;width:auto!important;padding:0;border:0}
       .deps td,.vend td{margin-top:3px}
       .deps td[data-lbl]::before{content:attr(data-lbl) ": ";color:var(--muted)}
-      .acc-grid{grid-template-columns:1fr}
     }
     @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chev{transition:none}}
 
@@ -347,16 +335,6 @@
       .terms{gap:0 24pt}
       .terms>div{padding:5pt 0;break-inside:avoid}
       .terms dt{font-size:9pt}.terms dd{font-size:8.6pt}
-      .close{grid-template-columns:5fr 7fr;gap:20pt;break-inside:avoid}
-      .steps{gap:5pt;margin-top:8pt}
-      .steps li{font-size:9pt;grid-template-columns:16pt 1fr}
-      .steps p{font-size:8.6pt}
-      .acceptance{padding:9pt 12pt;border-radius:4pt}
-      .acceptance h3{font-size:10pt}
-      .acc-grid{gap:8pt 16pt;margin-top:6pt}
-      .acc-grid select{appearance:none;-webkit-appearance:none;border:0;border-bottom:1px solid var(--line-strong);border-radius:0;padding:2pt 0;min-height:0;background:transparent;font-size:9.5pt;margin-top:2pt}
-      .sig{height:22pt}
-      .acc-note{font-size:8pt;margin-top:6pt}
       .footer-inner{padding-block:8pt 0;font-size:8pt}
       h2,h3,h4{break-after:avoid}
       p{orphans:3;widows:3}
@@ -576,8 +554,7 @@
       function render() {
         const s=PROPOSAL.settings,a=PROPOSAL.assumptions,r=PROPOSAL.rates,m=PROPOSAL.meta,f=PROPOSAL.facts;
         const vs=versions();
-        const rec=vs.find(v=>v.recommended), recPrior=rec&&rec.base?model.get(rec.base):null;
-        const nav=[["options","Implementation options"],["scope","Detailed scope"],["implementation","Delivery and dependencies"],["commercial","Costs, security and terms"],["next","Next steps"]];
+        const nav=[["options","Implementation options"],["scope","Detailed scope"],["implementation","Delivery and dependencies"],["commercial","Costs, security and terms"]];
         const reqNames=items.filter(isRequest).map(i=>i.short);
         document.title=m.title;
         $("#app").innerHTML=`
@@ -613,7 +590,6 @@
       <li>No shared staff logins</li>
     </ul></div>
     <div class="cmp-notes">
-      ${rec&&recPrior?`<p><strong>Why Version ${rec.number} is recommended:</strong> it adds ${rec.itemIds.length} items for ${dollars(rec.price-recPrior.price)} more than Version ${recPrior.number}. Priced separately, those items total ${dollars(rec.value-recPrior.value)}.</p>`:""}
       <p><strong>Items priced separately</strong> is the sum of the line-item prices in the detailed scope. Vendor estimates carry no markup; <a href="#commercial">see the basis</a>.</p>
     </div>
   </div></section>
@@ -708,25 +684,6 @@
     </div>
   </div></section>
 
-  <section class="section" aria-labelledby="next"><div class="wrap close">
-    <div>
-      <h2 id="next">Next steps</h2>
-      <ol class="steps">
-        <li><div><strong>Select a version</strong><p>Confirm it, with any agreed changes, in writing.</p></div></li>
-        <li><div><strong>Arrange access and approvals</strong><p>The clinic or its IT company sets up vendor access, BAAs and call routing.</p></div></li>
-        <li><div><strong>Confirm scope and schedule for kickoff</strong><p>Agree pilot tests, staff reviewers and milestones. The first ${s.kickoffPercent}% is due at kickoff.</p></div></li>
-      </ol>
-    </div>
-    <div class="acceptance" id="acceptance">
-      <h3>Acceptance record</h3>
-      <div class="acc-grid">
-        <div class="full"><label class="lbl" for="version-choice">Selected version</label><select id="version-choice"><option value="">Choose a version</option>${vs.map(v=>`<option value="${v.id}">Version ${v.number}, ${escape(v.name)}: ${dollars(v.price)}</option>`).join("")}</select></div>
-        <div><span class="lbl">Authorized name and company</span><div class="sig" aria-hidden="true"></div></div>
-        <div><span class="lbl">Signature and date</span><div class="sig" aria-hidden="true"></div></div>
-      </div>
-      <p class="acc-note"><output id="selection-note" aria-live="polite">No version selected.</output> This page does not submit or sign anything. To accept, send the selected version and signed details to ${escape(m.author)}.</p>
-    </div>
-  </div></section>
 </main>
 <footer class="site-footer"><div class="wrap footer-inner"><span class="identity"><span class="monogram" aria-hidden="true">${escape(m.monogram)}</span>${escape(m.author)}</span><span>Quote ${escape(m.number)} · Valid until ${date(m.validUntil)}</span></div></footer>`;
         root.dataset.quoteValidated="true";
@@ -742,11 +699,6 @@
         button.innerHTML=`${icons[dark?"sun":"moon"]}<span>${dark?"Light":"Dark"}</span>`;
         button.setAttribute("aria-label",`Switch to ${dark?"light":"dark"} theme`);
       }
-      function selectVersion(value) {
-        const v=model.get(value);
-        $("#version-choice").value=v?v.id:"";
-        $("#selection-note").textContent=v?`Version ${v.number} selected.`:"No version selected.";
-      }
       const details=()=>Array.from(document.querySelectorAll("details.it"));
       function syncExpandButton(){const b=$("#expand-all");if(!b)return;const all=details().every(d=>d.open);b.textContent=all?"Collapse all":"Expand all";b.setAttribute("aria-expanded",String(all));}
       let printOpened=[];
@@ -761,7 +713,6 @@
         systemDark.addEventListener("change",syncThemeButton);
         $("#theme-toggle").addEventListener("click",()=>{const next=effectiveTheme()==="dark"?"light":"dark";root.dataset.theme=next;try{localStorage.setItem(THEME_KEY,next);}catch{}syncThemeButton();});
         $("#print-button").addEventListener("click",async()=>{if(document.fonts)await document.fonts.ready;window.print();});
-        $("#version-choice").addEventListener("change",e=>selectVersion(e.target.value));
         $("#expand-all").addEventListener("click",()=>{const open=!details().every(d=>d.open);details().forEach(d=>d.open=open);syncExpandButton();});
         details().forEach(d=>d.addEventListener("toggle",syncExpandButton));
         addEventListener("beforeprint",openForPrint);
