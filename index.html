@@ -117,6 +117,7 @@
     .linkbtn{border:1px solid var(--line-strong);background:var(--surface);border-radius:6px;padding:6px 12px;font-size:14px;cursor:pointer}
     .linkbtn:hover{border-color:var(--ink)}
     .srow{display:grid;grid-template-columns:minmax(0,1fr) 92px 150px 128px 34px 34px 34px 28px;align-items:center;column-gap:12px}
+    .scope-tbl,.scope-tbl>*,.scope-tbl>*>tr,.scope-tbl>*>tr>td{display:block;padding:0}
     .scope-head{padding:10px 0;border-bottom:1px solid var(--ink);font-size:13px;font-weight:500;color:var(--muted)}
     .scope-head .c{text-align:center}
     .grp{font:600 15px/1.4 var(--sans);color:var(--accent);padding:26px 0 8px;border-bottom:1px solid var(--line-strong)}
@@ -186,7 +187,7 @@
     .vend td:nth-child(2){width:34%}
     .vend .st{display:block;font-weight:600}
     .vend .dt{display:block;color:var(--muted);font-size:14px}
-    .sec-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 48px;margin-top:20px;font-size:14.5px;color:var(--muted)}
+    .sec-notes{display:grid;grid-template-columns:1fr;gap:14px 48px;margin-top:20px;font-size:14.5px;color:var(--muted)}
     .sec-notes p{max-width:60ch}
     .sec-notes strong{display:block;color:var(--ink);font-weight:600}
     .terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px}
@@ -208,7 +209,6 @@
       .cmp-foot>*{padding:14px 16px}
       .price{font-size:34px}
       .srow{grid-template-columns:minmax(0,1fr) 84px 130px 116px 30px 30px 30px 24px;column-gap:10px}
-      .sec-notes{grid-template-columns:1fr 1fr}
     }
     @media screen and (max-width:900px){
       :root{--gutter:24px}
@@ -308,6 +308,12 @@
       .srow{grid-template-columns:minmax(0,1fr) 56pt 96pt 76pt 20pt 20pt 20pt}
       .scope-head{font-size:8pt;padding:5pt 0}
       .scope-head>span:last-child{display:none}
+      .scope-tbl{display:table}
+      .scope-tbl>thead{display:table-header-group}
+      .scope-tbl>tbody{display:table-row-group}
+      .scope-tbl>*>tr{display:table-row;break-inside:avoid}
+      .scope-tbl>*>tr>td{display:table-cell}
+      .scope-tbl>tbody>tr:has(>td>.grp){break-after:avoid}
       .grp{font-size:9.5pt;padding:9pt 0 4pt;break-after:avoid}
       .it{break-inside:avoid}
       .it>summary{padding:6pt 0 3pt;font-size:9.5pt}
@@ -346,7 +352,7 @@
       .costs>div:last-child{display:contents}
       .notes{grid-column:1/-1;columns:2;column-gap:20pt;max-width:none;font-size:8.5pt;margin-top:8pt}
       .notes li{break-inside:avoid;margin-bottom:4pt}.notes li+li{margin-top:0}
-      .sec-notes{grid-template-columns:repeat(3,1fr);font-size:8.5pt;gap:6pt 18pt;margin-top:8pt;break-inside:avoid}
+      .sec-notes{grid-template-columns:1fr;font-size:8.5pt;gap:6pt 18pt;margin-top:8pt;break-inside:avoid}
       .terms{gap:0 24pt}
       .terms>div{padding:5pt 0;break-inside:avoid}
       .terms dt{font-size:9pt}.terms dd{font-size:8.6pt}
@@ -380,13 +386,13 @@
         { id: "callbacks", number: "2", group: "core", name: "AI hang-up callbacks", short: "AI hang-up callbacks", price: 1100, monthly: { basis: "voice", stream: "callbacks", headroom: 10 }, week: 3, delivers: "During business hours, the AI calls eligible hang-ups back within minutes, collects the reason for the call, answers basic questions from an approved script, transfers the caller or creates a booking task, and logs each callback attempt and outcome.", access: "Weave hang-up events, or routing the main line through the AI number; consent lookup, opening hours and the transfer extension.", done: "An eligible test hang-up receives an AI callback within the agreed minutes. Duplicate and already-answered calls are skipped, and the outcome is logged.", note: "Depends on approved Weave events or routing. Neither route is verified yet." },
         { id: "afterhours", number: "3", group: "core", name: "After-hours and weekend answering", short: "after-hours and weekend answering", price: 600, monthly: { basis: "voice", stream: "afterhours", headroom: 10 }, week: 2, delivers: "Handles non-emergency calls on evenings and weekends, captures messages and appointment requests, keeps the existing emergency routing to the answering service, and sends staff a secure morning report.", access: "After-hours routing, the answering-service number, the clinic-approved emergency script and report recipients.", done: "A non-emergency call is captured, an emergency test call reaches the answering service, and the morning report link arrives." },
         { id: "reminders", number: "4", group: "patient", name: "Reminders and recalls", short: "reminders and recalls", price: 900, monthly: [35,55], week: 5, delivers: "Reminders can be switched on or off, go out when an appointment is booked and stop automatically if it is cancelled. They cover all appointment types, and past patients receive annual outreach. Messages are coordinated with Klara so patients do not get duplicate reminders.", access: "ModMed appointment changes and contacts, an approved texting connection, Klara overlap settings and confirmed recall consent.", done: "Booking sends the agreed message and cancellation stops future sends. Each appointment type and the yearly recall group pass tests without duplicate Klara messages.", note: "The monthly texting figure is a provisional budget." },
-        { id: "insurance", number: "5", group: "patient", name: "Insurance eligibility", short: "insurance eligibility", price: 800, monthly: { basis: "eligibility", headroom: 30 }, week: 6, delivers: "Electronic eligibility verification for BCBS, Aetna, Humana, UHC and Medicare, with outcomes visible to staff. Includes a Medicare supplement call list and a Medicare supplement answer form.", access: "Patient, appointment and payer data; the clinic’s NPI and TIN (provider and tax ID numbers); a Stedi account; required payer enrollment and Medicare HETS enrollment (Medicare’s eligibility-check service).", done: "Agreed payer tests return logged results, exceptions create staff tasks, and the supplement call list and answer form both work.", note: "An eligibility result does not guarantee coverage or payment." },
+        { id: "insurance", number: "5", group: "patient", name: "Insurance eligibility", short: "insurance eligibility", price: 800, monthly: { basis: "eligibility", headroom: 30 }, week: 6, delivers: "Automatically runs electronic eligibility checks before visits for the agreed appointment population, covering BCBS, Aetna, Humana, UHC and Medicare. Results and exceptions are recorded for staff. Includes a Medicare supplement call list and a Medicare supplement answer form.", access: "Patient, appointment and payer data; the clinic’s NPI and TIN (provider and tax ID numbers); a Stedi account; required payer enrollment and Medicare HETS enrollment (Medicare’s eligibility-check service).", done: "A test appointment automatically triggers an eligibility check. Agreed payer tests return logged results, exceptions create staff tasks, and the supplement call list and answer form both work.", note: "An eligibility result does not guarantee coverage or payment." },
         { id: "dashboard", number: "6", group: "patient", name: "Reporting dashboard", short: "reporting dashboard", price: 500, monthly: [0,0], week: 6, delivers: "Provides a login-protected dashboard of total calls, recovered hang-ups, surgery inquiries, surgeries booked, recalls and no-shows, updated weekly. Staff receive an email each {weeklyReport} with a link to it.", access: "Weave feed or export, ModMed API or export, recall results and coordinator surgery-status updates.", done: "Sample counts reconcile to source records, and the email link opens the dashboard.", monthlyLabel: "$0" },
         { id: "support", number: "S", group: "support", name: "First month of support", short: "first month of support", price: 300, monthly: [0,0], week: null, deliveryNote: "1 month", delivers: "post-launch fixes and workflow support for the selected version, plus operating notes and staff handover.", access: "A named support contact and approved access to reproduce issues.", done: "Handover is delivered, and issues can be reported through the agreed channel.", monthlyLabel: "$0", feeNote: "In every version" },
         { id: "spanish", number: "X1", group: "extras", name: "Spanish on the AI phone lines", short: "Spanish on the AI phone lines", price: 400, monthly: [0,0], week: 7, delivers: "Spanish-language support on the surgery line, AI hang-up callbacks and after-hours and weekend answering.", access: "Approved translations and pronunciations, and a bilingual reviewer at the clinic.", done: "Approved Spanish test calls pass intake, handoff and emergency-routing checks.", monthlyLabel: "$0", note: "No separate vendor cost is expected at the modeled call volume." },
         { id: "booking", number: "X2", group: "extras", name: "Direct ModMed booking", short: "direct ModMed booking (with approved access)", price: 700, monthly: [0,0], week: 7, deliveryNote: "Ready in week {build} if access is approved", delivers: "For agreed appointment types, books an available slot in ModMed instead of creating a booking task.", access: "Clinic-approved ModMed access to read slots and write appointments; booking rules, providers and appointment types.", done: "A test booking appears in ModMed, and stale slots are handled without duplicate appointments.", monthlyLabel: "$0", note: "Conditional on approved ModMed access. Vendor and API fees are excluded." },
         { id: "winback", number: "X3", group: "extras", name: "Lapsed-patient win-back calls", short: "lapsed-patient win-back calls", price: 600, monthly: { basis: "winback", headroom: 20 }, week: 8, delivers: "A clinic-approved call workflow for an agreed group of lapsed patients.", access: "The approved patient group, campaign purpose and script, and a confirmed consent and opt-out list.", done: "An approved test campaign logs outcomes, creates follow-up tasks and honors opt-outs." },
-        { id: "support-extra", number: "X4", group: "extras", name: "Extended support and tuning", short: "extended support and tuning", price: 600, monthly: [0,0], week: null, start: "After the first month", deliveryNote: "2 more months", delivers: "with a monthly call review and tuning.", access: "A named support contact and approved review material.", done: "Monthly reviews and agreed tuning are delivered during the support period.", monthlyLabel: "$0" }
+        { id: "support-extra", number: "X4", group: "extras", name: "Extended support and tuning", short: "extended support and tuning", price: 600, monthly: [0,0], week: null, start: "After the first month", deliveryNote: "2 more months", delivers: "with a monthly call review and tuning.", access: "A named support contact and approved review material.", done: "Support arrangements are ready at launch, and monthly reviews and agreed tuning are delivered during the support period. Completing future support activities is not a condition of go-live acceptance.", monthlyLabel: "$0" }
       ],
       versions: [
         { id: "v1", number: 1, name: "Quick Start", descriptor: "The phone priorities", price: 3000, weeks: 4, itemIds: ["foundation","surgery","callbacks","afterhours","support"] },
@@ -408,8 +414,9 @@
         { what: "Clinic-approved emergency script and answering-service destination", item: "afterhours", status: "Clinic approval" },
         { what: "Weave hang-up events, or routing the main line through the AI number", item: "callbacks", status: "Unverified; both routes need testing" },
         { what: "Retrievable consent records, with opt-out (do-not-contact) rules for recalls and win-back calls", item: "callbacks", also: "4, X3", status: "Clinic confirms before launch" },
-        { what: "Approved ModMed API access for appointments, contacts and reporting data", item: "reminders", also: "5, 6", status: "Needs clinic and vendor approval" },
+        { what: "Approved data connections for appointments, contacts and patient data, as specified in each item’s scope", item: "reminders", also: "5", status: "Needs clinic and vendor approval" },
         { what: "Stedi account, payer coverage and Medicare HETS enrollment", item: "insurance", status: "Clinic arranges" },
+        { what: "Approved ModMed API access or an agreed report export for dashboard data", item: "dashboard", status: "Clinic approves the data source" },
         { what: "ModMed access to read slots and write appointments", item: "booking", status: "Needs approval; direct booking stays conditional" }
       ],
       weeks: [
@@ -527,7 +534,7 @@
         const out=[];
         if(missReq.length) out.push(`items ${numRange(missReq)} (${listJoin(missReq.map(i=>i.short))})`);
         if(missExtra.length) out.push("the Version 3 additions");
-        const exc=out.length?`${listJoin(out).replace(/^./,c=>c.toUpperCase())}.`:"Nothing. Every requested item is included.";
+        const exc=out.length?`${listJoin(out).replace(/^./,c=>c.toUpperCase())}.`:"No requested workflow omitted; stated exclusions and access conditions still apply.";
         return `<article class="opt${v.recommended?" rec":""}" aria-labelledby="opt-${v.id}">
           <div class="opt-head"><p class="opt-top"><span>Version ${v.number}</span>${v.recommended?'<span class="rec-label">Recommended</span>':""}</p><h3 id="opt-${v.id}">${escape(v.name)}</h3><p class="desc">${escape(v.descriptor)}</p></div>
           <div class="pr"><span class="cell-lbl">Build price, one-time</span><p class="price">${dollars(v.price)}</p></div>
@@ -542,11 +549,11 @@
         const vs=versions();
         let last="", out="";
         items.forEach(i=>{
-          if(i.group!==last){ out+=`<h3 class="grp">${escape(PROPOSAL.groups[i.group])}</h3>`; last=i.group; }
+          if(i.group!==last){ out+=`<tr><td><h3 class="grp">${escape(PROPOSAL.groups[i.group])}</h3></td></tr>`; last=i.group; }
           const dots=vs.map(v=>v.ids.includes(i.id)?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In Version ${v.number}</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in Version ${v.number}</span></span>`).join("");
           const inNums=vs.filter(v=>v.ids.includes(i.id)).map(v=>v.number);
           const inV=`Version${inNums.length>1?"s":""} ${listJoin(inNums.map(String))}`;
-          out+=`<details class="it" data-item="${i.id}"><summary class="srow">
+          out+=`<tr><td><details class="it" data-item="${i.id}"><summary class="srow">
             <span class="nm"><span class="no-tag">${escape(i.number)}</span><span>${escape(i.name)}</span></span>
             <span class="d"><span class="sr-only">Build price </span><span class="money">${dollars(i.price)}</span>${i.feeNote?`<span class="s-sub">${escape(i.feeNote)}</span>`:""}</span>
             <span class="d"><span class="sr-only">Go-live </span>${itemTarget(i)}<span class="s-sub">${escape(itemNote(i))}</span></span>
@@ -558,7 +565,7 @@
             <div><span class="lbl">Scope</span><p>${escape(itemDelivers(i))}${i.note?`<span class="note">${escape(i.note)}</span>`:""}</p></div>
             <div><span class="lbl">Required access</span><p>${escape(i.access)}</p></div>
             <div><span class="lbl">Acceptance criteria</span><p>${escape(i.done)}</p></div>
-          </div></details>`;
+          </div></details></td></tr>`;
         });
         return out;
       }
@@ -612,18 +619,18 @@
       <li>No shared staff logins</li>
     </ul></div>
     <div class="cmp-notes">
-      <p>Vendor cost estimates carry no markup. The basis for them is set out under <a href="#commercial">Costs, security and terms</a>.</p>
+      <p>All prices in USD. Vendor cost estimates carry no markup. The basis for them is set out under <a href="#commercial">Costs, security and terms</a>.</p>
     </div>
   </div></section>
 
   <section class="section" aria-labelledby="scope"><div class="wrap">
     ${sectionHead("scope","Detailed scope","Each item’s build price, target go-live week, estimated vendor cost, required access and acceptance criteria. Items 1–6 follow the clinic’s numbering; item 0 is the shared foundation and X1–X4 are Version 3 additions.")}
     <div class="scope-tools"><span>Build prices apply to each item on its own; version prices are lower. Go-live is the target week an item is switched on; the line beneath it shows when it is ready for staff testing. $0 means no separate vendor cost is expected. Weeks count from kickoff.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
-    <div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Build price</span><span>Go-live</span><span>Vendor cost</span>${vs.map(v=>`<span class="c" title="Version ${v.number}">V${v.number}</span>`).join("")}<span></span></div>
-    <div id="scope-list">${renderScope()}</div>
+    <table class="scope-tbl" role="presentation"><thead><tr><td><div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Build price</span><span>Go-live</span><span>Vendor cost</span>${vs.map(v=>`<span class="c" title="Version ${v.number}">V${v.number}</span>`).join("")}<span></span></div></td></tr></thead>
+    <tbody id="scope-list">${renderScope()}</tbody></table>
     <div class="gates">
       <p><strong>If neither callback route works:</strong> both proposed routes for item 2 are unverified. A staff callback list is an alternative at a build price ${dollars(s.callbackFallbackReduction)} lower. It needs written agreement and does not fulfill the requested AI callback workflow.</p>
-      <p><strong>Items 4–6 and X2</strong> need the approved ModMed connections listed above; direct booking also needs write access and stays conditional until approved. Items added on their own reuse the foundation and need a scheduling agreement.</p>
+      <p><strong>Data connections:</strong> items 4–5 require the approved data connections specified in their scope. Item 6 can use an approved API or agreed report export. Direct booking requires approved ModMed write access and stays conditional until approved. Items added on their own reuse the foundation and need a scheduling agreement.</p>
     </div>
   </div></section>
 
@@ -684,8 +691,6 @@
         ${PROPOSAL.stack.map(t=>`<tr><th scope="row">${escape(t.name)}</th><td>${escape(t.role)}</td><td><span class="st">${escape(t.status)}</span><span class="dt">${escape(t.detail)}</span></td></tr>`).join("")}
       </tbody></table></div>
       <div class="sec-notes">
-        <p><strong>Voice and summaries are separate</strong>Retell handles live calls; Claude via AWS Bedrock writes summaries and reports.</p>
-        <p><strong>Email alerts</strong>SES sends generic notices and secure links, with patient details excluded from message bodies.</p>
         <p><strong>Compliance</strong>This setup supports the clinic’s HIPAA safeguards; it does not guarantee compliance on its own.</p>
       </div>
     </div>
@@ -693,7 +698,7 @@
       <h3 class="sub">Commercial terms</h3>
       <dl class="terms">
         <div><dt>Payment</dt><dd>${s.kickoffPercent}% at kickoff and ${s.acceptancePercent}% when the selected version is accepted as live.</dd></div>
-        <div><dt>Acceptance</dt><dd>A version is accepted as live when clinic staff sign off that its items meet the acceptance criteria in the detailed scope.</dd></div>
+        <div><dt>Acceptance</dt><dd>A version is accepted as live when clinic staff sign off that its items meet the acceptance criteria in the detailed scope. Go-live acceptance applies to the implemented workflows, testing and handover. Included support and scheduled reviews continue afterward for the stated period and do not delay go-live acceptance or its payment milestone.</dd></div>
         <div><dt>Support and monitoring</dt><dd>Support starts when the selected version is accepted as live: ${s.firstSupportMonths} month in every version, ${supportTotal()} months in Version 3. It covers fixes and agreed workflow support; new features are additional scope. Monitoring is automated with alerts to named owners, not continuous human support.</dd></div>
         <div><dt>Scope changes</dt><dd>A different integration route, changes to vendor access or work beyond the accepted scope need agreement on scope, price and schedule before that work starts.</dd></div>
         <div><dt>Consent</dt><dd>AI callbacks go only to callers with call consent on file. The clinic confirms where that consent is recorded and how it may be used, including for the period before ModMed is connected. Recalls and win-back calls also need the clinic’s confirmation of consent and opt-out rules.</dd></div>
