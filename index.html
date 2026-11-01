@@ -62,8 +62,9 @@
     .overview{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 64px;padding-block:56px 48px;align-items:end}
     .kicker{font-size:15px;font-weight:500;color:var(--accent)}
     h1{font:600 clamp(34px,4vw,48px)/1.08 var(--serif);letter-spacing:-.015em;margin-top:10px;text-wrap:balance}
-    .overview .lede{font-size:18px;line-height:1.62;max-width:68ch}
-    .overview .lede+.lede{margin-top:14px;color:var(--muted);font-size:17px}
+    .facts{display:grid;gap:10px;font-size:18px;line-height:1.5;max-width:68ch}
+    .facts li{position:relative;padding-left:20px}
+    .facts li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
     .toc{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 28px;padding-top:20px;border-top:1px solid var(--line);font-size:15px}
 
     /* Sections */
@@ -251,7 +252,7 @@
       .doc-meta{order:2;width:100%}
       .header-right{width:100%;justify-content:space-between}
       .section{padding-block:40px}
-      .overview .lede{font-size:17px}
+      .facts{font-size:17px;gap:8px}
       .weeklist{grid-template-columns:1fr}
       .deps thead,.vend thead{display:none}
       .deps tr,.vend tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
@@ -273,7 +274,7 @@
       .overview{grid-template-columns:5fr 7fr;gap:24pt;padding-block:14pt 12pt}
       .kicker{font-size:9pt}
       h1{font-size:24pt}
-      .overview .lede{font-size:10pt}.overview .lede+.lede{font-size:9.5pt;margin-top:5pt}
+      .facts{font-size:10pt;gap:3pt}
       .section{padding-block:10pt 12pt}
       .sec-head{grid-template-columns:5fr 7fr;gap:6pt 24pt;margin-bottom:10pt;break-inside:avoid;break-after:avoid}
       h2{font-size:17pt}
@@ -562,13 +563,12 @@
         const s=PROPOSAL.settings,a=PROPOSAL.assumptions,r=PROPOSAL.rates,m=PROPOSAL.meta,f=PROPOSAL.facts;
         const vs=versions();
         const nav=[["versions","Versions and pricing"],["scope","Detailed scope"],["implementation","Delivery and dependencies"],["commercial","Costs, security and terms"]];
-        const reqNames=items.filter(isRequest).map(i=>i.short);
         document.title=m.title;
         $("#app").innerHTML=`
 <header class="site-header"><div class="wrap header-inner">
   <a class="identity" href="#main"><img class="avatar" src="${m.photo}" alt="" width="32" height="32">${escape(m.author)}</a>
   <div class="header-right">
-    <p class="doc-meta"><span>Quote <b>${escape(m.number)}</b></span><span>Issued <b><time datetime="${m.issued}">${date(m.issued)}</time></b></span><span>Valid until <b><time datetime="${m.validUntil}">${date(m.validUntil)}</time></b></span></p>
+    <p class="doc-meta"><span>Quote <b>${escape(m.number)}</b></span><span>Issued <b><time datetime="${m.issued}">${date(m.issued)}</time></b></span></p>
     <div class="controls"><button type="button" class="ctl" id="theme-toggle"></button><button type="button" class="ctl" id="print-button">${icons.print}<span>Print</span></button></div>
   </div>
 </div></header>
@@ -576,8 +576,12 @@
   <section class="wrap overview" aria-labelledby="title">
     <div><p class="kicker">Proposal for an ophthalmology clinic</p><h1 id="title">Phone Coverage &amp; Patient Follow-Up</h1></div>
     <div>
-      <p class="lede">The clinic handles about ${count(f.callsMonthly)} calls and ${f.newPatientsMonthly.join("–")} new patients a month, and the owner’s priority is improving phone coverage. This proposal adds AI phone answering and patient follow-up to ${listJoin(f.systems)}; those systems stay in place.</p>
-      <p class="lede">It covers the six workflows the clinic requested (${listJoin(reqNames)}) in three versions with fixed build prices.</p>
+      <ul class="facts">
+        <li>About ${count(f.callsMonthly)} calls and ${f.newPatientsMonthly.join("–")} new patients a month</li>
+        <li>Priority: improving phone coverage</li>
+        <li>Adds AI phone answering and patient follow-up to ${listJoin(f.systems)}, which stay in place</li>
+        <li>Covers all six requested workflows, offered as three versions with fixed build prices</li>
+      </ul>
     </div>
     <nav class="toc" aria-label="Contents">${nav.map(([id,t])=>`<a href="#${id}">${t}</a>`).join("")}</nav>
   </section>
@@ -692,7 +696,7 @@
   </div></section>
 
 </main>
-<footer class="site-footer"><div class="wrap footer-inner"><span class="identity"><img class="avatar" src="${m.photo}" alt="" width="32" height="32">${escape(m.author)}</span><span>Quote ${escape(m.number)} · Valid until ${date(m.validUntil)}</span></div></footer>`;
+<footer class="site-footer"><div class="wrap footer-inner"><span class="identity"><img class="avatar" src="${m.photo}" alt="" width="32" height="32">${escape(m.author)}</span><span>Quote ${escape(m.number)}</span></div></footer>`;
         root.dataset.quoteValidated="true";
       }
 
