@@ -65,7 +65,9 @@
     .facts{display:grid;gap:10px;font-size:18px;line-height:1.5;max-width:68ch}
     .facts li{position:relative;padding-left:20px}
     .facts li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
-    .toc{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 28px;padding-top:20px;border-top:1px solid var(--line);font-size:15px}
+    .toc{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 28px;padding-top:20px;border-top:1px solid var(--line);font-size:15px}
+    .toc-h{font-weight:600;color:var(--ink)}
+    .toc ul{display:flex;flex-wrap:wrap;gap:6px 28px}
 
     /* Sections */
     .section{padding-block:56px}
@@ -253,6 +255,11 @@
       .header-right{width:100%;justify-content:space-between}
       .section{padding-block:40px}
       .facts{font-size:17px;gap:8px}
+      .toc{display:block;font-size:16px}
+      .toc-h{margin-bottom:10px}
+      .toc ul{display:grid;gap:10px}
+      .toc li{position:relative;padding-left:20px}
+      .toc li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
       .weeklist{grid-template-columns:1fr}
       .deps thead,.vend thead{display:none}
       .deps tr,.vend tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
@@ -336,7 +343,9 @@
       .costs-head{break-after:avoid}
       tfoot{display:table-row-group}
       .sec-head+.part h3.sub{break-before:avoid}
-      .notes{font-size:8.5pt;margin-top:6pt}.notes li+li{margin-top:3pt}
+      .costs>div:last-child{display:contents}
+      .notes{grid-column:1/-1;columns:2;column-gap:20pt;max-width:none;font-size:8.5pt;margin-top:8pt}
+      .notes li{break-inside:avoid;margin-bottom:4pt}.notes li+li{margin-top:0}
       .sec-notes{grid-template-columns:repeat(3,1fr);font-size:8.5pt;gap:6pt 18pt;margin-top:8pt;break-inside:avoid}
       .terms{gap:0 24pt}
       .terms>div{padding:5pt 0;break-inside:avoid}
@@ -366,18 +375,18 @@
       timingPolicy: "Delivery dates are targets based on timely access and approvals. Vendor or integration delays may shift affected milestones.",
       groups: { core: "Foundation and phone workflows", patient: "Patient workflows and reporting", support: "Support", extras: "Version 3 additions" },
       items: [
-        { id: "foundation", number: "0", group: "core", name: "HIPAA foundation", short: "HIPAA foundation", price: 500, monthly: [45,75], week: 1, deliveryNote: "Once access is ready", delivers: "Sets up US-region hosting, an encrypted database, an audit log, a staff task page, automated uptime alerts and daily backups. Patient data stays in US-hosted systems.", access: "Clinic-owned AWS account in an approved US region, vendor agreements, and named owners for access and alerts.", done: "Restricted staff access, a sample audit event, a backup restore and a monitoring alert are each tested." },
-        { id: "surgery", number: "1", group: "core", name: "Surgery line", short: "surgery line", price: 800, monthly: { basis: "voice", stream: "surgery", confirmationTexts: true, headroom: 10 }, week: 2, deliveryNote: "Live in week {v1}", delivers: "Surgery is option 1 in Weave. The AI identifies itself as the office’s virtual assistant, collects the caller’s information, sends an SMS confirmation and creates a callback task for the surgery coordinator. Each inquiry and its outcome are logged and tracked through to surgery booked.", access: "Option 1 routing in Weave, an approved intake script and fields, the coordinator who receives tasks, and task access.", done: "A test inquiry produces the SMS confirmation and coordinator task, and staff can update its status through to booked.", note: "Until ModMed is connected, booking status comes from coordinator updates." },
-        { id: "callbacks", number: "2", group: "core", name: "AI hang-up callbacks", short: "AI hang-up callbacks", price: 1100, monthly: { basis: "voice", stream: "callbacks", headroom: 10 }, week: 3, deliveryNote: "Live in week {v1}", delivers: "During business hours, the AI calls eligible hang-ups back within minutes, collects the reason for the call, answers basic questions from an approved script, transfers the caller or creates a booking task, and logs each callback attempt and outcome.", access: "Weave hang-up events, or routing the main line through the AI number; consent lookup, opening hours and the transfer extension.", done: "An eligible test hang-up receives an AI callback within the agreed minutes. Duplicate and already-answered calls are skipped, and the outcome is logged.", note: "Depends on approved Weave events or routing. Neither route is verified yet." },
-        { id: "afterhours", number: "3", group: "core", name: "After-hours and weekend answering", short: "after-hours and weekend answering", price: 600, monthly: { basis: "voice", stream: "afterhours", headroom: 10 }, week: 2, deliveryNote: "Live in week {v1}", delivers: "Handles non-emergency calls on evenings and weekends, captures messages and appointment requests, keeps the existing emergency routing to the answering service, and sends staff a secure morning report.", access: "After-hours routing, the answering-service number, the clinic-approved emergency script and report recipients.", done: "A non-emergency call is captured, an emergency test call reaches the answering service, and the morning report link arrives." },
-        { id: "reminders", number: "4", group: "patient", name: "Reminders and recalls", short: "reminders and recalls", price: 900, monthly: [35,55], week: 5, deliveryNote: "Live in week {v2}", delivers: "Reminders can be switched on or off, go out when an appointment is booked and stop automatically if it is cancelled. They cover all appointment types, and past patients receive annual outreach. Messages are coordinated with Klara so patients do not get duplicate reminders.", access: "ModMed appointment changes and contacts, an approved texting connection, Klara overlap settings and confirmed recall consent.", done: "Booking sends the agreed message and cancellation stops future sends. Each appointment type and the yearly recall group pass tests without duplicate Klara messages.", note: "The monthly texting figure is a provisional budget." },
-        { id: "insurance", number: "5", group: "patient", name: "Insurance eligibility", short: "insurance eligibility", price: 800, monthly: { basis: "eligibility", headroom: 30 }, week: 6, deliveryNote: "Live in week {v2}", delivers: "Electronic eligibility verification for BCBS, Aetna, Humana, UHC and Medicare, with outcomes visible to staff. Includes a Medicare supplement call list and a Medicare supplement answer form.", access: "Patient, appointment and payer data; the clinic’s NPI and TIN (provider and tax ID numbers); a Stedi account; required payer enrollment and Medicare HETS enrollment (Medicare’s eligibility-check service).", done: "Agreed payer tests return logged results, exceptions create staff tasks, and the supplement call list and answer form both work.", note: "An eligibility result does not guarantee coverage or payment." },
-        { id: "dashboard", number: "6", group: "patient", name: "Reporting dashboard", short: "reporting dashboard", price: 500, monthly: [0,0], week: 6, deliveryNote: "Live in week {v2}", delivers: "Provides a login-protected dashboard of total calls, recovered hang-ups, surgery inquiries, surgeries booked, recalls and no-shows, updated weekly. Staff receive an email each {weeklyReport} with a link to it.", access: "Weave feed or export, ModMed API or export, recall results and coordinator surgery-status updates.", done: "Sample counts reconcile to source records, and the email link opens the dashboard.", monthlyLabel: "$0" },
+        { id: "foundation", number: "0", group: "core", name: "HIPAA foundation", short: "HIPAA foundation", price: 500, monthly: [45,75], week: 1, deliveryNote: "Set up in week {build} once access is ready", delivers: "Sets up US-region hosting, an encrypted database, an audit log, a staff task page, automated uptime alerts and daily backups. Patient data stays in US-hosted systems.", access: "Clinic-owned AWS account in an approved US region, vendor agreements, and named owners for access and alerts.", done: "Restricted staff access, a sample audit event, a backup restore and a monitoring alert are each tested." },
+        { id: "surgery", number: "1", group: "core", name: "Surgery line", short: "surgery line", price: 800, monthly: { basis: "voice", stream: "surgery", confirmationTexts: true, headroom: 10 }, week: 2, delivers: "Surgery is option 1 in Weave. The AI identifies itself as the office’s virtual assistant, collects the caller’s information, sends an SMS confirmation and creates a callback task for the surgery coordinator. Each inquiry and its outcome are logged and tracked through to surgery booked.", access: "Option 1 routing in Weave, an approved intake script and fields, the coordinator who receives tasks, and task access.", done: "A test inquiry produces the SMS confirmation and coordinator task, and staff can update its status through to booked.", note: "Until ModMed is connected, booking status comes from coordinator updates." },
+        { id: "callbacks", number: "2", group: "core", name: "AI hang-up callbacks", short: "AI hang-up callbacks", price: 1100, monthly: { basis: "voice", stream: "callbacks", headroom: 10 }, week: 3, delivers: "During business hours, the AI calls eligible hang-ups back within minutes, collects the reason for the call, answers basic questions from an approved script, transfers the caller or creates a booking task, and logs each callback attempt and outcome.", access: "Weave hang-up events, or routing the main line through the AI number; consent lookup, opening hours and the transfer extension.", done: "An eligible test hang-up receives an AI callback within the agreed minutes. Duplicate and already-answered calls are skipped, and the outcome is logged.", note: "Depends on approved Weave events or routing. Neither route is verified yet." },
+        { id: "afterhours", number: "3", group: "core", name: "After-hours and weekend answering", short: "after-hours and weekend answering", price: 600, monthly: { basis: "voice", stream: "afterhours", headroom: 10 }, week: 2, delivers: "Handles non-emergency calls on evenings and weekends, captures messages and appointment requests, keeps the existing emergency routing to the answering service, and sends staff a secure morning report.", access: "After-hours routing, the answering-service number, the clinic-approved emergency script and report recipients.", done: "A non-emergency call is captured, an emergency test call reaches the answering service, and the morning report link arrives." },
+        { id: "reminders", number: "4", group: "patient", name: "Reminders and recalls", short: "reminders and recalls", price: 900, monthly: [35,55], week: 5, delivers: "Reminders can be switched on or off, go out when an appointment is booked and stop automatically if it is cancelled. They cover all appointment types, and past patients receive annual outreach. Messages are coordinated with Klara so patients do not get duplicate reminders.", access: "ModMed appointment changes and contacts, an approved texting connection, Klara overlap settings and confirmed recall consent.", done: "Booking sends the agreed message and cancellation stops future sends. Each appointment type and the yearly recall group pass tests without duplicate Klara messages.", note: "The monthly texting figure is a provisional budget." },
+        { id: "insurance", number: "5", group: "patient", name: "Insurance eligibility", short: "insurance eligibility", price: 800, monthly: { basis: "eligibility", headroom: 30 }, week: 6, delivers: "Electronic eligibility verification for BCBS, Aetna, Humana, UHC and Medicare, with outcomes visible to staff. Includes a Medicare supplement call list and a Medicare supplement answer form.", access: "Patient, appointment and payer data; the clinic’s NPI and TIN (provider and tax ID numbers); a Stedi account; required payer enrollment and Medicare HETS enrollment (Medicare’s eligibility-check service).", done: "Agreed payer tests return logged results, exceptions create staff tasks, and the supplement call list and answer form both work.", note: "An eligibility result does not guarantee coverage or payment." },
+        { id: "dashboard", number: "6", group: "patient", name: "Reporting dashboard", short: "reporting dashboard", price: 500, monthly: [0,0], week: 6, delivers: "Provides a login-protected dashboard of total calls, recovered hang-ups, surgery inquiries, surgeries booked, recalls and no-shows, updated weekly. Staff receive an email each {weeklyReport} with a link to it.", access: "Weave feed or export, ModMed API or export, recall results and coordinator surgery-status updates.", done: "Sample counts reconcile to source records, and the email link opens the dashboard.", monthlyLabel: "$0" },
         { id: "support", number: "S", group: "support", name: "First month of support", short: "first month of support", price: 300, monthly: [0,0], week: null, deliveryNote: "1 month", delivers: "post-launch fixes and workflow support for the selected version, plus operating notes and staff handover.", access: "A named support contact and approved access to reproduce issues.", done: "Handover is delivered, and issues can be reported through the agreed channel.", monthlyLabel: "$0", feeNote: "In every version" },
-        { id: "spanish", number: "X1", group: "extras", name: "Spanish on the AI phone lines", short: "Spanish on the AI phone lines", price: 400, monthly: [0,0], week: 7, deliveryNote: "Live in week {v3}", delivers: "Spanish-language support on the surgery line, AI hang-up callbacks and after-hours and weekend answering.", access: "Approved translations and pronunciations, and a bilingual reviewer at the clinic.", done: "Approved Spanish test calls pass intake, handoff and emergency-routing checks.", monthlyLabel: "$0", note: "No separate vendor cost is expected at the modeled call volume." },
-        { id: "booking", number: "X2", group: "extras", name: "Direct ModMed booking", short: "direct ModMed booking (with approved access)", price: 700, monthly: [0,0], week: 7, deliveryNote: "Live in week {v3}, if access is approved", delivers: "For agreed appointment types, books an available slot in ModMed instead of creating a booking task.", access: "Clinic-approved ModMed access to read slots and write appointments; booking rules, providers and appointment types.", done: "A test booking appears in ModMed, and stale slots are handled without duplicate appointments.", monthlyLabel: "$0", note: "Conditional on approved ModMed access. Vendor and API fees are excluded." },
-        { id: "winback", number: "X3", group: "extras", name: "Lapsed-patient win-back calls", short: "lapsed-patient win-back calls", price: 600, monthly: { basis: "winback", headroom: 20 }, week: 8, deliveryNote: "Live in week {v3}", delivers: "A clinic-approved call workflow for an agreed group of lapsed patients.", access: "The approved patient group, campaign purpose and script, and a confirmed consent and opt-out list.", done: "An approved test campaign logs outcomes, creates follow-up tasks and honors opt-outs." },
-        { id: "support-extra", number: "X4", group: "extras", name: "Extended support and tuning", short: "extended support and tuning", price: 600, monthly: [0,0], week: null, deliveryNote: "2 more months", delivers: "with a monthly call review and tuning.", access: "A named support contact and approved review material.", done: "Monthly reviews and agreed tuning are delivered during the support period.", monthlyLabel: "$0" }
+        { id: "spanish", number: "X1", group: "extras", name: "Spanish on the AI phone lines", short: "Spanish on the AI phone lines", price: 400, monthly: [0,0], week: 7, delivers: "Spanish-language support on the surgery line, AI hang-up callbacks and after-hours and weekend answering.", access: "Approved translations and pronunciations, and a bilingual reviewer at the clinic.", done: "Approved Spanish test calls pass intake, handoff and emergency-routing checks.", monthlyLabel: "$0", note: "No separate vendor cost is expected at the modeled call volume." },
+        { id: "booking", number: "X2", group: "extras", name: "Direct ModMed booking", short: "direct ModMed booking (with approved access)", price: 700, monthly: [0,0], week: 7, deliveryNote: "Ready in week {build} if access is approved", delivers: "For agreed appointment types, books an available slot in ModMed instead of creating a booking task.", access: "Clinic-approved ModMed access to read slots and write appointments; booking rules, providers and appointment types.", done: "A test booking appears in ModMed, and stale slots are handled without duplicate appointments.", monthlyLabel: "$0", note: "Conditional on approved ModMed access. Vendor and API fees are excluded." },
+        { id: "winback", number: "X3", group: "extras", name: "Lapsed-patient win-back calls", short: "lapsed-patient win-back calls", price: 600, monthly: { basis: "winback", headroom: 20 }, week: 8, delivers: "A clinic-approved call workflow for an agreed group of lapsed patients.", access: "The approved patient group, campaign purpose and script, and a confirmed consent and opt-out list.", done: "An approved test campaign logs outcomes, creates follow-up tasks and honors opt-outs." },
+        { id: "support-extra", number: "X4", group: "extras", name: "Extended support and tuning", short: "extended support and tuning", price: 600, monthly: [0,0], week: null, start: "After the first month", deliveryNote: "2 more months", delivers: "with a monthly call review and tuning.", access: "A named support contact and approved review material.", done: "Monthly reviews and agreed tuning are delivered during the support period.", monthlyLabel: "$0" }
       ],
       versions: [
         { id: "v1", number: 1, name: "Quick Start", descriptor: "The phone priorities", price: 3000, weeks: 4, itemIds: ["foundation","surgery","callbacks","afterhours","support"] },
@@ -483,6 +492,7 @@
         });
         ["surgery","callbacks","afterhours"].forEach(id=>assert(cents(itemMap.get(id).monthly[1])>=cents(voice[id]*PROPOSAL.rates.voiceMinute),`${id}: modeled voice exceeds budget.`));
         assert(itemMap.get("insurance").monthly[0]>=eligibilityCost,"Eligibility allowance is below its modeled base cost.");
+        items.filter(i=>i.week).forEach(i=>assert(i.week<=liveWeek(i),`${i.id}: build week falls after go-live.`));
       }
 
       const versions = () => Array.from(model.values());
@@ -497,8 +507,9 @@
         if(i.id==="support-extra") return `${s.extraSupportMonths} more months of support (${supportTotal()} in total), ${i.delivers}`;
         return i.delivers;
       };
-      const itemNote = (i) => i.deliveryNote.replace(/\{v(\d)\}/g,(_,n)=>model.get(`v${n}`).weeks);
-      const itemTarget = (i) => i.week?`Week ${i.week}`:"From acceptance";
+      const liveWeek = (i) => Math.min(...versions().filter(v=>v.ids.includes(i.id)).map(v=>v.weeks));
+      const itemNote = (i) => i.deliveryNote?i.deliveryNote.replace("{build}",i.week):i.week<liveWeek(i)?`Ready in week ${i.week}`:"";
+      const itemTarget = (i) => i.week?`Week ${liveWeek(i)}`:escape(i.start||"From acceptance");
       const itemMonthly = (i) => `${i.monthly[1]?range(i.monthly):escape(i.monthlyLabel||"$0")}<span class="s-sub">per month</span>`;
       const itemMonthlyShort = (i) => `${i.monthly[1]?range(i.monthly):escape(i.monthlyLabel||"$0")} per month`;
       const sectionHead = (id,title,...paras) => `<div class="sec-head"><h2 id="${id}">${title}</h2><div>${paras.map(p=>`<p>${p}</p>`).join("")}</div></div>`;
@@ -538,10 +549,10 @@
           out+=`<details class="it" data-item="${i.id}"><summary class="srow">
             <span class="nm"><span class="no-tag">${escape(i.number)}</span><span>${escape(i.name)}</span></span>
             <span class="d"><span class="sr-only">Build price </span><span class="money">${dollars(i.price)}</span>${i.feeNote?`<span class="s-sub">${escape(i.feeNote)}</span>`:""}</span>
-            <span class="d"><span class="sr-only">Target </span>${itemTarget(i)}<span class="s-sub">${escape(itemNote(i))}</span></span>
+            <span class="d"><span class="sr-only">Go-live </span>${itemTarget(i)}<span class="s-sub">${escape(itemNote(i))}</span></span>
             <span class="d"><span class="sr-only">Estimated vendor cost </span>${itemMonthly(i)}</span>
             ${dots}
-            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · ${itemTarget(i)} · ${itemMonthlyShort(i)} · ${inV}</span>
+            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · ${i.week?`Go-live week ${liveWeek(i)}`:itemTarget(i)} · ${itemMonthlyShort(i)} · ${inV}</span>
             ${icons.chev}
           </summary><div class="it-body">
             <div><span class="lbl">Scope</span><p>${escape(itemDelivers(i))}${i.note?`<span class="note">${escape(i.note)}</span>`:""}</p></div>
@@ -583,7 +594,7 @@
         <li>Covers all six requested workflows, offered as three versions with fixed build prices</li>
       </ul>
     </div>
-    <nav class="toc" aria-label="Contents">${nav.map(([id,t])=>`<a href="#${id}">${t}</a>`).join("")}</nav>
+    <nav class="toc" aria-labelledby="toc-h"><p class="toc-h" id="toc-h">Quick links</p><ul>${nav.map(([id,t])=>`<li><a href="#${id}">${t}</a></li>`).join("")}</ul></nav>
   </section>
 
   <section class="section" aria-labelledby="versions"><div class="wrap">
@@ -601,14 +612,14 @@
       <li>No shared staff logins</li>
     </ul></div>
     <div class="cmp-notes">
-      <p>Vendor cost estimates carry no markup; <a href="#commercial">see how they are calculated</a>.</p>
+      <p>Vendor cost estimates carry no markup. The basis for them is set out under <a href="#commercial">Costs, security and terms</a>.</p>
     </div>
   </div></section>
 
   <section class="section" aria-labelledby="scope"><div class="wrap">
-    ${sectionHead("scope","Detailed scope","Each item’s build price, target delivery, estimated vendor cost, required access and acceptance criteria. Items 1–6 follow the clinic’s numbering; item 0 is the shared foundation and X1–X4 are Version 3 additions.")}
-    <div class="scope-tools"><span>Build prices apply to each item on its own; version prices are lower. Target is the week an item is ready for staff testing; it goes live with its version. $0 means no separate vendor cost is expected. Weeks count from kickoff.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
-    <div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Build price</span><span>Target</span><span>Vendor cost</span>${vs.map(v=>`<span class="c" title="Version ${v.number}">V${v.number}</span>`).join("")}<span></span></div>
+    ${sectionHead("scope","Detailed scope","Each item’s build price, target go-live week, estimated vendor cost, required access and acceptance criteria. Items 1–6 follow the clinic’s numbering; item 0 is the shared foundation and X1–X4 are Version 3 additions.")}
+    <div class="scope-tools"><span>Build prices apply to each item on its own; version prices are lower. Go-live is the target week an item is switched on; the line beneath it shows when it is ready for staff testing. $0 means no separate vendor cost is expected. Weeks count from kickoff.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
+    <div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Build price</span><span>Go-live</span><span>Vendor cost</span>${vs.map(v=>`<span class="c" title="Version ${v.number}">V${v.number}</span>`).join("")}<span></span></div>
     <div id="scope-list">${renderScope()}</div>
     <div class="gates">
       <p><strong>If neither callback route works:</strong> both proposed routes for item 2 are unverified. A staff callback list is an alternative at a build price ${dollars(s.callbackFallbackReduction)} lower. It needs written agreement and does not fulfill the requested AI callback workflow.</p>
@@ -640,7 +651,7 @@
     <div class="part">
       <h3 class="sub">Dependencies and assumptions</h3>
       <div class="table-wrap"><table class="deps"><caption class="sr-only">Access and approvals the schedule depends on</caption><thead><tr><th scope="col">Needed</th><th scope="col">Affects</th><th scope="col">Status</th></tr></thead><tbody>
-        ${PROPOSAL.dependencies.map(d=>{const i=itemMap.get(d.item);const aff=d.affects?`${d.affects} (from week ${i.week})`:`Item${d.also?"s":""} ${i.number}${d.also?`, ${d.also}`:""} (week ${i.week})`;return `<tr><th scope="row">${escape(d.what)}</th><td data-lbl="Affects">${escape(aff)}</td><td data-lbl="Status">${escape(d.status)}</td></tr>`;}).join("")}
+        ${PROPOSAL.dependencies.map(d=>{const i=itemMap.get(d.item);const aff=d.affects?`${d.affects} (needed by week ${i.week})`:`Item${d.also?"s":""} ${i.number}${d.also?`, ${d.also}`:""} (needed by week ${i.week})`;return `<tr><th scope="row">${escape(d.what)}</th><td data-lbl="Affects">${escape(aff)}</td><td data-lbl="Status">${escape(d.status)}</td></tr>`;}).join("")}
       </tbody></table></div>
     </div>
   </div></section>
