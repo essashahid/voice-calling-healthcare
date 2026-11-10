@@ -190,6 +190,11 @@
     .vend td:nth-child(2){width:34%}
     .vend .st{display:block;font-weight:600}
     .vend .dt{display:block;color:var(--muted);font-size:14px}
+    .hosting{margin-top:40px}
+    .hosts tbody th{width:20%}
+    .hosts td:nth-child(2){width:11%;white-space:nowrap}
+    .hosts td:nth-child(3){width:15%;white-space:nowrap}
+    .ring{display:inline-block;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--accent)}
     .rules{columns:2;column-gap:48px;font-size:14.5px;color:var(--muted)}
     .rules li{max-width:72ch;break-inside:avoid;margin-bottom:14px}
     .rules strong{color:var(--ink);font-weight:600}
@@ -280,7 +285,8 @@
       .deps tr,.vend tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
       .deps td,.deps tbody th,.vend td,.vend tbody th{display:block;width:auto!important;padding:0;border:0;white-space:normal}
       .deps td,.vend td{margin-top:3px}
-      .deps td[data-lbl]::before{content:attr(data-lbl) ": ";color:var(--muted)}
+      .deps td[data-lbl]::before,.hosts td[data-lbl]::before{content:attr(data-lbl) ": ";color:var(--muted)}
+      .hosting{margin-top:28px}
     }
     @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chev{transition:none}}
 
@@ -338,7 +344,8 @@
       .it-body .note{font-size:8pt;margin-top:2pt}
       details.it>.it-body{display:grid!important}
       details.it::details-content{content-visibility:visible;display:contents}
-      .dot{width:6.5pt;height:6.5pt}
+      .dot,.ring{width:6.5pt;height:6.5pt}
+      .hosting{margin-top:10pt;break-inside:avoid}
       .gates{font-size:8.6pt;gap:6pt 24pt;margin-top:8pt;break-inside:avoid}
       .flow{grid-template-columns:repeat(5,1fr);break-inside:avoid}
       .flow li{border-left:0;border-top:2px solid var(--line-strong);padding:6pt 14pt 0 0}
@@ -396,9 +403,14 @@
       meta: { author: "Essa Arshad", photo: "data:image/jpeg;base64,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", number: "EA-2026-1110", issued: "2026-11-10", validUntil: "2026-11-20", currency: "USD", locale: "en-US", title: "Brokerage Website Proposal", heading: "Brokerage Website & Lead Capture", kicker: "Proposal for a real estate brokerage" },
       schedule: { kickoff: "2026-11-16", launch: "2026-12-10", deadline: "2026-12-12", idxCutoff: "2026-12-04", idxSwitchOnDays: 2, mlsApproval: "3 days to 3 weeks", holidayWeek: 2 },
       settings: { kickoffPercent: 50, acceptancePercent: 50, supportMonths: 1, retryHours: 24, leadSeconds: 10, redirects: 30, designRounds: 2, siteRounds: 1, trainingMinutes: 45, holdbackDays: 30, initialContent: { team: 15, listings: 15, testimonials: 15, events: 10 } },
-      groups: { foundation: "Foundation", pages: "Pages in the brief", launch: "Launch and support" },
+      groups: { foundation: "Foundation", pages: "Pages in the brief", launch: "Launch and support", hosting: "Hosting add-on" },
+      hosting: [
+        { id: "netlify", name: "Netlify", monthly: [9,20], detail: "Personal plan ($9) or Pro ($20). Deploys from Git, and scheduled functions run the lead retries." },
+        { id: "vercel", name: "Vercel", monthly: [20,20], detail: "Pro plan. Business sites need it, because the free Hobby plan is for non-commercial use only. Vercel makes Next.js, and its cron jobs run the lead retries." },
+        { id: "server", name: "The brokerage’s own server", monthly: [7,16], item: "selfhost", detail: "A Linux cloud server, for example DigitalOcean, AWS Lightsail or Hetzner, with Cloudflare’s free CDN in front and daily backups. Shared web hosting without Node.js can’t run the site. After the first month, server updates are the brokerage’s responsibility." }
+      ],
       items: [
-        { id: "foundation", number: "0", group: "foundation", name: "Design, hosting and editing setup", price: 650, ready: [1,4], readyNote: "Home page design for approval", delivers: "A design system built from the brokerage’s brand (type, colors, buttons and cards) and a custom, mobile-first design for every page. The site runs on Next.js, hosted on Netlify with SSL and a global CDN. The team edits content in Sanity Studio, and published changes appear on the site within a minute. Includes a staging site for reviews and Google Analytics 4.", access: "Logo and brand files, photos, a few sites the broker likes, editor email addresses, and Netlify and Sanity accounts in the brokerage’s name (they can be created for transfer).", done: "The home page design is approved. Each editor can log in and publish a test change that appears within a minute. The home page scores 90 or more for mobile performance and accessibility in Lighthouse." },
+        { id: "foundation", number: "0", group: "foundation", name: "Design, hosting and editing setup", price: 650, ready: [1,4], readyNote: "Home page design for approval", delivers: "A design system built from the brokerage’s brand (type, colors, buttons and cards) and a custom, mobile-first design for every page. The site runs on Next.js, hosted on Netlify or Vercel with SSL and a global CDN, or on the brokerage’s own server (item H). The team edits content in Sanity Studio, and published changes appear on the site within a minute. Includes a staging site for reviews and Google Analytics 4.", access: "Logo and brand files, photos, a few sites the broker likes, editor email addresses, and hosting and Sanity accounts in the brokerage’s name (they can be created for transfer).", done: "The home page design is approved. Each editor can log in and publish a test change that appears within a minute. The home page scores 90 or more for mobile performance and accessibility in Lighthouse." },
         { id: "home", number: "1", group: "pages", name: "Home page", price: 400, ready: [3,1], delivers: "A clear headline and a “Book a call” button at the top, then featured listings, a team preview, recent testimonials, upcoming events and a short mission statement. Each section pulls from content the team manages, so the home page stays current on its own.", access: "Headline, key messages and a hero photo or short video.", done: "Every section shows live content, and the “Book a call” button opens the form on phone, tablet and desktop." },
         { id: "team", number: "2", group: "pages", name: "Meet the team", price: 250, ready: [3,0], delivers: "Profiles the team manages: photo, title, bio, phone, email, license number, languages and social links, in any order. Each profile has a “Contact” button that opens the form with that agent selected, so the CRM can route the lead.", access: "Headshots, bios, contact details and license numbers.", done: "An editor adds and reorders a profile without help, and a lead sent from a profile reaches the CRM tagged with that agent." },
         { id: "featured", number: "3A", group: "pages", name: "Featured listings", price: 450, ready: [3,2], delivers: "Listings the team adds in Sanity: status (coming soon, active, pending or sold), price, address, beds, baths, square feet, photos, description and a video or 3D-tour link. Includes a listings page with status and area filters, a page for each listing, a sold archive and an “Ask about this home” button that sends the listing with the lead. Photos are resized and compressed automatically.", access: "Current listings, with photos the brokerage owns or is licensed to use.", done: "An editor publishes a listing with photos and later marks it sold. An inquiry from that listing reaches the CRM with its address.", note: "Shows the brokerage’s own listings. Showing other brokers’ listings requires IDX (item 3B)." },
@@ -408,27 +420,27 @@
         { id: "events", number: "6", group: "pages", name: "Events", price: 300, ready: [3,2], delivers: "Events the team adds: title, date and time, place or online link, image, description and an RSVP button that opens the form with the event selected, or links to an outside RSVP page. Past events move to an archive automatically. Each event has an add-to-calendar link and is marked up so Google can show its date.", access: "Upcoming events, plus any past events worth showing.", done: "An editor publishes an event that moves to past events after its date, and an RSVP reaches the CRM tagged with the event." },
         { id: "inquiry", number: "7", group: "pages", name: "Book a call: form to CRM webhook", price: 700, ready: [2,2], readyNote: "Test lead into the CRM", delivers: "A short form for name, mobile, email, buying or selling, timeline, area or price range, best time to call and a message. When it is opened from a profile, listing or event, that agent, listing or event is filled in. On submit, the lead is saved privately and sent to the CRM’s webhook within seconds, with the source page, campaign tags and the SMS consent record. If the CRM does not confirm receipt, the lead is emailed to the broker at once and retried automatically for {retryHours} hours. Spam is filtered before anything reaches the CRM. Includes privacy policy and SMS terms pages drafted for the brokerage to approve, and a thank-you page that can link to the CRM’s booking calendar.", access: "The CRM webhook URL, the fields the CRM and AI follow-up expect, a test contact, a backup email address and approved SMS consent wording.", done: "A test lead sent from a phone appears in the CRM within {leadSeconds} seconds with every agreed field. A lead without SMS consent is marked so the AI does not text it. With the webhook switched off, the lead is emailed and then delivered once the webhook is back on.", note: "Spam filtering matters more than usual here: every fake lead would trigger an AI text." },
         { id: "seo", number: "8", group: "launch", name: "Basic SEO and launch", price: 200, ready: [3,4], delivers: "Page titles and descriptions, social sharing images, an XML sitemap, clean URLs, structured data for the brokerage and its events, Google Search Console and Bing setup, a GA4 lead-conversion event and redirects for up to {redirects} pages of the current site. The footer carries the Equal Housing Opportunity logo and license details. Launch is on the brokerage’s domain, with SSL.", access: "Domain and DNS access, the current site’s address, access to Google accounts, license details and any state-required notices.", done: "Search Console accepts the sitemap, old addresses redirect, a test lead is recorded as a GA4 conversion, and the site loads over HTTPS on the brokerage’s domain." },
-        { id: "support", number: "S", group: "launch", name: "First month of support and training", price: 150, ready: null, start: "From launch", readyNote: "1 month", delivers: "One month from launch: fixes, security and dependency updates, and help for editors. Includes a {trainingMinutes}-minute recorded training session and a short guide to adding team members, listings, testimonials and events.", access: "A named contact, and the editors who will attend training.", done: "Training is delivered and recorded, and the guide is handed over. Issues can be reported through the agreed channel." }
+        { id: "support", number: "S", group: "launch", name: "First month of support and training", price: 150, ready: null, start: "From launch", readyNote: "1 month", delivers: "One month from launch: fixes, security and dependency updates, and help for editors. Includes a {trainingMinutes}-minute recorded training session and a short guide to adding team members, listings, testimonials and events.", access: "A named contact, and the editors who will attend training.", done: "Training is delivered and recorded, and the guide is handed over. Issues can be reported through the agreed channel." },
+        { id: "selfhost", number: "H", group: "hosting", addon: true, name: "Hosting on the brokerage’s own server", price: 400, ready: [3,4], readyNote: "Launch rehearsal on the server", delivers: "Instead of Netlify or Vercel, the site runs on a Linux cloud server the brokerage owns: the site in a Docker container with SSL, Cloudflare’s free CDN in front, a private store for the lead queue, scheduled retries, daily backups, uptime alerts and redeploys from Git.", access: "A server, or an account to create one, with full access, plus the domain’s DNS.", done: "The site and its editor run on the server over HTTPS, a test lead reaches the CRM, a backup restores, and an uptime alert reaches the named contact.", note: "After the first month, operating-system and security updates on the server are the brokerage’s responsibility unless a maintenance plan is agreed." }
       ],
       options: [
         { id: "a", label: "Option A", short: "A", name: "Featured Listings", descriptor: "Listings the team adds and updates", price: 3500, itemIds: ["foundation","home","team","featured","reviews","mission","events","inquiry","seo","support"], includes: "Every page and feature in the brief, with featured listings the team updates (item 3A), plus a month of support and training.", excludes: "Searching other brokers’ listings, saved searches and listing alerts (item 3B).", fit: "The site is mainly about the brand, the team and inquiries, and the brokerage shows a manageable number of its own listings.", launchNote: "Two days before the deadline" },
         { id: "b", label: "Option B", short: "B", name: "IDX Home Search", descriptor: "Full MLS search, plus featured listings", price: 4500, base: "a", itemIds: ["idx"], includes: "Everything in Option A, plus item 3B: MLS search with a map, listing pages, saved searches, new-listing alerts and sign-ups sent to the CRM.", excludes: "Nothing in the brief is left out. IDX and MLS fees are paid to those providers.", fit: "Buyers should be able to search every local listing and sign up for alerts on the brokerage’s own site, which brings in more leads for the AI to follow up.", launchNote: "IDX search goes live once the MLS approves" }
       ],
       services: [
-        { name: "Website hosting", vendor: "Netlify, Personal or Pro plan", item: "foundation", monthly: [9,20] },
+        { name: "Website hosting", vendor: "Netlify, Vercel or the brokerage’s own server", item: "foundation", monthly: "hosting" },
         { name: "Content editing, lead emails and spam filtering", vendor: "Sanity, Resend and Cloudflare Turnstile free plans", item: "foundation", monthly: [0,0] },
         { name: "IDX provider", vendor: "IDX Broker or iHomefinder", item: "idx", monthly: [60,170] },
         { name: "MLS IDX fee", vendor: "Set by the broker’s MLS", item: "idx", monthly: [0,35] },
         { name: "Zapier link for IDX sign-ups", vendor: "Only if the CRM can’t connect directly", item: "idx", monthly: [0,30] }
       ],
       costNotes: [
-        "<strong>Hosting:</strong> Netlify’s Personal plan is $9 a month and Pro is $20. The free plan has a hard monthly usage cap that a business site can outgrow, so it isn’t relied on. Photos and videos are served by Sanity, which keeps hosting usage low.",
         "<strong>Free plans:</strong> Sanity’s free plan covers up to 20 editors, and Resend’s covers 3,000 emails a month. Turnstile is free. If lead emails ever outgrow Resend’s free plan, its paid plan is $20 a month.",
         "<strong>IDX (Option B):</strong> IDX Broker’s plans run $60–149 a month, plus a setup fee of up to $100. iHomefinder prices by quote; its entry plan has been listed at about $169 a month. The provider is chosen in week 1, once the MLS is known. MLS fees vary, and some MLSs charge nothing for IDX.",
         "<strong>Not included:</strong> domain renewal (usually $15–25 a year), CRM and AI texting costs, and paid stock photos."
       ],
       stack: [
-        { name: "Netlify", role: "Hosts the site with SSL and a global CDN, and runs the lead form, retries and scheduled jobs.", status: "Brokerage-owned account", detail: "Personal plan, or Pro for more headroom." },
+        { name: "Netlify or Vercel", role: "Hosts the site with SSL and a global CDN, and runs the lead form, retries and scheduled jobs.", status: "Brokerage-owned account", detail: "Or the brokerage’s own server instead (item H). See Hosting choice." },
         { name: "Sanity", role: "Content editing for team profiles, listings, testimonials, events and page text.", status: "Free plan, up to 20 editors", detail: "Holds public content only. Leads are never stored in Sanity." },
         { name: "Resend", role: "Backup and alert emails for leads.", status: "Free plan", detail: "Up to 3,000 emails a month." },
         { name: "Cloudflare Turnstile", role: "Spam filtering on every form.", status: "Free", detail: "Usually invisible to real visitors." },
@@ -450,6 +462,7 @@
         { what: "Signed acceptance and the kickoff payment", affects: "All items", due: [1,0], status: "Starts the schedule" },
         { what: "The broker signs the MLS’s IDX agreement and authorizes the IDX provider", item: "idx", due: [1,1], status: "Broker; MLS approval usually takes {mlsApproval}" },
         { what: "Logo, brand files, photos and access to the domain’s DNS", item: "foundation", also: "1, 8", due: [1,1], status: "Brokerage provides" },
+        { what: "Hosting choice: Netlify, Vercel or the brokerage’s own server (with full server access if self-hosting)", item: "foundation", also: "H", due: [1,2], status: "Brokerage decides" },
         { what: "CRM webhook URL, the fields the CRM and AI follow-up expect, and a test contact", item: "inquiry", due: [1,2], status: "CRM administrator provides" },
         { what: "Team headshots, bios, contact details and license numbers", item: "team", due: [2,1], status: "Brokerage provides" },
         { what: "Approved SMS consent wording and the brand name used for texting", item: "inquiry", due: [2,1], status: "Checked against the texting number’s registration" },
@@ -502,8 +515,13 @@
         chev:'<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
       };
 
-      const items = P.items.map(i => ({...i, monthly: [0,1].map(k => sum(P.services.filter(s=>s.item===i.id).map(s=>cents(s.monthly[k])))/100) }));
+      const host = (id) => P.hosting.find(h=>h.id===id);
+      const hostRange = [Math.min(...P.hosting.map(h=>h.monthly[0])), Math.max(...P.hosting.map(h=>h.monthly[1]))];
+      const services = P.services.map(s => s.monthly==="hosting" ? {...s, monthly: hostRange} : s);
+      const items = P.items.map(i => ({...i, monthly: [0,1].map(k => sum(services.filter(s=>s.item===i.id).map(s=>cents(s.monthly[k])))/100) }));
       const itemMap = new Map(items.map(i=>[i.id,i]));
+      const hostFor = (i) => P.hosting.find(h=>h.item===i.id);
+      const itemRange = (i) => hostFor(i)?.monthly ?? i.monthly;
       const model = new Map();
       const readyDate = (i) => i.ready ? workday(i.ready[0],i.ready[1]) : null;
 
@@ -522,7 +540,8 @@
           assert(i.monthly[0]<=i.monthly[1],`${i.id}: invalid monthly range.`);
           if(i.ready){ assert(i.ready[0]>=1&&i.ready[0]<=P.weeks.length&&i.ready[1]>=0&&i.ready[1]<=4,`${i.id}: ready date outside the plan.`); assert(toDate(readyDate(i))<toDate(S.launch),`${i.id}: ready after launch.`); }
         });
-        P.services.forEach(s=>{ assert(itemMap.has(s.item),`Service maps to unknown item ${s.item}.`); assert(s.monthly[0]<=s.monthly[1],`${s.name}: invalid range.`); });
+        services.forEach(s=>{ assert(itemMap.has(s.item),`Service maps to unknown item ${s.item}.`); assert(s.monthly[0]<=s.monthly[1],`${s.name}: invalid range.`); });
+        P.hosting.forEach(h=>{ assert(h.monthly[0]<=h.monthly[1],`${h.id}: invalid hosting range.`); assert(!h.item||itemMap.get(h.item)?.addon,`${h.id}: hosting setup must map to an add-on item.`); });
         P.dependencies.forEach(d=>{ assert(!d.item||itemMap.has(d.item),`Dependency maps to unknown item ${d.item}.`); assert(d.due[0]>=1&&d.due[0]<=P.weeks.length,`Dependency due outside the plan.`); });
         P.options.forEach(o=>{
           assert(!model.has(o.id),"Option IDs must be unique.");
@@ -533,11 +552,11 @@
           const list=ids.map(id=>itemMap.get(id));
           assert(sum(list.map(i=>cents(i.price)))===cents(o.price),`${o.id}: item prices do not add up to the option price.`);
           const monthly=[0,1].map(k=>sum(list.map(i=>cents(i.monthly[k])))/100);
-          const serviceTotal=[0,1].map(k=>sum(P.services.filter(s=>ids.includes(s.item)).map(s=>cents(s.monthly[k])))/100);
+          const serviceTotal=[0,1].map(k=>sum(services.filter(s=>ids.includes(s.item)).map(s=>cents(s.monthly[k])))/100);
           assert(monthly[0]===serviceTotal[0]&&monthly[1]===serviceTotal[1],`${o.id}: running costs do not reconcile.`);
           model.set(o.id,{...o,ids,items:list,monthly});
         });
-        assert(items.every(i=>P.options.some(o=>model.get(o.id).ids.includes(i.id))),"Every item must belong to an option.");
+        assert(items.every(i=>i.addon?options().every(o=>!o.ids.includes(i.id)):options().some(o=>o.ids.includes(i.id))),"Items must belong to an option, and add-ons to none.");
       }
 
       const options = () => Array.from(model.values());
@@ -547,7 +566,7 @@
       const idxNote = () => `Depends on MLS approval, which usually takes ${S.mlsApproval}. If approval arrives after ${fullDay(S.idxCutoff)}, the site launches with featured listings and IDX search is switched on within ${S.idxSwitchOnDays} business days of approval.`;
       const itemReady = (i) => i.ready ? dayDate(readyDate(i)) : escape(i.start);
       const itemReadySub = (i) => i.id==="seo" ? `Live ${dayDate(S.launch)}` : i.readyNote || `Week ${i.ready[0]}`;
-      const itemMonthly = (i) => `${money(i.monthly)}<span class="s-sub">per month</span>`;
+      const itemMonthly = (i) => hostFor(i) ? `${money(hostFor(i).monthly)}<span class="s-sub">per month, instead of Netlify or Vercel</span>` : `${money(i.monthly)}<span class="s-sub">per month</span>`;
       const inOptions = (i) => options().filter(o=>o.ids.includes(i.id));
 
       function optionCell(o) {
@@ -567,9 +586,9 @@
         let last="", out="";
         items.forEach(i=>{
           if(i.group!==last){ out+=`<tr><td><h3 class="grp">${escape(P.groups[i.group])}</h3></td></tr>`; last=i.group; }
-          const dots=os.map(o=>o.ids.includes(i.id)?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In ${escape(o.label)}</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in ${escape(o.label)}</span></span>`).join("");
+          const dots=os.map(o=>i.addon?`<span class="c d"><span class="ring" aria-hidden="true"></span><span class="sr-only">Optional add-on for ${escape(o.label)}</span></span>`:o.ids.includes(i.id)?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In ${escape(o.label)}</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in ${escape(o.label)}</span></span>`).join("");
           const inO=inOptions(i);
-          const inLabel=inO.length>1?"Options A and B":`${inO[0].label} only`;
+          const inLabel=i.addon?"Optional add-on":inO.length>1?"Options A and B":`${inO[0].label} only`;
           const note=i.id==="idx"?idxNote():i.note;
           out+=`<tr><td><details class="it" data-item="${i.id}"><summary class="srow">
             <span class="nm"><span class="no-tag">${escape(i.number)}</span><span>${escape(i.name)}</span></span>
@@ -577,7 +596,7 @@
             <span class="d"><span class="sr-only">Ready to review </span>${itemReady(i)}<span class="s-sub">${escape(itemReadySub(i))}</span></span>
             <span class="d"><span class="sr-only">Running cost </span>${itemMonthly(i)}</span>
             ${dots}
-            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · ${i.ready?`Ready ${dayDate(readyDate(i))}`:escape(i.start)} · ${money(i.monthly)} per month · ${inLabel}</span>
+            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · ${i.ready?`Ready ${dayDate(readyDate(i))}`:escape(i.start)} · ${money(itemRange(i))} per month · ${inLabel}</span>
             ${icons.chev}
           </summary><div class="it-body">
             <div><span class="lbl">Scope</span><p>${escape(fill(i.delivers))}${note?`<span class="note">${escape(note)}</span>`:""}</p></div>
@@ -590,7 +609,7 @@
 
       function renderCosts() {
         const os=options();
-        const rows=P.services.map(s=>`<tr><th scope="row">${escape(s.name)}<small>${escape(s.vendor)}</small></th>${os.map(o=>o.ids.includes(s.item)?`<td>${money(s.monthly)}</td>`:`<td class="no">–</td>`).join("")}</tr>`).join("");
+        const rows=services.map(s=>`<tr><th scope="row">${escape(s.name)}<small>${escape(s.vendor)}</small></th>${os.map(o=>o.ids.includes(s.item)?`<td>${money(s.monthly)}</td>`:`<td class="no">–</td>`).join("")}</tr>`).join("");
         return `<table class="num"><caption class="sr-only">Estimated monthly running costs by service and option, US dollars</caption><thead><tr><th scope="col">Service</th>${os.map(o=>`<th scope="col">${escape(o.label)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Estimated running costs per month</th>${os.map(o=>`<td data-option="${o.id}">${money(o.monthly)}</td>`).join("")}</tr></tfoot></table>`;
       }
 
@@ -598,6 +617,7 @@
         const os=options(), A=optA(), B=optB(), idx=idxItem();
         const nav=[["options","Options and pricing"],["scope","Detailed scope"],["delivery","Delivery and dependencies"],["commercial","Costs, compliance and terms"],["work","Real estate work"]];
         const share=(o)=>dollars(o.price*T.kickoffPercent/100);
+        const hostNote=`<strong>Hosting:</strong> Netlify costs ${money(host("netlify").monthly)} a month, Vercel ${money(host("vercel").monthly)}, and the brokerage’s own server about ${money(host("server").monthly)} including backups. Free plans aren’t relied on: Netlify’s has a hard usage cap, and Vercel’s is for non-commercial use only. Photos and videos are served by Sanity, which keeps hosting usage low.`;
         const timing=`Dates are targets. They assume kickoff on ${fullDay(S.kickoff)}, and content, access and approvals arriving by the dates below. Delays outside the build can move the dates they affect.`;
         document.title=M.title;
         $("#app").innerHTML=`
@@ -631,6 +651,7 @@
     <div class="cmp-foot"><h3>In both options</h3><ul class="incl">
       <li>Custom, mobile-first design</li>
       <li>The team edits content in Sanity, no developer needed</li>
+      <li>Hosting on Netlify, Vercel or the brokerage’s own server</li>
       <li>Leads reach the CRM within seconds, with retries and email backup</li>
       <li>Spam filtering and SMS consent records</li>
       <li>Basic SEO and lead tracking</li>
@@ -640,11 +661,18 @@
       <p>All prices in USD. Running costs are estimates, paid by the brokerage directly to each provider with no markup. Their basis is set out under <a href="#commercial">Costs, compliance and terms</a>.</p>
       <p><strong>Upgrade path:</strong> starting with Option A and adding IDX search later costs the ${dollars(B.price-A.price)} difference (item 3B).</p>
     </div>
+    <div class="hosting">
+      <h3 class="sub">Hosting choice</h3>
+      <p class="sub-lede">Either option runs on any of these. The build price is the same on Netlify or Vercel. The brokerage’s own server adds a one-time setup (item H). Hosting is paid directly to the provider.</p>
+      <div class="table-wrap"><table class="vend hosts"><caption class="sr-only">Hosting choices with monthly cost and one-time setup</caption><thead><tr><th scope="col">Host</th><th scope="col">Per month</th><th scope="col">One-time setup</th><th scope="col">Good to know</th></tr></thead><tbody>
+        ${P.hosting.map(h=>{const it=h.item?itemMap.get(h.item):null;return `<tr><th scope="row">${escape(h.name)}</th><td data-lbl="Per month">${money(h.monthly)}</td><td data-lbl="Setup">${it?`${dollars(it.price)} (item ${escape(it.number)})`:"Included"}</td><td>${escape(h.detail)}</td></tr>`;}).join("")}
+      </tbody></table></div>
+    </div>
   </div></section>
 
   <section class="section" aria-labelledby="scope"><div class="wrap">
     ${sectionHead("scope","Detailed scope","Each item’s build price, review date and running cost, what is needed from the brokerage, and how the item is accepted. Items 1–7 follow the order of the brief. Item 0 is the shared foundation, and 3A and 3B are the two listings choices.")}
-    <div class="scope-tools"><span>Item prices add up to each option’s price. “Ready to review” is when an item can be checked on the staging site; everything goes live together on ${fullDay(S.launch)}. $0 means no running cost.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
+    <div class="scope-tools"><span>Item prices add up to each option’s price. Item H, marked with a hollow dot, is an optional add-on. “Ready to review” is when an item can be checked on the staging site; everything goes live together on ${fullDay(S.launch)}. $0 means no running cost.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
     <table class="scope-tbl" role="presentation"><thead><tr><td><div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Build price</span><span>Ready to review</span><span>Running cost</span>${os.map(o=>`<span class="c" title="${escape(o.label)}">${escape(o.short)}</span>`).join("")}<span></span></div></td></tr></thead>
     <tbody id="scope-list">${renderScope()}</tbody></table>
     <div class="gates">
@@ -690,7 +718,7 @@
       <div class="costs">
         <div class="costs-head"><h3 class="sub">Estimated running costs</h3><p class="sub-lede">Monthly estimates, not quotes. Option B’s range is wide until the MLS and IDX provider are confirmed in week 1.</p></div>
         <div class="table-wrap">${renderCosts()}</div>
-        <ul class="notes">${P.costNotes.map(n=>`<li>${n}</li>`).join("")}</ul>
+        <ul class="notes">${[hostNote,...P.costNotes].map(n=>`<li>${n}</li>`).join("")}</ul>
       </div>
     </div>
     <div class="part">
@@ -708,14 +736,14 @@
     <div class="part">
       <h3 class="sub">Commercial terms</h3>
       <dl class="terms">
-        <div><dt>Payment</dt><dd>${T.kickoffPercent}% at kickoff (${share(A)} for Option A, ${share(B)} for Option B) and ${T.acceptancePercent}% when the site is accepted as live. For Option B, if MLS approval is still pending at launch, ${dollars(idx.price)} of the final payment is invoiced when IDX search goes live, or ${T.holdbackDays} days after launch, whichever comes first.</dd></div>
+        <div><dt>Payment</dt><dd>${T.kickoffPercent}% at kickoff (${share(A)} for Option A, ${share(B)} for Option B) and ${T.acceptancePercent}% when the site is accepted as live. For Option B, if MLS approval is still pending at launch, ${dollars(idx.price)} of the final payment is invoiced when IDX search goes live, or ${T.holdbackDays} days after launch, whichever comes first. Item H, if chosen, is added to both payments in the same split.</dd></div>
         <div><dt>Acceptance</dt><dd>The site is accepted as live when the brokerage confirms that the items in the chosen option meet their acceptance criteria. Support continues afterward and does not delay acceptance.</dd></div>
         <div><dt>Revisions</dt><dd>${numWord(T.designRounds,true)} rounds of changes to the home page design, and ${numWord(T.siteRounds)} consolidated round of feedback on the full site before launch. Further rounds or new pages are extra scope.</dd></div>
         <div><dt>Content</dt><dd>The brokerage provides the text, photos, headshots, listings, testimonials (with each client’s permission) and event details. The first set is loaded for the team (up to ${T.initialContent.team} team profiles, ${T.initialContent.listings} listings, ${T.initialContent.testimonials} testimonials and ${T.initialContent.events} events) and lightly edited for fit. Copywriting and photography are not included.</dd></div>
-        <div><dt>Support</dt><dd>${numWord(T.supportMonths,true)} month from launch: fixes, updates and help for editors. Ongoing maintenance after that is not included and can be quoted separately. Content changes never need a developer; layout changes and new features do.</dd></div>
+        <div><dt>Support</dt><dd>${numWord(T.supportMonths,true)} month from launch: fixes, updates and help for editors. Ongoing maintenance after that is not included and can be quoted separately; on the brokerage’s own server, that includes server updates. Content changes never need a developer; layout changes and new features do.</dd></div>
         <div><dt>Scope changes</dt><dd>New pages, features or integrations need agreement on price and schedule before the work starts.</dd></div>
         <div><dt>Ownership</dt><dd>The brokerage owns its domain, accounts, content and IDX subscription. The site’s code is handed over in a Git repository once the build is paid in full.</dd></div>
-        <div><dt>Not included in the build price</dt><dd>Hosting, IDX, MLS and Zapier fees; domain renewal; CRM and AI texting setup; copywriting and photography; paid ads; ongoing SEO; and legal review of the policies.</dd></div>
+        <div><dt>Not included in the build price</dt><dd>Hosting, IDX, MLS and Zapier fees; self-hosting setup unless item H is chosen; domain renewal; CRM and AI texting setup; copywriting and photography; paid ads; ongoing SEO; and legal review of the policies.</dd></div>
         <div><dt>Validity</dt><dd>This quote is valid until ${longDate(M.validUntil)}. The ${monthDay(S.launch)} launch assumes kickoff on ${fullDay(S.kickoff)}; a later start moves the launch date.</dd></div>
       </dl>
     </div>
