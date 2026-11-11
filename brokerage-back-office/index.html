@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Proposal for a brokerage back-office system replacing BrokerMint: two options with fixed prices, scope, timeline, stack, running costs, terms and questions.">
+  <meta name="description" content="Proposal for a brokerage back-office system replacing BrokerMint: three versions, each with or without MLS, CRM and assistant add-ons, with scope, timeline, stack, costs, terms and questions.">
   <meta name="robots" content="noindex, nofollow">
   <title>Brokerage Back-Office Proposal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -376,20 +376,37 @@
     }
   
     /* Back-office additions */
-    .cmp.r5{grid-template-rows:repeat(5,auto)}
-    .cmp.r5 .cmp-labels,.cmp.r5 .opt{grid-row:1/span 5}
+    .opt-top{display:flex;justify-content:space-between;gap:8px}
+    .opt-top .rec-label{color:var(--accent);font-weight:600}
+    .opt.rec{background:var(--accent-tint);box-shadow:inset 0 3px 0 var(--accent)}
+    .cmp.v3{grid-template-columns:200px repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,auto)}
+    .cmp.v3 .cmp-labels,.cmp.v3 .opt{grid-row:1/span 6}
+    .opt .alt{font:600 22px/1.15 var(--serif)}
     .stack tbody th{width:26%}
-    @media screen and (max-width:900px){.cmp.r5 .opt{grid-row:auto}}
-
-    .tl{grid-template-columns:110px repeat(var(--cols),minmax(0,1fr))!important}
-    .qs{display:grid;gap:10px;font-size:14.5px;max-width:110ch;counter-reset:q}
+    .srow{grid-template-columns:minmax(0,1fr) 92px 150px 30px 30px 30px 30px 28px}
+    .tl{grid-template-columns:110px repeat(var(--cols),minmax(0,1fr))}
+    .tl .bar.add{grid-column-start:7;justify-content:flex-start;background:transparent;border-style:dashed}
+    .qs{display:grid;gap:10px;font-size:14.5px;max-width:110ch}
     .qs li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:4px 16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
     .qs b{font-weight:600;color:var(--accent)}
-    .qs span{color:var(--ink)}
     .xp dd{color:var(--muted)}
-    @media screen and (max-width:900px){.tl{grid-template-columns:44px repeat(var(--cols),minmax(0,1fr))!important}}
+    @media screen and (max-width:1100px){.cmp.v3{grid-template-columns:150px repeat(3,minmax(0,1fr))}.srow{grid-template-columns:minmax(0,1fr) 80px 130px 26px 26px 26px 26px 24px}}
+    @media screen and (max-width:900px){
+      .cmp.v3{grid-template-columns:1fr;grid-template-rows:none}
+      .cmp.v3 .opt{grid-row:auto}
+      .opt .pa{border-left:1px solid var(--line)}
+      .opt.rec{border-color:var(--accent);box-shadow:none}
+      .tl{grid-template-columns:44px repeat(var(--cols),minmax(0,1fr))}
+    }
     @media screen and (max-width:600px){.qs li{grid-template-columns:1fr}}
-    @media print{.tl{grid-template-columns:62pt repeat(var(--cols),minmax(0,1fr))!important}.qs{font-size:8.6pt;gap:4pt}.qs li{grid-template-columns:70pt 1fr;padding-bottom:4pt;break-inside:avoid}}
+    @media print{
+      .cmp.v3{grid-template-columns:86pt repeat(3,minmax(0,1fr))}
+      .opt .alt{font-size:13pt}
+      .site-footer{display:none}
+      .srow{grid-template-columns:minmax(0,1fr) 50pt 92pt 17pt 17pt 17pt 17pt}
+      .tl{grid-template-columns:62pt repeat(var(--cols),minmax(0,1fr))}
+      .qs{font-size:8.6pt;gap:4pt}.qs li{grid-template-columns:70pt 1fr;padding-bottom:4pt;break-inside:avoid}
+    }
   </style>
 </head>
 <body>
@@ -397,36 +414,44 @@
   <div id="app"></div>
   <noscript><div class="error"><h1>Brokerage back-office proposal</h1><p>This proposal needs JavaScript to show its prices and timeline.</p></div></noscript>
   <script>
-    /* EDIT HERE. Prices, weeks, items and costs live in this object. Option prices must equal the sum of their items. */
+    /* EDIT HERE. Prices, weeks, items and costs live in this object. Each version's price must equal the sum of its items, and so must the Option A add-on. */
     const PROPOSAL = {
       meta: { author: "Essa Arshad", photo: "data:image/jpeg;base64,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", number: "EA-2026-1111", issued: "2026-11-11", validUntil: "2026-11-25", currency: "USD", locale: "en-US", title: "Brokerage Back-Office Proposal", heading: "Brokerage Back-Office System", kicker: "Proposal for a Texas real estate brokerage" },
-      settings: { kickoffPercent: 30, milestonePercent: 30, launchPercent: 40, milestoneWeek: 6, supportMonths: 1 },
+      settings: { kickoffPercent: 30, milestonePercent: 30, launchPercent: 40, milestoneWeek: 5, supportMonths: 1 },
       maintenance: { hourly: 20, monthlyCap: 500, noticeDays: 30, replyDays: 1 },
-      groups: { core: "Option B: core system", extra: "Option A additions" },
+      groups: { q: "Quick Start", s: "Standard adds", c: "Complete adds", a: "Option A add-on (any version)" },
       items: [
-        { id: "setup", number: "F", sec: "§2, §15", group: "core", name: "Setup, logins and roles", price: 600, ready: 2, delivers: "The web app, for desktop and phone, branded with her logo and colors. Broker, Agent and Admin/TC roles: agents see only their own deals, contacts and money. 2FA login, invites, active and inactive users, and “act on behalf of” for the broker. Daily backups. The database leaves room for accounting, offers and the other later-phase features.", access: "Logo, colors, the user list, and hosting accounts in her name.", done: "Each role sees only what it should, 2FA works and a backup restores." },
-        { id: "automation", number: "1", sec: "§1", group: "core", name: "Document automation", price: 1300, ready: 6, delivers: "When a contract is fully signed, the deal is created or updated on its own: sales price (replacing the list price), option period and fee, closing date, earnest money, financing type, parties and commission. The agent’s plan sets up the commission, the deal type loads its checklist, and due dates count from the contract dates. Status moves to pending on signing and to closed once the closing date passes and the CDA is signed. Agents get due-soon and past-due emails; the broker gets one daily summary. Signed documents go to every signer, and one click sends the contract to the title company.", access: "A signed sample contract for each deal type, and her due-date rules.", done: "A test contract signed through DocuSign creates a complete deal with the right price, dates, commission and checklist, without typing.", note: "The app reads the signed TREC contract to fill the fields. This is field reading only, not the AI document review planned for later." },
-        { id: "reports", number: "3", sec: "§3, §13", group: "core", name: "Dashboard and reports", price: 500, ready: 8, delivers: "Goal gauge (percent of goal and time left) by sales volume or company dollar; broker and agent views with cap progress; recent deals and useful links. Reports for production by agent and month, closed and pending deals, cap progress, source of business and billing status, filtered by date, agent and status, with CSV export.", access: "Each agent’s yearly goal.", done: "Closing a test deal moves the gauge, the cap bar and the reports." },
-        { id: "transactions", number: "4", sec: "§4", group: "core", name: "Transactions", price: 1100, ready: 4, delivers: "Deal list with search by address, contact or MLS #; views for active, pending, closed, cancelled, closing this month and needs attention; a red flag on deals with past-due documents. Deal page with details and property fields, status actions, checklists (to do, uploaded, submitted, approved, rejected, exempt), documents with an unsorted bucket, contacts with roles, a client portal link, commissions and a simple history. The same checklist can’t be added to a deal twice.", access: "Which of her current deal fields she still uses.", done: "Closed deals are easy to find, and a buyer’s portal link shows only the shared documents." },
-        { id: "commissions", number: "5", sec: "§5, §4", group: "core", name: "Commission plans, caps and CDA", price: 600, ready: 6, delivers: "Plan templates (split, cap, flat fees, E&O) assigned once per agent: 90/10, Flat Fee, Flat Fee (2), Rental, “$1,500 or less” and her custom plans. Each agent has a cap progress bar, and the split stops at the cap. Listing and buying sides with several agents each, showing agent net and company share. The CDA uses the contract price and goes to the broker for e-sign, then to title.", access: "The rules for each plan, each agent’s cap, and year-to-date totals for agents already partway to cap.", done: "A deal that crosses an agent’s cap pays the agent 100% of the rest, and the CDA shows the contract price." },
-        { id: "review", number: "6", sec: "§6", group: "core", name: "Broker review queue", price: 350, ready: 4, delivers: "One queue of deals with documents waiting. Review screen with the PDF and deal info side by side; approve, or reject with a reason (incomplete, incorrect or custom) and a comment. The agent gets an email for every approval and every rejection.", access: "Her rejection reasons.", done: "Rejecting a test document emails the agent the reason within a minute." },
-        { id: "tasks", number: "7", sec: "§7", group: "core", name: "Tasks and notifications", price: 300, ready: 7, delivers: "One list of open tasks and documents across deals, overdue items in red. Emails for the essentials only: submitted, approved, rejected, due soon, past due, pending, closed and CDA ready. Each user turns them on or off, immediate or as a daily summary.", access: "Which emails each role gets by default.", done: "Each user can switch emails off and choose a daily summary." },
-        { id: "settings", number: "8", sec: "§8", group: "core", name: "Settings and checklist templates", price: 350, ready: 2, delivers: "Editable lists for transaction types, roles, lead sources, rejection reasons and email templates. Her 16 working checklist templates are rebuilt with forms attached; she can add, rename, clone and delete them.", access: "A quick review of her templates, dropping the test and setup ones.", done: "Each rebuilt template matches her current items and due-date rules." },
-        { id: "contacts", number: "9", sec: "§9", group: "core", name: "Contacts with lead source", price: 200, ready: 4, delivers: "Contact list with search and types (buyer, seller, agent, other), and a form with lead source and assigned agent. The broker sees where each agent’s business comes from.", access: "Her list of lead sources.", done: "The source-of-business report splits each agent’s deals by lead source." },
-        { id: "esign", number: "10", sec: "§10", group: "core", name: "zipForms and DocuSign", price: 900, ready: 6, readyNote: "zipForms once approved", delivers: "Contracts stay in zipForms and are signed through DocuSign; licensed forms aren’t rebuilt. Forms prefill from the deal (parties, broker, license numbers, address, price). Signed documents come back to the deal automatically, and signing emails carry the brokerage logo. Until Lone Wolf approves the zipForms partner API, the automation runs through DocuSign alone.", access: "Admin access to her DocuSign account, and her signature on Lone Wolf’s partner application.", done: "A contract sent from zipForms and signed in DocuSign lands in the right deal on its own." },
-        { id: "billing", number: "11", sec: "§11", group: "core", name: "Stripe agent billing", price: 450, ready: 7, delivers: "Agents keep a card or bank account on file through Stripe. The $50 monthly office fee charges automatically, and one-off fees (E&O, transaction fees) charge when added. Each agent’s charges, payments and balance show on their profile, and the broker gets a payment status report.", access: "A Stripe account in her name.", done: "A test agent is charged $50 on schedule and the payment shows on their ledger." },
-        { id: "calendar", number: "12", sec: "§12", group: "core", name: "Google Calendar deadlines", price: 200, ready: 7, delivers: "Option expiration, financing, closing and task due dates appear on each agent’s and the broker’s Google Calendar, and move when the dates change.", access: "Each user connects their Google account once.", done: "Changing a closing date moves the calendar event." },
-        { id: "migration", number: "14", sec: "§14", group: "core", name: "Data migration", price: 450, ready: 9, delivers: "Her 53 deals, 103 contacts, users, commission plans, checklist templates and documents move over from BrokerMint’s exports. Duplicate checklist items, missing closing dates and leftover California tasks are cleaned up on the way.", access: "BrokerMint exports of data and documents.", done: "Ten spot-checked deals match BrokerMint, with no duplicates." },
-        { id: "launch", number: "L", sec: "", group: "core", name: "Testing, training and launch", price: 200, ready: 9, readyNote: "Live week 10", delivers: "Testing with the broker on real deals, a recorded training for her and her agents, a short guide, launch, and one month of fixes after launch.", access: "A few hours of the broker’s time in week 9.", done: "She and her agents are trained and working in the new system." },
-        { id: "mls", number: "16", sec: "§16", group: "extra", name: "MLS and county data", price: 1000, ready: 12, readyNote: "After GMAR approval", delivers: "Type an MLS # and the deal fills in (address, price, beds and baths, square feet, legal description, APN, remarks) from GMAR’s approved data feed. The MLS agent sheet is saved to the deal the day it goes under contract. The Hidalgo County appraisal record is pulled by address or APN to confirm the owner and fill property fields, and its detail summary is saved to the deal.", access: "The broker’s signature on GMAR’s data licence for back-office use.", done: "A test MLS # creates a deal with its listing data, agent sheet and county summary attached.", note: "GMAR delivers its data through the Bridge listings API. Approval timing is set by the MLS, so the application goes in during week 1." },
-        { id: "crm", number: "17", sec: "§17", group: "extra", name: "CRM lead pipeline", price: 600, ready: 11, delivers: "A lead pipeline per agent with lead source on every lead, follow-up reminders on the agent’s Google Calendar, one-click conversion to a deal, and broker reassignment of leads that weren’t worked.", access: "Her pipeline stages.", done: "A converted lead becomes a deal with its contact and lead source." },
-        { id: "onboarding", number: "18", sec: "§18", group: "extra", name: "Agent onboarding", price: 400, ready: 12, delivers: "An onboarding checklist for new agents (W-9, agreements signed through DocuSign, tasks), started from the user profile with progress tracked.", access: "Her onboarding documents.", done: "A test agent finishes onboarding and the signed W-9 is saved to their profile." },
-        { id: "assistant", number: "19", sec: "§19", group: "extra", name: "AI help assistant", price: 500, ready: 12, delivers: "A built-in assistant that answers “how do I” questions about the system and pulls data on request, such as an agent’s closings and cap progress. It follows the same access rules, so agents only see their own data.", access: "Nothing extra.", done: "It answers 20 common questions correctly and declines data a user can’t see." }
+        { id: "setup", number: "F", sec: "§2, §15", group: "q", name: "Setup, logins and roles", price: 500, ready: 2, delivers: "The web app, for desktop and phone, branded with her logo and colors. Broker, Agent and Admin/TC roles: agents see only their own deals, contacts and money. 2FA login, invites, active and inactive users, and “act on behalf of” for the broker. Daily backups. The database leaves room for accounting, offers and the other later-phase features.", access: "Logo, colors, the user list, and hosting accounts in her name.", done: "Each role sees only what it should, 2FA works and a backup restores." },
+        { id: "automation", number: "1", sec: "§1", group: "q", name: "Document automation", price: 1200, ready: 5, delivers: "When a contract is fully signed, the deal is created or updated on its own: sales price (replacing the list price), option period and fee, closing date, earnest money, financing type, parties and commission. The agent’s plan sets up the commission, the deal type loads its checklist, and due dates count from the contract dates. Status moves to pending on signing and to closed once the closing date passes and the CDA is signed. Agents get due-soon and past-due emails; the broker gets one daily summary. One click sends the signed contract to the title company.", access: "A signed sample contract for each deal type, and her due-date rules.", done: "A test contract signed through DocuSign creates a complete deal with the right price, dates, commission and checklist, without typing.", note: "The app reads the signed TREC contract to fill the fields. This is field reading only, not the AI document review planned for later." },
+        { id: "dashboard", number: "3", sec: "§3", group: "q", name: "Dashboard and goal tracker", price: 250, ready: 6, delivers: "Goal gauge (percent of goal and time left) by sales volume or company dollar; broker and agent views with cap progress bars; recent deals and useful links. It counts closed and pending deals, so it no longer reads 0%.", access: "Each agent’s yearly goal.", done: "Closing a test deal moves the gauge and the cap bar." },
+        { id: "transactions", number: "4", sec: "§4", group: "q", name: "Transactions", price: 950, ready: 3, delivers: "Deal list with search by address, contact or MLS #; views for active, pending, closed, cancelled, closing this month and needs attention; a red flag on deals with past-due documents. Deal page with details and property fields, status actions, checklists (to do, uploaded, submitted, approved, rejected, exempt), documents with an unsorted bucket, contacts with roles, a client portal link, commissions and a simple history. The same checklist can’t be added to a deal twice.", access: "Which of her current deal fields she still uses.", done: "Closed deals are easy to find, and a buyer’s portal link shows only the shared documents." },
+        { id: "commissions", number: "5", sec: "§5, §4", group: "q", name: "Commission plans, caps and CDA", price: 600, ready: 5, delivers: "Plan templates (split, cap, flat fees, E&O) assigned once per agent: 90/10, Flat Fee, Flat Fee (2), Rental, “$1,500 or less” and her custom plans. Each agent has a cap progress bar, and the split stops at the cap. Listing and buying sides with several agents each, showing agent net and company share. The CDA uses the contract price and goes to the broker for e-sign, then to title.", access: "The rules for each plan, each agent’s cap, and year-to-date totals for agents already partway to cap.", done: "A deal that crosses an agent’s cap pays the agent 100% of the rest, and the CDA shows the contract price." },
+        { id: "review", number: "6", sec: "§6", group: "q", name: "Broker review queue", price: 300, ready: 3, delivers: "One queue of deals with documents waiting. Review screen with the PDF and deal info side by side; approve, or reject as incomplete or incorrect with a comment. The agent gets an email for every approval and every rejection.", access: "Nothing extra.", done: "Rejecting a test document emails the agent the reason within a minute." },
+        { id: "tasks", number: "7", sec: "§7", group: "q", name: "Task list and essential emails", price: 200, ready: 4, delivers: "One list of open tasks and documents across deals, overdue items in red. Emails for the essentials only: submitted, approved, rejected, due soon, past due, pending, closed and CDA ready.", access: "Nothing extra.", done: "An overdue test task shows in red and its email arrives." },
+        { id: "settings", number: "8", sec: "§8", group: "q", name: "Settings and her 5 main templates", price: 200, ready: 2, delivers: "Editable lists for transaction types, roles and lead sources. Her 5 most-used checklist templates are rebuilt with forms attached; she can add, rename, clone and delete templates.", access: "Which 5 templates she uses most.", done: "Each rebuilt template matches her current items and due-date rules." },
+        { id: "contacts", number: "9", sec: "§9", group: "q", name: "Contacts with lead source", price: 150, ready: 3, delivers: "Contact list with search and types (buyer, seller, agent, other), and a form with lead source and assigned agent. The broker sees where each agent’s business comes from.", access: "Her list of lead sources.", done: "Each agent’s deals can be split by lead source." },
+        { id: "esign", number: "10", sec: "§10", group: "q", name: "DocuSign", price: 300, ready: 5, delivers: "Agents keep signing through DocuSign as today; licensed forms aren’t rebuilt. Signed documents come back to the deal automatically and go to every signer, and signing emails carry the brokerage logo. Sending for signature and submitting for review happen in one step.", access: "Admin access to her DocuSign account.", done: "A contract signed in DocuSign lands in the right deal on its own." },
+        { id: "migration", number: "14", sec: "§14", group: "q", name: "Migration of active deals", price: 200, ready: 6, delivers: "Active and pending deals with their documents, plus contacts, users and commission plans, move over from BrokerMint’s exports. Duplicate checklist items and leftover California tasks are cleaned up on the way. Closed deals come over as a CSV for reference.", access: "BrokerMint exports of data and documents.", done: "Ten spot-checked deals match BrokerMint, with no duplicates." },
+        { id: "launch", number: "L", sec: "", group: "q", name: "Testing, training and launch", price: 150, ready: 6, readyNote: "Then go live", delivers: "Testing with the broker on real deals, a recorded training for her and her agents, a short guide, launch, and one month of fixes after launch.", access: "A few hours of the broker’s time before launch.", done: "She and her agents are trained and working in the new system." },
+        { id: "billing", number: "11", sec: "§11", group: "s", name: "Stripe agent billing", price: 450, ready: 6, delivers: "Agents keep a card or bank account on file through Stripe. The $50 monthly office fee charges automatically, and one-off fees (E&O, transaction fees) charge when added. Each agent’s charges, payments and balance show on their profile, and the broker gets a payment status report.", access: "A Stripe account in her name.", done: "A test agent is charged $50 on schedule and the payment shows on their ledger." },
+        { id: "calendar", number: "12", sec: "§12", group: "s", name: "Google Calendar deadlines", price: 200, ready: 6, delivers: "Option expiration, financing, closing and task due dates appear on each agent’s and the broker’s Google Calendar, and move when the dates change.", access: "Each user connects their Google account once.", done: "Changing a closing date moves the calendar event." },
+        { id: "reports", number: "13", sec: "§13", group: "s", name: "Reports", price: 250, ready: 7, delivers: "Production by agent and month, closed and pending deals, cap progress, source of business and billing status, filtered by date, agent and status, with CSV export.", access: "Nothing extra.", done: "Each report matches the test deals and exports to CSV." },
+        { id: "notify", number: "7b", sec: "§7", group: "s", name: "Notification settings", price: 100, ready: 6, delivers: "Each user turns each email on or off, and chooses immediate or a daily summary.", access: "Which emails each role gets by default.", done: "A user switches an email to daily summary and receives it once a day." },
+        { id: "templates", number: "8b", sec: "§8", group: "s", name: "All 16 checklist templates", price: 250, ready: 4, delivers: "Her other 11 working templates rebuilt with forms attached and due-date rules, so every deal type is covered.", access: "A quick review of her templates, dropping the test and setup ones.", done: "Each template matches her current items and due-date rules." },
+        { id: "zipforms", number: "10b", sec: "§10", group: "c", name: "zipForms prefill", price: 700, ready: 8, readyNote: "Once Lone Wolf approves", delivers: "Through Lone Wolf’s zipForms partner API, forms prefill from the deal (parties, broker, license numbers, address, price) and contract data comes straight from zipForms.", access: "Her signature on Lone Wolf’s partner application.", done: "A form opened from a deal arrives in zipForms already filled in." },
+        { id: "archive", number: "14b", sec: "§14", group: "c", name: "Full migration", price: 350, ready: 9, delivers: "Every closed and cancelled deal and its documents move over too, so her full history is searchable in the new system.", access: "A full BrokerMint document export.", done: "Closed deals from past years open with their documents." },
+        { id: "editors", number: "8c", sec: "§6, §8", group: "c", name: "Email templates and rejection reasons", price: 200, ready: 7, delivers: "Editable email templates with her branding, and her own rejection reasons for the review queue.", access: "Her preferred wording.", done: "An edited template is used on the next email." },
+        { id: "mls", number: "16", sec: "§16", group: "a", name: "MLS and county data", price: 1000, ready: 3, readyNote: "After GMAR approval", delivers: "Type an MLS # and the deal fills in (address, price, beds and baths, square feet, legal description, APN, remarks) from GMAR’s approved data feed. The MLS agent sheet is saved to the deal the day it goes under contract. The Hidalgo County appraisal record is pulled by address or APN to confirm the owner and fill property fields, and its detail summary is saved to the deal.", access: "The broker’s signature on GMAR’s data licence for back-office use.", done: "A test MLS # creates a deal with its listing data, agent sheet and county summary attached.", note: "GMAR delivers its data through the Bridge listings API. Approval timing is set by the MLS, so the application goes in during week 1." },
+        { id: "crm", number: "17", sec: "§17", group: "a", name: "CRM lead pipeline", price: 600, ready: 1, delivers: "A lead pipeline per agent with lead source on every lead, follow-up reminders on the agent’s Google Calendar, one-click conversion to a deal, and broker reassignment of leads that weren’t worked.", access: "Her pipeline stages.", done: "A converted lead becomes a deal with its contact and lead source." },
+        { id: "onboarding", number: "18", sec: "§18", group: "a", name: "Agent onboarding", price: 400, ready: 2, delivers: "An onboarding checklist for new agents (W-9, agreements signed through DocuSign, tasks), started from the user profile with progress tracked.", access: "Her onboarding documents.", done: "A test agent finishes onboarding and the signed W-9 is saved to their profile." },
+        { id: "assistant", number: "19", sec: "§19", group: "a", name: "AI help assistant", price: 500, ready: 2, delivers: "A built-in assistant that answers “how do I” questions about the system and pulls data on request, such as an agent’s closings and cap progress. It follows the same access rules, so agents only see their own data.", access: "Nothing extra.", done: "It answers 20 common questions correctly and declines data a user can’t see." }
       ],
-      options: [
-        { id: "b", label: "Option B", short: "B", name: "Core System", descriptor: "Everything she marked as a must-have", price: 7500, weeks: 10, itemIds: ["setup","automation","transactions","commissions","review","tasks","settings","contacts","esign","billing","calendar","reports","migration","launch"], includes: "Spec sections 1–15: document automation, transactions, commissions and caps, review queue, zipForms and DocuSign, Stripe billing, calendar, reports and migration." },
-        { id: "a", label: "Option A", short: "A", name: "Complete System", descriptor: "Option B plus MLS, CRM and assistant", price: 10000, weeks: 13, base: "b", itemIds: ["mls","crm","onboarding","assistant"], includes: "Everything in Option B, plus MLS and county data, a CRM lead pipeline, agent onboarding and an AI help assistant (sections 16–19)." }
+      versions: [
+        { id: "q", label: "Version 1", short: "1", name: "Quick Start", descriptor: "The contract-to-close core", price: 5000, weeks: 7, itemIds: ["setup","automation","dashboard","transactions","commissions","review","tasks","settings","contacts","esign","migration","launch"], includes: "Document automation, transactions, commissions with caps and CDA, review queue, DocuSign, contacts, dashboard, 5 checklist templates and active deals migrated." },
+        { id: "s", label: "Version 2", short: "2", name: "Standard", descriptor: "Every must-have except zipForms prefill", price: 6250, weeks: 8, base: "q", recommended: true, itemIds: ["billing","calendar","reports","notify","templates"], includes: "Everything in Quick Start, plus Stripe agent billing, Google Calendar, reports, notification settings and all 16 templates." },
+        { id: "c", label: "Version 3", short: "3", name: "Complete", descriptor: "The full spec, sections 1–15", price: 7500, weeks: 10, base: "s", itemIds: ["zipforms","archive","editors"], includes: "Everything in Standard, plus zipForms prefill, every past deal and document migrated, and editable email templates and rejection reasons." }
       ],
+      addon: { id: "a", short: "A", name: "Option A add-on", price: 2500, weeks: 3, itemIds: ["mls","crm","onboarding","assistant"] },
       services: [
         { name: "Hosting", vendor: "Vercel or Netlify", item: "setup", monthly: [9,20] },
         { name: "Database, files and daily backups", vendor: "Supabase Pro", item: "setup", monthly: [25,35] },
@@ -438,7 +463,7 @@
       ],
       costNotes: [
         "DocuSign: she already signs through DocuSign. If her plan doesn’t allow API access, DocuSign’s API plans start at about $50 a month. This is confirmed in week 1.",
-        "Stripe charges per payment, not monthly: 2.9% + 30¢ by card or 0.8% by bank (capped at $5). On the $50 fee that’s about $1.75 by card or 40¢ by bank.",
+        "Stripe (Standard and Complete) charges per payment, not monthly: 2.9% + 30¢ by card or 0.8% by bank (capped at $5). On the $50 fee that’s about $1.75 by card or 40¢ by bank.",
         "zipForms is a Texas REALTORS member benefit. Any Lone Wolf partner fee is confirmed when we apply. Google Calendar is free.",
         "GMAR also charges a one-time connection fee of about $35."
       ],
@@ -455,48 +480,49 @@
         ["Database, logins, files", "Supabase (Postgres) with 2FA, role-based access and daily backups"],
         ["Hosting", "Vercel or Netlify, in her name"],
         ["E-sign", "DocuSign eSignature API, with Connect for signed-document events"],
-        ["Forms", "zipForms partner API from Lone Wolf"],
-        ["Billing", "Stripe Billing"],
+        ["Forms (Complete)", "zipForms partner API from Lone Wolf"],
+        ["Billing (Standard and Complete)", "Stripe Billing"],
         ["Calendar and email", "Google Calendar API; Resend for branded emails"],
-        ["AI", "Claude (Anthropic) to read signed contracts and, in Option A, run the help assistant"],
+        ["AI", "Claude (Anthropic) to read signed contracts and, with Option A, run the help assistant"],
         ["MLS and county (Option A)", "GMAR feed through the Bridge RESO Web API; Hidalgo County Appraisal District records"]
       ],
       experience: [
-        ["DocuSign", "I’ve worked with DocuSign’s eSignature API: sending envelopes, Connect webhooks for completed signings, and pulling signed documents back. That is the core of section 1."],
+        ["DocuSign", "I’ve worked with DocuSign’s eSignature API: sending envelopes, Connect webhooks for completed signings, and pulling signed documents back. That is the core of section 1 in every version."],
         ["zipForms / Lone Wolf", "Access is through Lone Wolf’s partner licence. I’ll apply in week 1 and build to their published API. Until it’s approved, DocuSign carries the automation, as the spec allows."],
         ["Stripe", "Stripe Billing with saved cards and bank accounts. Card details stay with Stripe and never touch the app."],
         ["MLS feeds", "GMAR has moved fully to the RESO Web API and delivers through Bridge. I researched MLS data licensing and delivery (Bridge, Trestle, MLS Grid) for Nook & Acre, my own real estate platform, so the path is mapped: the broker signs GMAR’s data licence, GMAR approves the use, and Bridge issues the access keys."]
       ],
       phases: [
-        { weeks: [1,2], title: "Setup", detail: "Accounts, exports, approvals filed, roles, templates" },
-        { weeks: [3,4], title: "Deals and review", detail: "Transactions, documents, review queue, contacts" },
-        { weeks: [5,6], title: "Contract automation", detail: "DocuSign, auto-filled deals, commissions, CDA" },
-        { weeks: [7,8], title: "Billing and reports", detail: "Stripe, calendar, emails, dashboard, reports" },
-        { weeks: [9,10], title: "Migration and launch", detail: "BrokerMint data, testing, training, launch" },
-        { weeks: [11,13], title: "Option A additions", detail: "MLS and county data, CRM, onboarding, assistant" }
+        { label: "Weeks 1–2", title: "Setup", detail: "Accounts, exports, approvals filed, roles, templates" },
+        { label: "Weeks 3–4", title: "Deals and review", detail: "Transactions, documents, review queue, contacts" },
+        { label: "Weeks 5–6", title: "Contract automation", detail: "DocuSign, auto-filled deals, commissions, CDA, migration" },
+        { label: "Weeks 7–8", title: "Billing and reports", detail: "Stripe, calendar, reports, notification settings" },
+        { label: "Weeks 9–10", title: "zipForms and archive", detail: "zipForms prefill, full migration, email templates" },
+        { label: "+3 weeks", title: "Option A add-on", detail: "MLS and county data, CRM, onboarding, assistant" }
       ],
       dependencies: [
         { what: "Signed acceptance and {kickoffPercent}% deposit", week: 1, from: "Client" },
-        { what: "Lone Wolf zipForms partner application signed", week: 1, from: "Broker" },
-        { what: "GMAR data licence signed (Option A)", week: 1, from: "Broker" },
         { what: "BrokerMint exports of data and documents", week: 1, from: "Broker" },
         { what: "Admin access to her DocuSign account", week: 1, from: "Broker" },
         { what: "Logo, colors, user list and hosting accounts in her name", week: 1, from: "Broker" },
+        { what: "Lone Wolf zipForms partner application signed (Complete)", week: 1, from: "Broker" },
+        { what: "GMAR data licence signed (Option A)", week: 1, from: "Broker" },
         { what: "Commission plan rules, caps and year-to-date totals", week: 2, from: "Broker" },
         { what: "Checklist template review and due-date rules", week: 2, from: "Broker" },
         { what: "Signed sample contracts for each deal type", week: 3, from: "Broker" },
-        { what: "Stripe account in her name", week: 6, from: "Broker" },
-        { what: "Testing time with the broker", week: 9, from: "Broker" }
+        { what: "Stripe account in her name (Standard and Complete)", week: 5, from: "Broker" },
+        { what: "Testing time with the broker", week: 6, from: "Broker" }
       ],
       questions: [
+        ["Version", "Which version, and with or without Option A? Assumed: Standard, which covers every must-have except zipForms prefill."],
         ["§1, §10", "How do her agents send contracts today: “Send with DocuSign” from zipForms, or zipForms’ own Digital Ink? Which DocuSign plan is she on, and whose account is it? Assumed: zipForms → DocuSign, on her brokerage account."],
         ["§1.9", "Closed = closing date passed and CDA signed. Should a deal also close when the title company confirms funding, if that comes first? Assumed: the spec’s rule only."],
         ["§2", "BrokerMint shows 7 agents plus her; the spec says about 5. How many users at launch, and is there an Admin/TC? Assumed: up to 10 users, one Admin/TC role available."],
         ["§4", "Her deal page has 40 fields, most of them blank. Assumed: we keep the spec’s fields plus the contract fields, and drop lockbox, yard sign and showing fields unless she uses them."],
         ["§5", "Is each cap reset on January 1 or on the agent’s anniversary date, and what does “$1,500 or less” mean exactly? Assumed: calendar year; plan rules confirmed in week 2."],
-        ["§8", "Can we drop the test template, the two BrokerMint setup templates and the generic “Buying” one? Assumed: yes, leaving 16."],
+        ["§8", "Which 5 templates go into Quick Start, and can we drop the test template, the two BrokerMint setup templates and the generic “Buying” one? Assumed: Buyer Resale 1-4, Buyer New Construction, Buyer Vacant Land, Listing Residential and Residential Lease (Tenant); the four extras dropped."],
         ["§11", "Card or bank for the $50 fee, and who absorbs Stripe’s fee? What happens after a failed payment? Assumed: agent chooses; brokerage absorbs the fee; two retries, then the broker is emailed."],
-        ["§14", "Can she export documents in bulk from BrokerMint, or only data? Assumed: data by CSV plus a document export; if documents can’t be exported in bulk, we move active and pending deals’ documents only."],
+        ["§14", "Can she export documents in bulk from BrokerMint, or only data? Assumed: both can be exported. If documents can’t be bulk-exported, Complete’s archive moves data only."],
         ["§16", "Is the broker a GMAR participant who can sign the data licence for back-office use? Assumed: yes."],
         ["§19", "Should the assistant answer only from this system’s help and her data, never from the web? Assumed: yes."],
         ["Start", "What kickoff date should we plan for? Weeks count from kickoff; the Christmas and New Year week isn’t counted."]
@@ -527,54 +553,60 @@
       const items = P.items.map(i => ({...i, monthly: [0,1].map(k => sum(P.services.filter(s=>s.item===i.id).map(s=>cents(s.monthly[k])))/100) }));
       const itemMap = new Map(items.map(i=>[i.id,i]));
       const model = new Map();
-      const options = () => Array.from(model.values());
+      const versions = () => Array.from(model.values());
+      const rangeOf = (ids) => [0,1].map(k=>sum(ids.map(id=>cents(itemMap.get(id).monthly[k])))/100);
+      const AO = P.addon;
 
       function validateAndBuild() {
         assert(itemMap.size===P.items.length,"Item IDs must be unique.");
         assert(T.kickoffPercent+T.milestonePercent+T.launchPercent===100,"Payment shares must total 100%.");
         assert(new Date(M.validUntil)>=new Date(M.issued),"Validity precedes issue date.");
         P.services.forEach(s=>assert(itemMap.has(s.item),`Service maps to unknown item ${s.item}.`));
-        P.options.forEach(o=>{
-          assert(!o.base||model.has(o.base),`${o.id}: base must precede option.`);
-          const ids=[...(o.base?model.get(o.base).ids:[]),...o.itemIds];
-          assert(new Set(ids).size===ids.length,`${o.id}: duplicate item.`);
-          ids.forEach(id=>assert(itemMap.has(id),`${o.id}: unknown item ${id}.`));
-          const list=ids.map(id=>itemMap.get(id));
-          assert(sum(list.map(i=>cents(i.price)))===cents(o.price),`${o.id}: item prices do not add up to the option price.`);
-          list.forEach(i=>assert(i.ready<o.weeks||(i.id==="launch"&&i.ready<o.weeks),`${i.id}: ready week must fall before ${o.id}'s launch.`));
-          model.set(o.id,{...o,ids,monthly:[0,1].map(k=>sum(list.map(i=>cents(i.monthly[k])))/100)});
+        P.versions.forEach(v=>{
+          assert(!v.base||model.has(v.base),`${v.id}: base must precede version.`);
+          const ids=[...(v.base?model.get(v.base).ids:[]),...v.itemIds];
+          assert(new Set(ids).size===ids.length,`${v.id}: duplicate item.`);
+          ids.forEach(id=>assert(itemMap.has(id)&&itemMap.get(id).group!=="a",`${v.id}: invalid item ${id}.`));
+          assert(sum(ids.map(id=>cents(itemMap.get(id).price)))===cents(v.price),`${v.id}: item prices do not add up to the version price.`);
+          v.itemIds.forEach(id=>assert(itemMap.get(id).ready<v.weeks,`${id}: ready week must fall before ${v.name}'s launch.`));
+          model.set(v.id,{...v,ids,monthly:rangeOf(ids)});
         });
-        assert(items.every(i=>options().some(o=>o.ids.includes(i.id))),"Every item must belong to an option.");
-        assert(P.phases[P.phases.length-1].weeks[1]===Math.max(...P.options.map(o=>o.weeks)),"Phases must end at the last launch week.");
-        P.dependencies.forEach(d=>assert(d.week>=1&&d.week<model.get("b").weeks,`Dependency "${d.what}" falls outside the plan.`));
+        AO.itemIds.forEach(id=>assert(itemMap.get(id)?.group==="a"&&itemMap.get(id).ready<=AO.weeks,`Add-on item ${id} invalid.`));
+        assert(sum(AO.itemIds.map(id=>cents(itemMap.get(id).price)))===cents(AO.price),"Add-on items do not add up to the add-on price.");
+        assert(items.every(i=>i.group==="a"?AO.itemIds.includes(i.id):versions().some(v=>v.ids.includes(i.id))),"Every item must belong to a version or the add-on.");
+        P.dependencies.forEach(d=>assert(d.week>=1&&d.week<versions()[0].weeks,`Dependency "${d.what}" falls outside the plan.`));
       }
 
       const sectionHead = (id,title,text) => `<div class="sec-head"><h2 id="${id}">${title}</h2><div><p>${text}</p></div></div>`;
-      const weekLabel = (w) => w[0]===w[1]?`Week ${w[0]}`:`Weeks ${w[0]}–${w[1]}`;
 
-      function optionCell(o) {
-        return `<article class="opt" aria-labelledby="opt-${o.id}">
-          <div class="opt-head"><p class="opt-top">${escape(o.label)}</p><h3 id="opt-${o.id}">${escape(o.name)}</h3><p class="desc">${escape(o.descriptor)}</p></div>
-          <div class="pr"><span class="cell-lbl">Build price</span><p class="price">${dollars(o.price)}</p></div>
-          <div class="tg"><span class="cell-lbl">Live in</span><p class="big">${o.weeks} weeks</p><p class="price-sub">from kickoff</p></div>
-          <div class="mo"><span class="cell-lbl">Running costs</span><p class="big">${money(o.monthly)} <small>/ month</small></p></div>
-          <div class="inc"><span class="cell-lbl">Includes</span><p class="txt">${escape(o.includes)}</p></div>
+      function versionCell(v) {
+        return `<article class="opt${v.recommended?" rec":""}" aria-labelledby="opt-${v.id}">
+          <div class="opt-head"><p class="opt-top"><span>${escape(v.label)}</span>${v.recommended?'<span class="rec-label">Recommended</span>':""}</p><h3 id="opt-${v.id}">${escape(v.name)}</h3><p class="desc">${escape(v.descriptor)}</p></div>
+          <div class="pb"><span class="cell-lbl">Option B (core)</span><p class="price">${dollars(v.price)}</p></div>
+          <div class="pa"><span class="cell-lbl">Option A (with add-on)</span><p class="alt">${dollars(v.price+AO.price)}</p></div>
+          <div class="tg"><span class="cell-lbl">Live in</span><p class="big">${v.weeks} weeks</p><p class="price-sub">${v.weeks+AO.weeks} with Option A</p></div>
+          <div class="mo"><span class="cell-lbl">Running costs</span><p class="big">${money(v.monthly)} <small>/ month</small></p></div>
+          <div class="inc"><span class="cell-lbl">Includes</span><p class="txt">${escape(v.includes)}</p></div>
         </article>`;
       }
 
       function renderScope() {
-        const os=options();
+        const vs=versions();
         let last="", out="";
         items.forEach(i=>{
           if(i.group!==last){ out+=`<tr><td><h3 class="grp">${escape(P.groups[i.group])}</h3></td></tr>`; last=i.group; }
-          const marks=os.map(o=>o.ids.includes(i.id)?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In ${escape(o.label)}</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in ${escape(o.label)}</span></span>`).join("");
-          const inLabel=i.group==="core"?"Options B and A":"Option A only";
+          const inV=vs.filter(v=>v.ids.includes(i.id));
+          const marks=vs.map(v=>v.ids.includes(i.id)?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In ${escape(v.name)}</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in ${escape(v.name)}</span></span>`).join("")
+            + (i.group==="a"?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In the Option A add-on</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in the add-on</span></span>`);
+          const when=i.group==="a"?`+${i.ready} wk`:`Week ${i.ready}`;
+          const sub=i.readyNote||(i.group==="a"?"after the version launches":"for testing");
+          const inLabel=i.group==="a"?"Option A add-on":`${inV.map(v=>v.name).join(", ")}`;
           out+=`<tr><td><details class="it" data-item="${i.id}"><summary class="srow">
             <span class="nm"><span class="no-tag">${escape(i.number)}</span><span>${escape(i.name)}${i.sec?`<span class="s-sub">Spec ${escape(i.sec)}</span>`:""}</span></span>
             <span class="d"><span class="sr-only">Price </span><span class="money">${dollars(i.price)}</span></span>
-            <span class="d"><span class="sr-only">Ready by </span>Week ${i.ready}<span class="s-sub">${escape(i.readyNote||"for testing")}</span></span>
+            <span class="d"><span class="sr-only">Ready by </span>${when}<span class="s-sub">${escape(sub)}</span></span>
             ${marks}
-            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · Week ${i.ready} · ${inLabel}</span>
+            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · ${when} · ${escape(inLabel)}</span>
             ${icons.chev}
           </summary><div class="it-body">
             <div><span class="lbl">Scope</span><p>${escape(i.delivers)}${i.note?`<span class="note">${escape(i.note)}</span>`:""}</p></div>
@@ -586,13 +618,15 @@
       }
 
       function renderCosts() {
-        const os=options();
-        const rows=P.services.map(s=>`<tr><th scope="row">${escape(s.name)}<small>${escape(s.vendor)}</small></th>${os.map(o=>o.ids.includes(s.item)?`<td>${money(s.monthly)}</td>`:`<td class="no">–</td>`).join("")}</tr>`).join("");
-        return `<table class="num"><caption class="sr-only">Estimated monthly running costs, US dollars</caption><thead><tr><th scope="col">Service</th>${os.map(o=>`<th scope="col">${escape(o.label)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Total per month</th>${os.map(o=>`<td>${money(o.monthly)}</td>`).join("")}</tr></tfoot></table>`;
+        const full=model.get("c").ids;
+        const rows=P.services.map(s=>{const a=AO.itemIds.includes(s.item);return `<tr><th scope="row">${escape(s.name)}<small>${escape(s.vendor)}</small></th><td>${a?'<span class="no">–</span>':money(s.monthly)}</td><td>${money(s.monthly)}</td></tr>`;}).join("");
+        const b=rangeOf(full), a=rangeOf([...full,...AO.itemIds]);
+        return `<table class="num"><caption class="sr-only">Estimated monthly running costs, US dollars</caption><thead><tr><th scope="col">Service</th><th scope="col">Option B</th><th scope="col">Option A</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Total per month</th><td>${money(b)}</td><td>${money(a)}</td></tr></tfoot></table>`;
       }
 
       function render() {
-        const os=options(), B=model.get("b"), A=model.get("a"), capHours=Mt.monthlyCap/Mt.hourly;
+        const vs=versions(), Q=model.get("q"), S=model.get("s"), C=model.get("c"), capHours=Mt.monthlyCap/Mt.hourly;
+        const aMonthly=rangeOf(AO.itemIds);
         const nav=[["options","Pricing"],["findings","What I found"],["scope","Scope"],["delivery","Timeline"],["stack","Stack and experience"],["commercial","Costs and terms"],["questions","Questions"]];
         const cols=P.phases.length;
         document.title=M.title;
@@ -611,27 +645,26 @@
       <ul class="facts">
         <li>A back-office system she owns, replacing BrokerMint, built around what she actually uses</li>
         <li>A signed contract creates the deal and fills in its price, dates, commission, checklist and CDA</li>
-        <li>Fixed price: ${dollars(B.price)} for Option B (core) or ${dollars(A.price)} for Option A (complete)</li>
-        <li>Live in ${B.weeks} weeks (Option B) or ${A.weeks} weeks (Option A) from kickoff</li>
+        <li>Three versions, each as Option B (core) or Option A (adds MLS, CRM, onboarding and an assistant)</li>
+        <li>Fixed prices from ${dollars(Q.price)} to ${dollars(C.price+AO.price)}, live in ${Q.weeks}–${C.weeks+AO.weeks} weeks</li>
       </ul>
     </div>
     <nav class="toc" aria-labelledby="toc-h"><p class="toc-h" id="toc-h">Quick links</p><ul>${nav.map(([id,t])=>`<li><a href="#${id}">${t}</a></li>`).join("")}</ul></nav>
   </section>
 
   <section class="section" aria-labelledby="options"><div class="wrap">
-    ${sectionHead("options","Options and pricing","Option B covers every must-have in the spec. Option A adds MLS, CRM, onboarding and an assistant. Prices are fixed.")}
-    <div class="cmp r5">
-      <div class="cmp-labels" aria-hidden="true"><div class="opt-head"></div><div>Build price</div><div>Live in</div><div>Running costs</div><div>Includes</div></div>
-      ${os.map(optionCell).join("")}
+    ${sectionHead("options","Versions and pricing",`Each version builds on the one before. Option A adds MLS and county data, a CRM, agent onboarding and an AI assistant to any version for ${dollars(AO.price)} and ${AO.weeks} weeks.`)}
+    <div class="cmp v3">
+      <div class="cmp-labels" aria-hidden="true"><div class="opt-head"></div><div>Option B (core)</div><div>Option A (with add-on)</div><div>Live in</div><div>Running costs</div><div>Includes</div></div>
+      ${vs.map(versionCell).join("")}
     </div>
-    <div class="cmp-foot"><h3>In both options</h3><ul class="incl">
+    <div class="cmp-foot"><h3>In every version</h3><ul class="incl">
+      <li>Contract-to-deal automation through DocuSign</li>
       <li>She owns the code and accounts</li>
-      <li>2FA and role-based access</li>
-      <li>Daily backups</li>
-      <li>Migration from BrokerMint</li>
+      <li>2FA, role-based access, daily backups</li>
       <li>Training and ${numWord(T.supportMonths)} month of support</li>
     </ul></div>
-    <p class="fine">All prices in USD. Running costs are paid directly to each provider, with no markup. Option B can be extended to A later for ${dollars(A.price-B.price)}. Accounting, AI document review, offers, the report builder, the document library and the activity log stay in a later phase.</p>
+    <p class="fine">All prices in USD. Running costs are paid directly to each provider, with no markup; Option A adds ${money(aMonthly)} a month. Moving up a version later costs the difference. Accounting, AI document review, offers, the report builder, the document library and the activity log stay in a later phase.</p>
     <div class="hosting">
       <h3 class="sub">Maintenance</h3>
       <p class="sub-lede">Optional, after the included month of support.</p>
@@ -646,40 +679,39 @@
   </div></section>
 
   <section class="section" aria-labelledby="findings"><div class="wrap">
-    ${sectionHead("findings","What I found in her BrokerMint","I went through all 50 screenshots. These are the problems the new system has to fix, and each one is covered in the scope.")}
+    ${sectionHead("findings","What I found in her BrokerMint","I went through all 50 screenshots. These are the problems the new system has to fix, and each one is covered in every version.")}
     <ul class="rules">${P.findings.map(f=>`<li>${f}</li>`).join("")}</ul>
   </div></section>
 
   <section class="section" aria-labelledby="scope"><div class="wrap">
-    ${sectionHead("scope","Scope","Items follow the spec’s section numbers. F is the shared setup and L is launch.")}
+    ${sectionHead("scope","Scope","Item numbers follow the spec’s sections. F is the shared setup and L is launch.")}
     <div class="part">
       <h3 class="sub">How a signed contract becomes a deal</h3>
       <ol class="flow">
         <li><strong>Agent</strong><p>Fills in a few fields, picks the checklist and sends from zipForms.</p></li>
         <li><strong>DocuSign</strong><p>Collects signatures and tells the app when it’s fully signed.</p></li>
         <li class="ai"><strong>The app</strong><p>Creates the deal, fills in the contract fields and sets up the commission.</p></li>
-        <li><strong>Checklist and calendar</strong><p>Due dates count from the contract; deadlines go to Google Calendar.</p></li>
+        <li><strong>Checklist and deadlines</strong><p>Due dates count from the contract; reminders go out on time.</p></li>
         <li><strong>Broker and title</strong><p>Review queue, CDA for e-sign, signed contract sent to title.</p></li>
       </ol>
     </div>
     <div class="part">
-      <div class="scope-tools"><span>Item prices add up to each option’s price. “Ready by” is the week an item can be tested.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
-      <table class="scope-tbl" role="presentation"><thead><tr><td><div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Price</span><span>Ready by</span>${os.map(o=>`<span class="c" title="${escape(o.label)}">${escape(o.short)}</span>`).join("")}<span></span></div></td></tr></thead>
+      <div class="scope-tools"><span>Item prices add up to each version’s price. Columns 1–3 are the versions; A is the Option A add-on.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
+      <table class="scope-tbl" role="presentation"><thead><tr><td><div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Price</span><span>Ready by</span>${vs.map(v=>`<span class="c" title="${escape(v.name)}">${escape(v.short)}</span>`).join("")}<span class="c" title="Option A add-on">A</span><span></span></div></td></tr></thead>
       <tbody id="scope-list">${renderScope()}</tbody></table>
     </div>
   </div></section>
 
   <section class="section" aria-labelledby="delivery"><div class="wrap">
-    ${sectionHead("delivery","Timeline",`Option B goes live in week ${B.weeks} and Option A in week ${A.weeks}. Weeks count from kickoff; the Christmas and New Year week isn’t counted.`)}
+    ${sectionHead("delivery","Timeline",`Quick Start goes live in week ${Q.weeks}, Standard in week ${S.weeks} and Complete in week ${C.weeks}. Option A adds ${AO.weeks} weeks. Weeks count from kickoff; the Christmas and New Year week isn’t counted.`)}
     <div class="part">
       <h3 class="sub">Plan</h3>
-      <div class="tl" style="--cols:${cols}" role="img" aria-label="Option B live in week ${B.weeks}, Option A in week ${A.weeks}. zipForms and MLS approvals run during weeks 1 to 4.">
-        <span></span>${P.phases.map(p=>`<span class="wk" aria-hidden="true"><b>${weekLabel(p.weeks)}</b><span class="t">${escape(p.title)}</span><small>${escape(p.detail)}</small></span>`).join("")}
-        <span class="vn" aria-hidden="true"><span class="vl">Option B</span><span class="vs">B</span></span><span class="bar" style="grid-column-end:span ${cols-1}" aria-hidden="true"><span class="w">Live&nbsp;</span>week ${B.weeks}</span>
-        <span class="vn" aria-hidden="true"><span class="vl">Option A</span><span class="vs">A</span></span><span class="bar" style="grid-column-end:span ${cols}" aria-hidden="true"><span class="w">Live&nbsp;</span>week ${A.weeks}</span>
-        <span class="vn" aria-hidden="true"><span class="vl">Approvals</span><span class="vs">Appr.</span></span><span class="bar wait" style="grid-column-end:span 2" aria-hidden="true">zipForms and GMAR</span>
+      <div class="tl" style="--cols:${cols}" role="img" aria-label="Quick Start live week ${Q.weeks}, Standard week ${S.weeks}, Complete week ${C.weeks}; Option A adds ${AO.weeks} weeks.">
+        <span></span>${P.phases.map(p=>`<span class="wk" aria-hidden="true"><b>${escape(p.label)}</b><span class="t">${escape(p.title)}</span><small>${escape(p.detail)}</small></span>`).join("")}
+        ${vs.map(v=>`<span class="vn" aria-hidden="true"><span class="vl">${escape(v.name)}</span><span class="vs">${escape(v.short)}</span></span><span class="bar" style="grid-column-end:span ${Math.ceil(v.weeks/2)}" aria-hidden="true"><span class="w">Live&nbsp;</span>week ${v.weeks}</span>`).join("")}
+        <span class="vn" aria-hidden="true"><span class="vl">Option A</span><span class="vs">A</span></span><span class="bar add" aria-hidden="true">+${AO.weeks} weeks</span>
       </div>
-      <ol class="weeklist" aria-label="Plan">${P.phases.map(p=>`<li><b>${weekLabel(p.weeks)}: ${escape(p.title)}</b><span>${escape(p.detail)}</span></li>`).join("")}</ol>
+      <ol class="weeklist" aria-label="Plan">${P.phases.map(p=>`<li><b>${escape(p.label)}: ${escape(p.title)}</b><span>${escape(p.detail)}</span></li>`).join("")}</ol>
     </div>
     <div class="part">
       <h3 class="sub">Needed, and when</h3>
@@ -703,7 +735,7 @@
   </div></section>
 
   <section class="section" aria-labelledby="commercial"><div class="wrap">
-    ${sectionHead("commercial","Running costs and terms","Running costs are estimates from providers’ published prices in November 2026.")}
+    ${sectionHead("commercial","Running costs and terms","Running costs are estimates from providers’ published prices in November 2026. They are the same for every version.")}
     <div class="part">
       <div class="costs">
         <div class="costs-head"><h3 class="sub">Monthly running costs</h3></div>
@@ -714,11 +746,11 @@
     <div class="part">
       <h3 class="sub">Terms</h3>
       <dl class="terms">
-        <div><dt>Payment</dt><dd>${T.kickoffPercent}% at kickoff, ${T.milestonePercent}% when a signed test contract creates a deal on its own (around week ${T.milestoneWeek}), and ${T.launchPercent}% at launch.</dd></div>
+        <div><dt>Payment</dt><dd>${T.kickoffPercent}% at kickoff, ${T.milestonePercent}% when a signed test contract creates a deal on its own (around week ${T.milestoneWeek}), and ${T.launchPercent}% at launch. With Option A, the add-on’s share of the final payment is due when it goes live.</dd></div>
         <div><dt>Acceptance</dt><dd>Each item is accepted when it meets its “Done when” check.</dd></div>
         <div><dt>Approvals</dt><dd>Lone Wolf and GMAR set their own approval times. If either is late, the rest launches on schedule and that part follows within a week of approval.</dd></div>
         <div><dt>Support</dt><dd>${numWord(T.supportMonths,true)} month after launch is included. Maintenance after that is optional, as set out under Pricing.</dd></div>
-        <div><dt>Changes</dt><dd>Work outside this scope is priced and scheduled before it starts.</dd></div>
+        <div><dt>Changes</dt><dd>Work outside the chosen version is priced and scheduled before it starts. Moving up a version costs the difference.</dd></div>
         <div><dt>Ownership</dt><dd>The brokerage owns the code, the data and every account. The code is handed over in a Git repository once paid in full.</dd></div>
         <div><dt>Not included</dt><dd>Later-phase features; DocuSign, Stripe, MLS and hosting fees; legal review of forms and policies.</dd></div>
         <div><dt>Validity</dt><dd>Valid until ${longDate(M.validUntil)}.</dd></div>
