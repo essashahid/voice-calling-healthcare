@@ -467,13 +467,6 @@
         "zipForms: free to Texas REALTORS members; any Lone Wolf partner fee confirmed on application.",
         "GMAR: one-time connection fee of about $35."
       ],
-      findings: [
-        "The pipeline shows 23 deals closed from June to October, but the goal gauge still reads 0%.",
-        "Most of her 29 listings show a 0% gross commission, so office and agent figures are unreliable. Caps are tracked by hand.",
-        "Lead source is empty on every listing in the listings report.",
-        "At least one deal has its checklist attached twice, so every item appears twice.",
-        "The task list is cluttered with overdue California disclosures that aren’t in her Texas templates."
-      ],
       stack: [
         ["App", "Next.js and TypeScript, built for desktop and phone"],
         ["Database, logins, files", "Supabase (Postgres) with 2FA, role-based access and daily backups"],
@@ -613,7 +606,7 @@
       function render() {
         const vs=versions(), Q=model.get("q"), S=model.get("s"), C=model.get("c"), capHours=Mt.monthlyCap/Mt.hourly;
         const aMonthly=rangeOf(AO.itemIds);
-        const nav=[["options","Pricing"],["findings","Current issues"],["scope","Scope"],["delivery","Timeline"],["stack","Stack and experience"],["commercial","Costs and terms"]];
+        const nav=[["options","Pricing"],["scope","Scope"],["delivery","Timeline"],["stack","Stack and experience"],["commercial","Costs and terms"]];
         const cols=P.phases.length;
         document.title=M.title;
         $("#app").innerHTML=`
@@ -664,10 +657,6 @@
     </div>
   </div></section>
 
-  <section class="section" aria-labelledby="findings"><div class="wrap">
-    ${sectionHead("findings","Issues in her current BrokerMint")}
-    <ul class="rules">${P.findings.map(f=>`<li>${f}</li>`).join("")}</ul>
-  </div></section>
 
   <section class="section" aria-labelledby="scope"><div class="wrap">
     ${sectionHead("scope","Scope")}
