@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Proposal for a brokerage back-office system replacing BrokerMint: two options with fixed prices, scope, timeline, stack, running costs, terms and questions.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Brokerage Back-Office Proposal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      color-scheme:light;
+      --bg:#f6f7f8;--surface:#ffffff;--ink:#16202a;--muted:#4b5865;--line:#dde2e7;--line-strong:#aab5c0;
+      --accent:#1c5871;--accent-tint:#edf4f7;--accent-line:#8db0c0;
+      --serif:"Source Serif 4","Source Serif Pro",Georgia,"Times New Roman",serif;
+      --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+      --max:1520px;--gutter:clamp(32px,3.2vw,48px);
+    }
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e4e9ed;--muted:#a3afba;--line:#27313a;--line-strong:#4a5661;--accent:#89c0d7;--accent-tint:#15262f;--accent-line:#3f6d81}}
+    :root[data-theme="dark"]{color-scheme:dark;--bg:#101519;--surface:#161d23;--ink:#e4e9ed;--muted:#a3afba;--line:#27313a;--line-strong:#4a5661;--accent:#89c0d7;--accent-tint:#15262f;--accent-line:#3f6d81}
+
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:20px;-webkit-text-size-adjust:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+    h1,h2,h3,h4,p,ul,ol,dl,dd{margin:0}
+    ul,ol{padding:0;list-style:none}
+    button{font:inherit;color:inherit}
+    a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+    a:hover{text-decoration-thickness:2px}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .skip{position:absolute;left:16px;top:-60px;background:var(--ink);color:var(--bg);padding:8px 14px;z-index:5}
+    .skip:focus{top:12px}
+    .wrap{max-width:calc(var(--max) + 2*var(--gutter));margin-inline:auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+    .lbl{display:block;font-size:13px;line-height:1.4;color:var(--muted)}
+    .no{color:var(--muted)}
+    .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+    .ring{display:inline-block;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--accent)}
+    .table-wrap{overflow-x:auto}
+    table{border-collapse:collapse;width:100%}
+    th{text-align:left;font-weight:600}
+    .fine{font-size:14px;color:var(--muted);margin-top:16px;max-width:90ch}
+
+    /* Header */
+    .site-header{border-bottom:1px solid var(--line)}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:10px 24px;flex-wrap:wrap;padding-block:16px}
+    .identity{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink);text-decoration:none}
+    .avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;background:var(--line)}
+    .footer-inner .avatar{width:28px;height:28px}
+    .header-right{display:flex;align-items:center;gap:10px 24px;flex-wrap:wrap}
+    .doc-meta{display:flex;flex-wrap:wrap;gap:2px 20px;font-size:13px;color:var(--muted)}
+    .doc-meta b{font-weight:500;color:var(--ink)}
+    .controls{display:flex;gap:8px}
+    .ctl{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);font-size:13px;cursor:pointer}
+    .ctl:hover{border-color:var(--ink)}
+    .ctl svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+    /* Overview */
+    .overview{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 64px;padding-block:56px 48px;align-items:end}
+    .kicker{font-size:15px;font-weight:500;color:var(--accent)}
+    h1{font:600 clamp(34px,4vw,48px)/1.08 var(--serif);letter-spacing:-.015em;margin-top:10px;text-wrap:balance}
+    .facts{display:grid;gap:10px;font-size:18px;line-height:1.5;max-width:68ch}
+    .facts li{position:relative;padding-left:20px}
+    .facts li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+    .toc{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 28px;padding-top:20px;border-top:1px solid var(--line);font-size:15px}
+    .toc-h{font-weight:600;color:var(--ink)}
+    .toc ul{display:flex;flex-wrap:wrap;gap:6px 28px}
+
+    /* Sections */
+    .section{padding-block:56px}
+    .section+.section{border-top:1px solid var(--line)}
+    .sec-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px 64px;align-items:baseline;margin-bottom:32px}
+    h2{font:600 clamp(26px,2.6vw,32px)/1.15 var(--serif);letter-spacing:-.01em;text-wrap:balance}
+    .sec-head p{font-size:16px;color:var(--muted);max-width:64ch}
+    h3.sub{font:600 18px/1.35 var(--sans);margin-bottom:6px}
+    .sub-lede{font-size:15px;color:var(--muted);margin-bottom:16px;max-width:72ch}
+    .part+.part{margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
+
+    /* Options comparison */
+    .cmp{display:grid;grid-template-columns:200px repeat(2,minmax(0,1fr));grid-template-rows:repeat(6,auto);background:var(--surface);border:1px solid var(--line-strong);border-radius:10px 10px 0 0;overflow:hidden}
+    .cmp-labels,.opt{grid-row:1/span 6;display:grid;grid-template-rows:subgrid;min-width:0}
+    .cmp-labels{background:var(--bg)}
+    .cmp-labels>*,.opt>*{padding:16px 22px;border-top:1px solid var(--line)}
+    .cmp-labels>:first-child,.opt>:first-child{border-top:0}
+    .cmp-labels>*{font-size:14px;font-weight:500;color:var(--muted)}
+    .opt{border-left:1px solid var(--line)}
+    .opt-head{padding-top:22px!important}
+    .opt-top{font-size:14px;color:var(--muted)}
+    .opt h3{font:600 24px/1.2 var(--serif);margin-top:4px}
+    .opt .desc{font-size:15px;color:var(--muted);margin-top:4px}
+    .price{font:600 40px/1.05 var(--serif);letter-spacing:-.01em}
+    .price-sub{font-size:13px;color:var(--muted);margin-top:6px}
+    .big{font:600 20px/1.3 var(--sans)}
+    .big small{font-size:14px;font-weight:400;color:var(--muted);white-space:nowrap}
+    .opt .txt{font-size:15px;line-height:1.5;max-width:62ch}
+    .cell-lbl{display:none}
+    .cmp-foot{display:grid;grid-template-columns:200px minmax(0,1fr);border:1px solid var(--line-strong);border-top:0;border-radius:0 0 10px 10px;background:var(--bg)}
+    .cmp-foot>*{padding:14px 22px}
+    .cmp-foot h3{font:500 14px/1.5 var(--sans);color:var(--muted)}
+    .incl{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:14.5px}
+    .incl li{position:relative;padding-left:14px}
+    .incl li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    .hosting{margin-top:40px}
+    .plan{display:grid;grid-template-columns:200px minmax(0,1fr);border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);overflow:hidden}
+    .plan>*{padding:16px 22px}
+    .plan-price{background:var(--bg);border-right:1px solid var(--line)}
+    .plan .fine{margin-top:10px}
+
+    /* Tables */
+    .tbl{font-size:14.5px;border-top:1px solid var(--ink)}
+    .tbl thead th{font-size:13px;font-weight:500;color:var(--muted);padding:10px 16px 10px 0;border-bottom:1px solid var(--line-strong)}
+    .tbl td,.tbl tbody th{padding:11px 16px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+    .tbl tbody th{font-weight:600}
+    .hosts tbody th{width:24%}
+    .hosts td:nth-child(2){width:12%;white-space:nowrap}
+    .hosts td:nth-child(3){width:16%;white-space:nowrap}
+    .hosts td:nth-child(4){color:var(--muted)}
+    .deps tbody th{font-weight:500;width:58%}
+    .deps td:nth-child(2){width:16%;white-space:nowrap}
+    .deps td:nth-child(3){color:var(--muted)}
+
+    /* Scope */
+    .flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+    .flow li{position:relative;padding:12px 26px 0 0;border-top:2px solid var(--line-strong)}
+    .flow li:not(:last-child)::after{content:"";position:absolute;top:-6px;right:12px;width:9px;height:9px;border-top:2px solid var(--line-strong);border-right:2px solid var(--line-strong);transform:rotate(45deg)}
+    .flow li.ai{border-top-color:var(--accent)}
+    .flow strong{display:block;font-size:15px}
+    .flow p{font-size:14px;color:var(--muted);margin-top:2px}
+    .scope-tools{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;margin-bottom:12px;font-size:14px;color:var(--muted)}
+    .linkbtn{border:1px solid var(--line-strong);background:var(--surface);border-radius:6px;padding:6px 12px;font-size:14px;cursor:pointer}
+    .linkbtn:hover{border-color:var(--ink)}
+    .srow{display:grid;grid-template-columns:minmax(0,1fr) 92px 160px 34px 34px 28px;align-items:center;column-gap:12px}
+    .scope-tbl,.scope-tbl>*,.scope-tbl>*>tr,.scope-tbl>*>tr>td{display:block;padding:0}
+    .scope-head{padding:10px 0;border-bottom:1px solid var(--ink);font-size:13px;font-weight:500;color:var(--muted)}
+    .scope-head .c{text-align:center}
+    .grp{font:600 15px/1.4 var(--sans);color:var(--accent);padding:26px 0 8px;border-bottom:1px solid var(--line-strong)}
+    .it{border-bottom:1px solid var(--line)}
+    .it>summary{list-style:none;cursor:pointer;padding:14px 0;font-size:15px}
+    .it>summary::-webkit-details-marker{display:none}
+    .it>summary:hover .nm>span:last-child{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong)}
+    .it>summary:focus-visible{outline-offset:-2px}
+    .nm{font-weight:600;display:flex;gap:10px;min-width:0}
+    .no-tag{min-width:2.2em;color:var(--muted);font-weight:500}
+    .money{font-weight:600}
+    .s-sub{display:block;font-size:13px;color:var(--muted);line-height:1.35}
+    .srow .c{text-align:center}
+    .chev{width:14px;height:14px;justify-self:end;transition:transform .15s;stroke:var(--muted);fill:none;stroke-width:2}
+    .it[open] .chev{transform:rotate(180deg)}
+    .it-body{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:16px 32px;padding:4px 0 20px calc(2.2em + 10px);font-size:14.5px;line-height:1.55}
+    .it-body .note{display:block;color:var(--muted);font-style:italic;margin-top:6px;font-size:14px}
+    .it-body .lbl{font-weight:500;margin-bottom:3px}
+    .m-meta{display:none}
+
+    /* Timeline */
+    .tl{display:grid;grid-template-columns:110px repeat(4,minmax(0,1fr));row-gap:8px}
+    .tl .wk{padding:0 10px 10px;border-left:1px solid var(--line);font-size:13.5px;line-height:1.4}
+    .tl .wk b{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+    .tl .wk .t{display:block;font-weight:600}
+    .tl .wk small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+    .tl .vn{grid-column:1;font-size:14px;font-weight:500;align-self:center}
+    .tl .vs{display:none}
+    .tl .bar{grid-column-start:2;height:28px;border-radius:4px;background:var(--accent-tint);border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:flex-end;padding:0 10px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden}
+    .tl .bar.wait{background:transparent;border-style:dashed;border-color:var(--line-strong);justify-content:flex-start;font-weight:500;color:var(--muted)}
+    .weeklist{display:none;grid-template-columns:1fr 1fr;gap:10px 20px;margin-top:16px;font-size:14px}
+    .weeklist b{display:block}
+    .weeklist span{color:var(--muted)}
+
+    /* Costs and terms */
+    .costs{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0 40px}
+    .costs-head{grid-column:1/-1}
+    .num{font-size:14.5px;border-top:1px solid var(--ink)}
+    .num thead th{font-size:13px;font-weight:500;color:var(--muted);padding:10px 0 10px 12px;border-bottom:1px solid var(--line-strong);text-align:right;white-space:nowrap}
+    .num thead th:first-child{text-align:left;padding-left:0}
+    .num td,.num tbody th,.num tfoot th{padding:9px 0 9px 12px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;white-space:nowrap}
+    .num tbody th,.num tfoot th{text-align:left;padding-left:0;font-weight:500;white-space:normal}
+    .num th small{display:block;font-size:13px;color:var(--muted);font-weight:400}
+    .num tfoot th,.num tfoot td{font-weight:600;border-top:1px solid var(--ink);border-bottom:0}
+    .notes{font-size:14.5px;color:var(--muted);max-width:72ch}
+    .notes li+li{margin-top:8px}
+    .rules{columns:2;column-gap:48px;font-size:14.5px;color:var(--muted)}
+    .rules li{break-inside:avoid;margin-bottom:10px;max-width:72ch}
+    .rules strong{color:var(--ink);font-weight:600}
+    .terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px}
+    .terms>div{padding:14px 0;border-top:1px solid var(--line)}
+    .terms dt{font-weight:600;font-size:15px}
+    .terms dd{font-size:14.5px;color:var(--muted);margin-top:2px;max-width:70ch}
+
+    /* Recent work */
+    .work{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 64px;align-items:start}
+    .shot{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);line-height:0}
+    .shot img{display:block;width:100%;height:auto}
+    .work h3{font:600 24px/1.2 var(--serif)}
+    .work .site{font-size:15px;margin-top:4px}
+    .work .lede{font-size:16px;margin-top:12px;max-width:64ch}
+    .work ul{display:grid;gap:6px;margin-top:14px;font-size:15px;max-width:72ch}
+    .work li{position:relative;padding-left:18px}
+    .work li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    .work .aside{font-size:14px;color:var(--muted);margin-top:14px;max-width:72ch}
+
+    .site-footer{border-top:1px solid var(--line)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding-block:22px 36px;font-size:13px;color:var(--muted)}
+    .footer-inner .identity{font-size:14px}
+    .error{max-width:720px;margin:64px auto;padding:24px;border:1px solid var(--ink)}
+
+    @media screen and (max-width:1100px){
+      .cmp{grid-template-columns:160px repeat(2,minmax(0,1fr))}
+      .cmp-labels>*,.opt>*{padding:14px 16px}
+      .cmp-foot{grid-template-columns:160px minmax(0,1fr)}
+      .cmp-foot>*{padding:14px 16px}
+      .price{font-size:34px}
+      .srow{grid-template-columns:minmax(0,1fr) 84px 140px 30px 30px 24px;column-gap:10px}
+    }
+    @media screen and (max-width:900px){
+      :root{--gutter:24px}
+      .overview,.sec-head,.work{grid-template-columns:1fr}
+      .overview{padding-block:40px 36px;gap:16px}
+      .sec-head{margin-bottom:24px}
+      .cmp{grid-template-columns:1fr;grid-template-rows:none;border:0;background:transparent;border-radius:0;overflow:visible;gap:14px}
+      .cmp-labels{display:none}
+      .opt{grid-row:auto;grid-template-rows:none;grid-template-columns:1fr 1fr;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface)}
+      .opt>*{padding:12px 16px}
+      .opt-head,.opt .pr,.opt .inc,.opt .fit{grid-column:1/-1}
+      .opt .mo{border-left:1px solid var(--line)}
+      .cell-lbl{display:block;font-size:13px;color:var(--muted);margin-bottom:2px}
+      .cmp-foot{grid-template-columns:1fr;margin-top:14px;border-top:1px solid var(--line-strong);border-radius:10px}
+      .cmp-foot>*+*{padding-top:0}
+      .costs,.terms,.plan{grid-template-columns:1fr}
+      .plan-price{border-right:0;border-bottom:1px solid var(--line)}
+      .costs{gap:28px}
+      .rules{columns:1}
+      .scope-head{display:none}
+      .it>summary.srow{grid-template-columns:minmax(0,1fr) 20px;row-gap:4px}
+      .it>summary .d{display:none}
+      .m-meta{display:block;grid-column:1;font-size:14px;color:var(--muted);padding-left:calc(2.2em + 10px)}
+      .m-meta b{color:var(--ink);font-weight:600}
+      .chev{grid-column:2;grid-row:1}
+      .it-body{grid-template-columns:1fr;gap:12px}
+      .flow{grid-template-columns:1fr}
+      .flow li{border-top:0;border-left:2px solid var(--line-strong);padding:0 0 14px 16px}
+      .flow li.ai{border-left-color:var(--accent)}
+      .flow li:not(:last-child)::after{display:none}
+      .tl{grid-template-columns:44px repeat(4,minmax(0,1fr))}
+      .tl .wk{padding:0 4px 8px}
+      .tl .wk b .w{display:none}
+      .tl .wk .t,.tl .wk small{display:none}
+      .tl .bar{padding:0 6px;font-size:12px}
+      .tl .bar .w{display:none}
+      .tl .vl{display:none}
+      .tl .vs{display:inline}
+      .weeklist{display:grid}
+    }
+    @media screen and (max-width:600px){
+      :root{--gutter:16px}
+      .doc-meta{order:2;width:100%}
+      .header-right{width:100%;justify-content:space-between}
+      .section{padding-block:40px}
+      .facts{font-size:17px;gap:8px}
+      .toc{display:block;font-size:16px}
+      .toc-h{margin-bottom:10px}
+      .toc ul{display:grid;gap:10px}
+      .toc li{position:relative;padding-left:20px}
+      .toc li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+      .weeklist{grid-template-columns:1fr}
+      .hosting{margin-top:28px}
+      .tbl thead{display:none}
+      .tbl tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
+      .tbl td,.tbl tbody th{display:block;width:auto!important;padding:0;border:0;white-space:normal!important}
+      .tbl td{margin-top:3px}
+      .tbl td[data-lbl]::before{content:attr(data-lbl) ": ";color:var(--muted)}
+    }
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.chev{transition:none}}
+
+    @page{size:Letter;margin:12mm 13mm 13mm}
+    @media print{
+      :root,:root[data-theme="dark"],:root:not([data-theme="light"]){color-scheme:light;--bg:#ffffff;--surface:#ffffff;--ink:#111a22;--muted:#3e4a56;--line:#d5dbe1;--line-strong:#9ca8b4;--accent:#1c5871;--accent-tint:#eef4f7;--accent-line:#8db0c0;--gutter:0px}
+      body{font-size:9.5pt;line-height:1.42;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .skip,.controls,.toc,.chev,.linkbtn,.weeklist,.m-meta{display:none!important}
+      a{color:inherit;text-decoration:none}
+      .wrap{max-width:none;padding:0}
+      .header-inner{padding-block:0 6pt}
+      .doc-meta{font-size:8.5pt}
+      .overview{grid-template-columns:5fr 7fr;gap:24pt;padding-block:14pt 12pt}
+      .kicker{font-size:9pt}
+      h1{font-size:24pt}
+      .facts{font-size:10pt;gap:3pt}
+      .section{padding-block:10pt 12pt}
+      .sec-head{grid-template-columns:5fr 7fr;gap:6pt 24pt;margin-bottom:10pt;break-inside:avoid;break-after:avoid}
+      h2{font-size:17pt}
+      .sec-head p{font-size:9pt}
+      h3.sub{font-size:11pt;margin-bottom:3pt;break-after:avoid}
+      .sub-lede{font-size:9pt;margin-bottom:6pt}
+      .part+.part{margin-top:10pt;padding-top:8pt}
+      .fine{font-size:8.5pt;margin-top:6pt}
+      .cmp{grid-template-columns:96pt repeat(2,minmax(0,1fr));break-inside:avoid}
+      .cmp-labels>*,.opt>*{padding:6pt 9pt}
+      .opt-head{padding-top:8pt!important}
+      .cmp-labels>*{font-size:8.5pt}
+      .opt h3{font-size:14pt}
+      .opt .desc,.opt .txt{font-size:8.8pt}
+      .opt-top{font-size:8.5pt}
+      .price{font-size:22pt}
+      .price-sub{font-size:8pt;margin-top:2pt}
+      .big{font-size:11.5pt}.big small{font-size:8.5pt}
+      .cmp-foot{grid-template-columns:96pt 1fr;break-inside:avoid}
+      .cmp-foot>*{padding:6pt 9pt}
+      .cmp-foot h3{font-size:8.5pt}
+      .incl{font-size:8.8pt;gap:2pt 16pt}
+      .hosting{margin-top:12pt;break-inside:avoid}
+      .plan{grid-template-columns:96pt 1fr}
+      .plan>*{padding:6pt 9pt}
+      .plan .fine{margin-top:4pt}
+      .tbl{font-size:8.6pt}
+      .tbl thead th{font-size:7.8pt;padding-block:4pt}
+      .tbl td,.tbl tbody th{padding-block:4.5pt}
+      .tbl tr{break-inside:avoid}
+      .flow{grid-template-columns:repeat(5,1fr);break-inside:avoid}
+      .flow li{border-left:0;border-top:2px solid var(--line-strong);padding:6pt 14pt 0 0}
+      .flow li.ai{border-top-color:var(--accent)}
+      .flow li:not(:last-child)::after{display:block;top:-5px;right:8px;width:7px;height:7px}
+      .flow strong{font-size:9pt}.flow p{font-size:8.5pt}
+      .scope-tools{font-size:8.5pt;margin-bottom:4pt}
+      .srow{grid-template-columns:minmax(0,1fr) 56pt 104pt 20pt 20pt}
+      .scope-head{font-size:8pt;padding:5pt 0}
+      .scope-head>span:last-child{display:none}
+      .scope-tbl{display:table}
+      .scope-tbl>thead{display:table-header-group}
+      .scope-tbl>tbody{display:table-row-group}
+      .scope-tbl>*>tr{display:table-row;break-inside:avoid}
+      .scope-tbl>*>tr>td{display:table-cell}
+      .scope-tbl>tbody>tr:has(>td>.grp){break-after:avoid}
+      .grp{font-size:9.5pt;padding:9pt 0 4pt;break-after:avoid}
+      .it{break-inside:avoid}
+      .it>summary{padding:6pt 0 3pt;font-size:9.5pt}
+      .s-sub{font-size:7.8pt}
+      .it-body{grid-template-columns:1.3fr 1fr 1fr;gap:4pt 16pt;padding:0 0 7pt calc(2.2em + 10px);font-size:8.6pt;line-height:1.4}
+      .it-body .lbl{font-size:7.8pt;margin-bottom:1pt}
+      .it-body .note{font-size:8pt;margin-top:2pt}
+      details.it>.it-body{display:grid!important}
+      details.it::details-content{content-visibility:visible;display:contents}
+      .dot,.ring{width:6.5pt;height:6.5pt}
+      .tl{grid-template-columns:62pt repeat(4,minmax(0,1fr));row-gap:3pt;break-inside:avoid}
+      .tl .wk{padding:0 5pt 5pt;font-size:8pt}
+      .tl .wk b{font-size:7.8pt}.tl .wk small{font-size:7.5pt}
+      .tl .wk .t,.tl .wk small{display:block}
+      .tl .w{display:inline!important}
+      .tl .vl{display:inline!important}.tl .vs{display:none!important}
+      .tl .vn{font-size:8.5pt}
+      .tl .bar{height:14pt;font-size:7.8pt}
+      .num{font-size:8.6pt}
+      .num thead th{font-size:7.8pt;padding-block:4pt}
+      .num td,.num tbody th,.num tfoot th{padding-block:3.5pt}
+      .num th small{font-size:7.8pt}
+      .num tr{break-inside:avoid}
+      .costs{grid-template-columns:1.15fr 1fr;gap:0 20pt}
+      .costs-head{break-after:avoid}
+      tfoot{display:table-row-group}
+      .notes{font-size:8.5pt}
+      .notes li+li{margin-top:4pt}
+      .rules{font-size:8.5pt;columns:2;column-gap:20pt}
+      .rules li{margin-bottom:4pt}
+      .terms{gap:0 24pt}
+      .terms>div{padding:5pt 0;break-inside:avoid}
+      .terms dt{font-size:9pt}.terms dd{font-size:8.6pt}
+      .work{grid-template-columns:5fr 7fr;gap:18pt;break-inside:avoid}
+      .work h3{font-size:14pt}
+      .work .site{font-size:9pt}
+      .work .lede{font-size:9.5pt;margin-top:5pt}
+      .work ul{font-size:9pt;gap:2pt;margin-top:6pt}
+      .work .aside{font-size:8.5pt;margin-top:6pt}
+      .footer-inner{padding-block:8pt 0;font-size:8pt}
+      h2,h3,h4{break-after:avoid}
+      p{orphans:3;widows:3}
+    }
+  
+    /* Back-office additions */
+    .cmp.r5{grid-template-rows:repeat(5,auto)}
+    .cmp.r5 .cmp-labels,.cmp.r5 .opt{grid-row:1/span 5}
+    .stack tbody th{width:26%}
+    @media screen and (max-width:900px){.cmp.r5 .opt{grid-row:auto}}
+
+    .tl{grid-template-columns:110px repeat(var(--cols),minmax(0,1fr))!important}
+    .qs{display:grid;gap:10px;font-size:14.5px;max-width:110ch;counter-reset:q}
+    .qs li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:4px 16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+    .qs b{font-weight:600;color:var(--accent)}
+    .qs span{color:var(--ink)}
+    .xp dd{color:var(--muted)}
+    @media screen and (max-width:900px){.tl{grid-template-columns:44px repeat(var(--cols),minmax(0,1fr))!important}}
+    @media screen and (max-width:600px){.qs li{grid-template-columns:1fr}}
+    @media print{.tl{grid-template-columns:62pt repeat(var(--cols),minmax(0,1fr))!important}.qs{font-size:8.6pt;gap:4pt}.qs li{grid-template-columns:70pt 1fr;padding-bottom:4pt;break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip">Skip to proposal</a>
+  <div id="app"></div>
+  <noscript><div class="error"><h1>Brokerage back-office proposal</h1><p>This proposal needs JavaScript to show its prices and timeline.</p></div></noscript>
+  <script>
+    /* EDIT HERE. Prices, weeks, items and costs live in this object. Option prices must equal the sum of their items. */
+    const PROPOSAL = {
+      meta: { author: "Essa Arshad", photo: "data:image/jpeg;base64,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", number: "EA-2026-1111", issued: "2026-11-11", validUntil: "2026-11-25", currency: "USD", locale: "en-US", title: "Brokerage Back-Office Proposal", heading: "Brokerage Back-Office System", kicker: "Proposal for a Texas real estate brokerage" },
+      settings: { kickoffPercent: 30, milestonePercent: 30, launchPercent: 40, milestoneWeek: 6, supportMonths: 1 },
+      maintenance: { hourly: 20, monthlyCap: 500, noticeDays: 30, replyDays: 1 },
+      groups: { core: "Option B: core system", extra: "Option A additions" },
+      items: [
+        { id: "setup", number: "F", sec: "§2, §15", group: "core", name: "Setup, logins and roles", price: 600, ready: 2, delivers: "The web app, for desktop and phone, branded with her logo and colors. Broker, Agent and Admin/TC roles: agents see only their own deals, contacts and money. 2FA login, invites, active and inactive users, and “act on behalf of” for the broker. Daily backups. The database leaves room for accounting, offers and the other later-phase features.", access: "Logo, colors, the user list, and hosting accounts in her name.", done: "Each role sees only what it should, 2FA works and a backup restores." },
+        { id: "automation", number: "1", sec: "§1", group: "core", name: "Document automation", price: 1300, ready: 6, delivers: "When a contract is fully signed, the deal is created or updated on its own: sales price (replacing the list price), option period and fee, closing date, earnest money, financing type, parties and commission. The agent’s plan sets up the commission, the deal type loads its checklist, and due dates count from the contract dates. Status moves to pending on signing and to closed once the closing date passes and the CDA is signed. Agents get due-soon and past-due emails; the broker gets one daily summary. Signed documents go to every signer, and one click sends the contract to the title company.", access: "A signed sample contract for each deal type, and her due-date rules.", done: "A test contract signed through DocuSign creates a complete deal with the right price, dates, commission and checklist, without typing.", note: "The app reads the signed TREC contract to fill the fields. This is field reading only, not the AI document review planned for later." },
+        { id: "reports", number: "3", sec: "§3, §13", group: "core", name: "Dashboard and reports", price: 500, ready: 8, delivers: "Goal gauge (percent of goal and time left) by sales volume or company dollar; broker and agent views with cap progress; recent deals and useful links. Reports for production by agent and month, closed and pending deals, cap progress, source of business and billing status, filtered by date, agent and status, with CSV export.", access: "Each agent’s yearly goal.", done: "Closing a test deal moves the gauge, the cap bar and the reports." },
+        { id: "transactions", number: "4", sec: "§4", group: "core", name: "Transactions", price: 1100, ready: 4, delivers: "Deal list with search by address, contact or MLS #; views for active, pending, closed, cancelled, closing this month and needs attention; a red flag on deals with past-due documents. Deal page with details and property fields, status actions, checklists (to do, uploaded, submitted, approved, rejected, exempt), documents with an unsorted bucket, contacts with roles, a client portal link, commissions and a simple history. The same checklist can’t be added to a deal twice.", access: "Which of her current deal fields she still uses.", done: "Closed deals are easy to find, and a buyer’s portal link shows only the shared documents." },
+        { id: "commissions", number: "5", sec: "§5, §4", group: "core", name: "Commission plans, caps and CDA", price: 600, ready: 6, delivers: "Plan templates (split, cap, flat fees, E&O) assigned once per agent: 90/10, Flat Fee, Flat Fee (2), Rental, “$1,500 or less” and her custom plans. Each agent has a cap progress bar, and the split stops at the cap. Listing and buying sides with several agents each, showing agent net and company share. The CDA uses the contract price and goes to the broker for e-sign, then to title.", access: "The rules for each plan, each agent’s cap, and year-to-date totals for agents already partway to cap.", done: "A deal that crosses an agent’s cap pays the agent 100% of the rest, and the CDA shows the contract price." },
+        { id: "review", number: "6", sec: "§6", group: "core", name: "Broker review queue", price: 350, ready: 4, delivers: "One queue of deals with documents waiting. Review screen with the PDF and deal info side by side; approve, or reject with a reason (incomplete, incorrect or custom) and a comment. The agent gets an email for every approval and every rejection.", access: "Her rejection reasons.", done: "Rejecting a test document emails the agent the reason within a minute." },
+        { id: "tasks", number: "7", sec: "§7", group: "core", name: "Tasks and notifications", price: 300, ready: 7, delivers: "One list of open tasks and documents across deals, overdue items in red. Emails for the essentials only: submitted, approved, rejected, due soon, past due, pending, closed and CDA ready. Each user turns them on or off, immediate or as a daily summary.", access: "Which emails each role gets by default.", done: "Each user can switch emails off and choose a daily summary." },
+        { id: "settings", number: "8", sec: "§8", group: "core", name: "Settings and checklist templates", price: 350, ready: 2, delivers: "Editable lists for transaction types, roles, lead sources, rejection reasons and email templates. Her 16 working checklist templates are rebuilt with forms attached; she can add, rename, clone and delete them.", access: "A quick review of her templates, dropping the test and setup ones.", done: "Each rebuilt template matches her current items and due-date rules." },
+        { id: "contacts", number: "9", sec: "§9", group: "core", name: "Contacts with lead source", price: 200, ready: 4, delivers: "Contact list with search and types (buyer, seller, agent, other), and a form with lead source and assigned agent. The broker sees where each agent’s business comes from.", access: "Her list of lead sources.", done: "The source-of-business report splits each agent’s deals by lead source." },
+        { id: "esign", number: "10", sec: "§10", group: "core", name: "zipForms and DocuSign", price: 900, ready: 6, readyNote: "zipForms once approved", delivers: "Contracts stay in zipForms and are signed through DocuSign; licensed forms aren’t rebuilt. Forms prefill from the deal (parties, broker, license numbers, address, price). Signed documents come back to the deal automatically, and signing emails carry the brokerage logo. Until Lone Wolf approves the zipForms partner API, the automation runs through DocuSign alone.", access: "Admin access to her DocuSign account, and her signature on Lone Wolf’s partner application.", done: "A contract sent from zipForms and signed in DocuSign lands in the right deal on its own." },
+        { id: "billing", number: "11", sec: "§11", group: "core", name: "Stripe agent billing", price: 450, ready: 7, delivers: "Agents keep a card or bank account on file through Stripe. The $50 monthly office fee charges automatically, and one-off fees (E&O, transaction fees) charge when added. Each agent’s charges, payments and balance show on their profile, and the broker gets a payment status report.", access: "A Stripe account in her name.", done: "A test agent is charged $50 on schedule and the payment shows on their ledger." },
+        { id: "calendar", number: "12", sec: "§12", group: "core", name: "Google Calendar deadlines", price: 200, ready: 7, delivers: "Option expiration, financing, closing and task due dates appear on each agent’s and the broker’s Google Calendar, and move when the dates change.", access: "Each user connects their Google account once.", done: "Changing a closing date moves the calendar event." },
+        { id: "migration", number: "14", sec: "§14", group: "core", name: "Data migration", price: 450, ready: 9, delivers: "Her 53 deals, 103 contacts, users, commission plans, checklist templates and documents move over from BrokerMint’s exports. Duplicate checklist items, missing closing dates and leftover California tasks are cleaned up on the way.", access: "BrokerMint exports of data and documents.", done: "Ten spot-checked deals match BrokerMint, with no duplicates." },
+        { id: "launch", number: "L", sec: "", group: "core", name: "Testing, training and launch", price: 200, ready: 9, readyNote: "Live week 10", delivers: "Testing with the broker on real deals, a recorded training for her and her agents, a short guide, launch, and one month of fixes after launch.", access: "A few hours of the broker’s time in week 9.", done: "She and her agents are trained and working in the new system." },
+        { id: "mls", number: "16", sec: "§16", group: "extra", name: "MLS and county data", price: 1000, ready: 12, readyNote: "After GMAR approval", delivers: "Type an MLS # and the deal fills in (address, price, beds and baths, square feet, legal description, APN, remarks) from GMAR’s approved data feed. The MLS agent sheet is saved to the deal the day it goes under contract. The Hidalgo County appraisal record is pulled by address or APN to confirm the owner and fill property fields, and its detail summary is saved to the deal.", access: "The broker’s signature on GMAR’s data licence for back-office use.", done: "A test MLS # creates a deal with its listing data, agent sheet and county summary attached.", note: "GMAR delivers its data through the Bridge listings API. Approval timing is set by the MLS, so the application goes in during week 1." },
+        { id: "crm", number: "17", sec: "§17", group: "extra", name: "CRM lead pipeline", price: 600, ready: 11, delivers: "A lead pipeline per agent with lead source on every lead, follow-up reminders on the agent’s Google Calendar, one-click conversion to a deal, and broker reassignment of leads that weren’t worked.", access: "Her pipeline stages.", done: "A converted lead becomes a deal with its contact and lead source." },
+        { id: "onboarding", number: "18", sec: "§18", group: "extra", name: "Agent onboarding", price: 400, ready: 12, delivers: "An onboarding checklist for new agents (W-9, agreements signed through DocuSign, tasks), started from the user profile with progress tracked.", access: "Her onboarding documents.", done: "A test agent finishes onboarding and the signed W-9 is saved to their profile." },
+        { id: "assistant", number: "19", sec: "§19", group: "extra", name: "AI help assistant", price: 500, ready: 12, delivers: "A built-in assistant that answers “how do I” questions about the system and pulls data on request, such as an agent’s closings and cap progress. It follows the same access rules, so agents only see their own data.", access: "Nothing extra.", done: "It answers 20 common questions correctly and declines data a user can’t see." }
+      ],
+      options: [
+        { id: "b", label: "Option B", short: "B", name: "Core System", descriptor: "Everything she marked as a must-have", price: 7500, weeks: 10, itemIds: ["setup","automation","transactions","commissions","review","tasks","settings","contacts","esign","billing","calendar","reports","migration","launch"], includes: "Spec sections 1–15: document automation, transactions, commissions and caps, review queue, zipForms and DocuSign, Stripe billing, calendar, reports and migration." },
+        { id: "a", label: "Option A", short: "A", name: "Complete System", descriptor: "Option B plus MLS, CRM and assistant", price: 10000, weeks: 13, base: "b", itemIds: ["mls","crm","onboarding","assistant"], includes: "Everything in Option B, plus MLS and county data, a CRM lead pipeline, agent onboarding and an AI help assistant (sections 16–19)." }
+      ],
+      services: [
+        { name: "Hosting", vendor: "Vercel or Netlify", item: "setup", monthly: [9,20] },
+        { name: "Database, files and daily backups", vendor: "Supabase Pro", item: "setup", monthly: [25,35] },
+        { name: "Email", vendor: "Resend", item: "tasks", monthly: [0,20] },
+        { name: "DocuSign API access", vendor: "Only if her current plan lacks it", item: "esign", monthly: [0,300] },
+        { name: "Contract reading", vendor: "Claude API (Anthropic)", item: "automation", monthly: [5,15] },
+        { name: "MLS data feed", vendor: "GMAR via Bridge", item: "mls", monthly: [10,35] },
+        { name: "Help assistant", vendor: "Claude API (Anthropic)", item: "assistant", monthly: [10,30] }
+      ],
+      costNotes: [
+        "DocuSign: she already signs through DocuSign. If her plan doesn’t allow API access, DocuSign’s API plans start at about $50 a month. This is confirmed in week 1.",
+        "Stripe charges per payment, not monthly: 2.9% + 30¢ by card or 0.8% by bank (capped at $5). On the $50 fee that’s about $1.75 by card or 40¢ by bank.",
+        "zipForms is a Texas REALTORS member benefit. Any Lone Wolf partner fee is confirmed when we apply. Google Calendar is free.",
+        "GMAR also charges a one-time connection fee of about $35."
+      ],
+      findings: [
+        "<strong>None of her 53 deals is closed or cancelled.</strong> That’s why the dashboard reads 0%: nothing ever reaches closed. Section 1’s automatic status fixes the cause.",
+        "<strong>Commissions read $0</strong> on her listings, and no plan has a cap set, so caps are tracked by hand.",
+        "<strong>Lead source is blank</strong> on every deal and contact; her lead-source list has a single option.",
+        "<strong>Some deals have the same checklist added two or three times,</strong> so every item shows twice.",
+        "<strong>Her task list is full of California disclosures</strong> that aren’t in her Texas templates, so real overdue items get lost.",
+        "<strong>Agent billing is set up but unused:</strong> no card on file and no recurring fee."
+      ],
+      stack: [
+        ["App", "Next.js and TypeScript, built for desktop and phone"],
+        ["Database, logins, files", "Supabase (Postgres) with 2FA, role-based access and daily backups"],
+        ["Hosting", "Vercel or Netlify, in her name"],
+        ["E-sign", "DocuSign eSignature API, with Connect for signed-document events"],
+        ["Forms", "zipForms partner API from Lone Wolf"],
+        ["Billing", "Stripe Billing"],
+        ["Calendar and email", "Google Calendar API; Resend for branded emails"],
+        ["AI", "Claude (Anthropic) to read signed contracts and, in Option A, run the help assistant"],
+        ["MLS and county (Option A)", "GMAR feed through the Bridge RESO Web API; Hidalgo County Appraisal District records"]
+      ],
+      experience: [
+        ["DocuSign", "I’ve worked with DocuSign’s eSignature API: sending envelopes, Connect webhooks for completed signings, and pulling signed documents back. That is the core of section 1."],
+        ["zipForms / Lone Wolf", "Access is through Lone Wolf’s partner licence. I’ll apply in week 1 and build to their published API. Until it’s approved, DocuSign carries the automation, as the spec allows."],
+        ["Stripe", "Stripe Billing with saved cards and bank accounts. Card details stay with Stripe and never touch the app."],
+        ["MLS feeds", "GMAR has moved fully to the RESO Web API and delivers through Bridge. I researched MLS data licensing and delivery (Bridge, Trestle, MLS Grid) for Nook & Acre, my own real estate platform, so the path is mapped: the broker signs GMAR’s data licence, GMAR approves the use, and Bridge issues the access keys."]
+      ],
+      phases: [
+        { weeks: [1,2], title: "Setup", detail: "Accounts, exports, approvals filed, roles, templates" },
+        { weeks: [3,4], title: "Deals and review", detail: "Transactions, documents, review queue, contacts" },
+        { weeks: [5,6], title: "Contract automation", detail: "DocuSign, auto-filled deals, commissions, CDA" },
+        { weeks: [7,8], title: "Billing and reports", detail: "Stripe, calendar, emails, dashboard, reports" },
+        { weeks: [9,10], title: "Migration and launch", detail: "BrokerMint data, testing, training, launch" },
+        { weeks: [11,13], title: "Option A additions", detail: "MLS and county data, CRM, onboarding, assistant" }
+      ],
+      dependencies: [
+        { what: "Signed acceptance and {kickoffPercent}% deposit", week: 1, from: "Client" },
+        { what: "Lone Wolf zipForms partner application signed", week: 1, from: "Broker" },
+        { what: "GMAR data licence signed (Option A)", week: 1, from: "Broker" },
+        { what: "BrokerMint exports of data and documents", week: 1, from: "Broker" },
+        { what: "Admin access to her DocuSign account", week: 1, from: "Broker" },
+        { what: "Logo, colors, user list and hosting accounts in her name", week: 1, from: "Broker" },
+        { what: "Commission plan rules, caps and year-to-date totals", week: 2, from: "Broker" },
+        { what: "Checklist template review and due-date rules", week: 2, from: "Broker" },
+        { what: "Signed sample contracts for each deal type", week: 3, from: "Broker" },
+        { what: "Stripe account in her name", week: 6, from: "Broker" },
+        { what: "Testing time with the broker", week: 9, from: "Broker" }
+      ],
+      questions: [
+        ["§1, §10", "How do her agents send contracts today: “Send with DocuSign” from zipForms, or zipForms’ own Digital Ink? Which DocuSign plan is she on, and whose account is it? Assumed: zipForms → DocuSign, on her brokerage account."],
+        ["§1.9", "Closed = closing date passed and CDA signed. Should a deal also close when the title company confirms funding, if that comes first? Assumed: the spec’s rule only."],
+        ["§2", "BrokerMint shows 7 agents plus her; the spec says about 5. How many users at launch, and is there an Admin/TC? Assumed: up to 10 users, one Admin/TC role available."],
+        ["§4", "Her deal page has 40 fields, most of them blank. Assumed: we keep the spec’s fields plus the contract fields, and drop lockbox, yard sign and showing fields unless she uses them."],
+        ["§5", "Is each cap reset on January 1 or on the agent’s anniversary date, and what does “$1,500 or less” mean exactly? Assumed: calendar year; plan rules confirmed in week 2."],
+        ["§8", "Can we drop the test template, the two BrokerMint setup templates and the generic “Buying” one? Assumed: yes, leaving 16."],
+        ["§11", "Card or bank for the $50 fee, and who absorbs Stripe’s fee? What happens after a failed payment? Assumed: agent chooses; brokerage absorbs the fee; two retries, then the broker is emailed."],
+        ["§14", "Can she export documents in bulk from BrokerMint, or only data? Assumed: data by CSV plus a document export; if documents can’t be exported in bulk, we move active and pending deals’ documents only."],
+        ["§16", "Is the broker a GMAR participant who can sign the data licence for back-office use? Assumed: yes."],
+        ["§19", "Should the assistant answer only from this system’s help and her data, never from the web? Assumed: yes."],
+        ["Start", "What kickoff date should we plan for? Weeks count from kickoff; the Christmas and New Year week isn’t counted."]
+      ]
+    };
+
+    (() => {
+      "use strict";
+      const $ = (s) => document.querySelector(s);
+      const root = document.documentElement;
+      const P = PROPOSAL, M = P.meta, T = P.settings, Mt = P.maintenance;
+      const escape = (v) => String(v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+      const dollars = (n) => new Intl.NumberFormat(M.locale,{style:"currency",currency:M.currency,minimumFractionDigits:0,maximumFractionDigits:0}).format(n);
+      const count = (n) => new Intl.NumberFormat(M.locale).format(n);
+      const money = (r) => r[0]===r[1] ? dollars(r[0]) : `${dollars(r[0])}–${count(r[1])}`;
+      const cents = (v) => Math.round(v*100);
+      const sum = (a) => a.reduce((x,y)=>x+y,0);
+      const numWord = (n,cap) => { const w=["zero","one","two","three","four","five","six","seven","eight","nine","ten"][n]??String(n); return cap?w.charAt(0).toUpperCase()+w.slice(1):w; };
+      const fill = (text) => text.replace(/\{(\w+)\}/g,(m,k)=>k in T?T[k]:m);
+      const assert = (c,m) => { if(!c) throw new Error(`Quote validation: ${m}`); };
+      const longDate = (iso) => new Intl.DateTimeFormat(M.locale,{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"}).format(new Date(`${iso}T12:00:00Z`));
+      const icons = {
+        moon:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>',
+        sun:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>',
+        print:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7z"/></svg>',
+        chev:'<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
+      };
+      const items = P.items.map(i => ({...i, monthly: [0,1].map(k => sum(P.services.filter(s=>s.item===i.id).map(s=>cents(s.monthly[k])))/100) }));
+      const itemMap = new Map(items.map(i=>[i.id,i]));
+      const model = new Map();
+      const options = () => Array.from(model.values());
+
+      function validateAndBuild() {
+        assert(itemMap.size===P.items.length,"Item IDs must be unique.");
+        assert(T.kickoffPercent+T.milestonePercent+T.launchPercent===100,"Payment shares must total 100%.");
+        assert(new Date(M.validUntil)>=new Date(M.issued),"Validity precedes issue date.");
+        P.services.forEach(s=>assert(itemMap.has(s.item),`Service maps to unknown item ${s.item}.`));
+        P.options.forEach(o=>{
+          assert(!o.base||model.has(o.base),`${o.id}: base must precede option.`);
+          const ids=[...(o.base?model.get(o.base).ids:[]),...o.itemIds];
+          assert(new Set(ids).size===ids.length,`${o.id}: duplicate item.`);
+          ids.forEach(id=>assert(itemMap.has(id),`${o.id}: unknown item ${id}.`));
+          const list=ids.map(id=>itemMap.get(id));
+          assert(sum(list.map(i=>cents(i.price)))===cents(o.price),`${o.id}: item prices do not add up to the option price.`);
+          list.forEach(i=>assert(i.ready<o.weeks||(i.id==="launch"&&i.ready<o.weeks),`${i.id}: ready week must fall before ${o.id}'s launch.`));
+          model.set(o.id,{...o,ids,monthly:[0,1].map(k=>sum(list.map(i=>cents(i.monthly[k])))/100)});
+        });
+        assert(items.every(i=>options().some(o=>o.ids.includes(i.id))),"Every item must belong to an option.");
+        assert(P.phases[P.phases.length-1].weeks[1]===Math.max(...P.options.map(o=>o.weeks)),"Phases must end at the last launch week.");
+        P.dependencies.forEach(d=>assert(d.week>=1&&d.week<model.get("b").weeks,`Dependency "${d.what}" falls outside the plan.`));
+      }
+
+      const sectionHead = (id,title,text) => `<div class="sec-head"><h2 id="${id}">${title}</h2><div><p>${text}</p></div></div>`;
+      const weekLabel = (w) => w[0]===w[1]?`Week ${w[0]}`:`Weeks ${w[0]}–${w[1]}`;
+
+      function optionCell(o) {
+        return `<article class="opt" aria-labelledby="opt-${o.id}">
+          <div class="opt-head"><p class="opt-top">${escape(o.label)}</p><h3 id="opt-${o.id}">${escape(o.name)}</h3><p class="desc">${escape(o.descriptor)}</p></div>
+          <div class="pr"><span class="cell-lbl">Build price</span><p class="price">${dollars(o.price)}</p></div>
+          <div class="tg"><span class="cell-lbl">Live in</span><p class="big">${o.weeks} weeks</p><p class="price-sub">from kickoff</p></div>
+          <div class="mo"><span class="cell-lbl">Running costs</span><p class="big">${money(o.monthly)} <small>/ month</small></p></div>
+          <div class="inc"><span class="cell-lbl">Includes</span><p class="txt">${escape(o.includes)}</p></div>
+        </article>`;
+      }
+
+      function renderScope() {
+        const os=options();
+        let last="", out="";
+        items.forEach(i=>{
+          if(i.group!==last){ out+=`<tr><td><h3 class="grp">${escape(P.groups[i.group])}</h3></td></tr>`; last=i.group; }
+          const marks=os.map(o=>o.ids.includes(i.id)?`<span class="c d"><span class="dot" aria-hidden="true"></span><span class="sr-only">In ${escape(o.label)}</span></span>`:`<span class="c d"><span class="no" aria-hidden="true">–</span><span class="sr-only">Not in ${escape(o.label)}</span></span>`).join("");
+          const inLabel=i.group==="core"?"Options B and A":"Option A only";
+          out+=`<tr><td><details class="it" data-item="${i.id}"><summary class="srow">
+            <span class="nm"><span class="no-tag">${escape(i.number)}</span><span>${escape(i.name)}${i.sec?`<span class="s-sub">Spec ${escape(i.sec)}</span>`:""}</span></span>
+            <span class="d"><span class="sr-only">Price </span><span class="money">${dollars(i.price)}</span></span>
+            <span class="d"><span class="sr-only">Ready by </span>Week ${i.ready}<span class="s-sub">${escape(i.readyNote||"for testing")}</span></span>
+            ${marks}
+            <span class="m-meta" aria-hidden="true"><b>${dollars(i.price)}</b> · Week ${i.ready} · ${inLabel}</span>
+            ${icons.chev}
+          </summary><div class="it-body">
+            <div><span class="lbl">Scope</span><p>${escape(i.delivers)}${i.note?`<span class="note">${escape(i.note)}</span>`:""}</p></div>
+            <div><span class="lbl">Needed</span><p>${escape(i.access)}</p></div>
+            <div><span class="lbl">Done when</span><p>${escape(i.done)}</p></div>
+          </div></details></td></tr>`;
+        });
+        return out;
+      }
+
+      function renderCosts() {
+        const os=options();
+        const rows=P.services.map(s=>`<tr><th scope="row">${escape(s.name)}<small>${escape(s.vendor)}</small></th>${os.map(o=>o.ids.includes(s.item)?`<td>${money(s.monthly)}</td>`:`<td class="no">–</td>`).join("")}</tr>`).join("");
+        return `<table class="num"><caption class="sr-only">Estimated monthly running costs, US dollars</caption><thead><tr><th scope="col">Service</th>${os.map(o=>`<th scope="col">${escape(o.label)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Total per month</th>${os.map(o=>`<td>${money(o.monthly)}</td>`).join("")}</tr></tfoot></table>`;
+      }
+
+      function render() {
+        const os=options(), B=model.get("b"), A=model.get("a"), capHours=Mt.monthlyCap/Mt.hourly;
+        const nav=[["options","Pricing"],["findings","What I found"],["scope","Scope"],["delivery","Timeline"],["stack","Stack and experience"],["commercial","Costs and terms"],["questions","Questions"]];
+        const cols=P.phases.length;
+        document.title=M.title;
+        $("#app").innerHTML=`
+<header class="site-header"><div class="wrap header-inner">
+  <a class="identity" href="#main"><img class="avatar" src="${M.photo}" alt="" width="32" height="32">${escape(M.author)}</a>
+  <div class="header-right">
+    <p class="doc-meta"><span>Quote <b>${escape(M.number)}</b></span><span>Issued <b><time datetime="${M.issued}">${longDate(M.issued)}</time></b></span></p>
+    <div class="controls"><button type="button" class="ctl" id="theme-toggle"></button><button type="button" class="ctl" id="print-button">${icons.print}<span>Print</span></button></div>
+  </div>
+</div></header>
+<main id="main" tabindex="-1">
+  <section class="wrap overview" aria-labelledby="title">
+    <div><p class="kicker">${escape(M.kicker)}</p><h1 id="title">${escape(M.heading)}</h1></div>
+    <div>
+      <ul class="facts">
+        <li>A back-office system she owns, replacing BrokerMint, built around what she actually uses</li>
+        <li>A signed contract creates the deal and fills in its price, dates, commission, checklist and CDA</li>
+        <li>Fixed price: ${dollars(B.price)} for Option B (core) or ${dollars(A.price)} for Option A (complete)</li>
+        <li>Live in ${B.weeks} weeks (Option B) or ${A.weeks} weeks (Option A) from kickoff</li>
+      </ul>
+    </div>
+    <nav class="toc" aria-labelledby="toc-h"><p class="toc-h" id="toc-h">Quick links</p><ul>${nav.map(([id,t])=>`<li><a href="#${id}">${t}</a></li>`).join("")}</ul></nav>
+  </section>
+
+  <section class="section" aria-labelledby="options"><div class="wrap">
+    ${sectionHead("options","Options and pricing","Option B covers every must-have in the spec. Option A adds MLS, CRM, onboarding and an assistant. Prices are fixed.")}
+    <div class="cmp r5">
+      <div class="cmp-labels" aria-hidden="true"><div class="opt-head"></div><div>Build price</div><div>Live in</div><div>Running costs</div><div>Includes</div></div>
+      ${os.map(optionCell).join("")}
+    </div>
+    <div class="cmp-foot"><h3>In both options</h3><ul class="incl">
+      <li>She owns the code and accounts</li>
+      <li>2FA and role-based access</li>
+      <li>Daily backups</li>
+      <li>Migration from BrokerMint</li>
+      <li>Training and ${numWord(T.supportMonths)} month of support</li>
+    </ul></div>
+    <p class="fine">All prices in USD. Running costs are paid directly to each provider, with no markup. Option B can be extended to A later for ${dollars(A.price-B.price)}. Accounting, AI document review, offers, the report builder, the document library and the activity log stay in a later phase.</p>
+    <div class="hosting">
+      <h3 class="sub">Maintenance</h3>
+      <p class="sub-lede">Optional, after the included month of support.</p>
+      <div class="plan">
+        <div class="plan-price"><p class="big">${dollars(Mt.hourly)} <small>/ hour</small></p><p class="price-sub">Capped at ${dollars(Mt.monthlyCap)} a month (${capHours} hours)</p></div>
+        <div>
+          <ul class="incl"><li>Security and dependency updates</li><li>Monitoring of DocuSign, Stripe and calendar connections</li><li>Fixes and small changes</li><li>Reply within ${numWord(Mt.replyDays)} business day</li></ul>
+          <p class="fine">Billed monthly for the hours used. Work past ${capHours} hours in a month moves to the next month. Cancel with ${Mt.noticeDays} days’ notice.</p>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section" aria-labelledby="findings"><div class="wrap">
+    ${sectionHead("findings","What I found in her BrokerMint","I went through all 50 screenshots. These are the problems the new system has to fix, and each one is covered in the scope.")}
+    <ul class="rules">${P.findings.map(f=>`<li>${f}</li>`).join("")}</ul>
+  </div></section>
+
+  <section class="section" aria-labelledby="scope"><div class="wrap">
+    ${sectionHead("scope","Scope","Items follow the spec’s section numbers. F is the shared setup and L is launch.")}
+    <div class="part">
+      <h3 class="sub">How a signed contract becomes a deal</h3>
+      <ol class="flow">
+        <li><strong>Agent</strong><p>Fills in a few fields, picks the checklist and sends from zipForms.</p></li>
+        <li><strong>DocuSign</strong><p>Collects signatures and tells the app when it’s fully signed.</p></li>
+        <li class="ai"><strong>The app</strong><p>Creates the deal, fills in the contract fields and sets up the commission.</p></li>
+        <li><strong>Checklist and calendar</strong><p>Due dates count from the contract; deadlines go to Google Calendar.</p></li>
+        <li><strong>Broker and title</strong><p>Review queue, CDA for e-sign, signed contract sent to title.</p></li>
+      </ol>
+    </div>
+    <div class="part">
+      <div class="scope-tools"><span>Item prices add up to each option’s price. “Ready by” is the week an item can be tested.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
+      <table class="scope-tbl" role="presentation"><thead><tr><td><div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Price</span><span>Ready by</span>${os.map(o=>`<span class="c" title="${escape(o.label)}">${escape(o.short)}</span>`).join("")}<span></span></div></td></tr></thead>
+      <tbody id="scope-list">${renderScope()}</tbody></table>
+    </div>
+  </div></section>
+
+  <section class="section" aria-labelledby="delivery"><div class="wrap">
+    ${sectionHead("delivery","Timeline",`Option B goes live in week ${B.weeks} and Option A in week ${A.weeks}. Weeks count from kickoff; the Christmas and New Year week isn’t counted.`)}
+    <div class="part">
+      <h3 class="sub">Plan</h3>
+      <div class="tl" style="--cols:${cols}" role="img" aria-label="Option B live in week ${B.weeks}, Option A in week ${A.weeks}. zipForms and MLS approvals run during weeks 1 to 4.">
+        <span></span>${P.phases.map(p=>`<span class="wk" aria-hidden="true"><b>${weekLabel(p.weeks)}</b><span class="t">${escape(p.title)}</span><small>${escape(p.detail)}</small></span>`).join("")}
+        <span class="vn" aria-hidden="true"><span class="vl">Option B</span><span class="vs">B</span></span><span class="bar" style="grid-column-end:span ${cols-1}" aria-hidden="true"><span class="w">Live&nbsp;</span>week ${B.weeks}</span>
+        <span class="vn" aria-hidden="true"><span class="vl">Option A</span><span class="vs">A</span></span><span class="bar" style="grid-column-end:span ${cols}" aria-hidden="true"><span class="w">Live&nbsp;</span>week ${A.weeks}</span>
+        <span class="vn" aria-hidden="true"><span class="vl">Approvals</span><span class="vs">Appr.</span></span><span class="bar wait" style="grid-column-end:span 2" aria-hidden="true">zipForms and GMAR</span>
+      </div>
+      <ol class="weeklist" aria-label="Plan">${P.phases.map(p=>`<li><b>${weekLabel(p.weeks)}: ${escape(p.title)}</b><span>${escape(p.detail)}</span></li>`).join("")}</ol>
+    </div>
+    <div class="part">
+      <h3 class="sub">Needed, and when</h3>
+      <div class="table-wrap"><table class="tbl deps"><caption class="sr-only">What the schedule depends on</caption><thead><tr><th scope="col">Needed</th><th scope="col">By</th><th scope="col">From</th></tr></thead><tbody>
+        ${P.dependencies.map(d=>`<tr><th scope="row">${escape(fill(d.what))}</th><td data-lbl="By">Week ${d.week}</td><td data-lbl="From">${escape(d.from)}</td></tr>`).join("")}
+      </tbody></table></div>
+    </div>
+  </div></section>
+
+  <section class="section" aria-labelledby="stack"><div class="wrap">
+    ${sectionHead("stack","Stack and experience","Standard, well-supported tools, all in the brokerage’s name.")}
+    <div class="part">
+      <div class="table-wrap"><table class="tbl stack"><caption class="sr-only">Stack</caption><thead><tr><th scope="col">Part</th><th scope="col">Tool</th></tr></thead><tbody>
+        ${P.stack.map(([a,b])=>`<tr><th scope="row">${escape(a)}</th><td>${escape(b)}</td></tr>`).join("")}
+      </tbody></table></div>
+    </div>
+    <div class="part">
+      <h3 class="sub">Experience with the integrations</h3>
+      <dl class="terms xp">${P.experience.map(([a,b])=>`<div><dt>${escape(a)}</dt><dd>${escape(b)}</dd></div>`).join("")}</dl>
+    </div>
+  </div></section>
+
+  <section class="section" aria-labelledby="commercial"><div class="wrap">
+    ${sectionHead("commercial","Running costs and terms","Running costs are estimates from providers’ published prices in November 2026.")}
+    <div class="part">
+      <div class="costs">
+        <div class="costs-head"><h3 class="sub">Monthly running costs</h3></div>
+        <div class="table-wrap">${renderCosts()}</div>
+        <ul class="notes">${P.costNotes.map(n=>`<li>${escape(n)}</li>`).join("")}</ul>
+      </div>
+    </div>
+    <div class="part">
+      <h3 class="sub">Terms</h3>
+      <dl class="terms">
+        <div><dt>Payment</dt><dd>${T.kickoffPercent}% at kickoff, ${T.milestonePercent}% when a signed test contract creates a deal on its own (around week ${T.milestoneWeek}), and ${T.launchPercent}% at launch.</dd></div>
+        <div><dt>Acceptance</dt><dd>Each item is accepted when it meets its “Done when” check.</dd></div>
+        <div><dt>Approvals</dt><dd>Lone Wolf and GMAR set their own approval times. If either is late, the rest launches on schedule and that part follows within a week of approval.</dd></div>
+        <div><dt>Support</dt><dd>${numWord(T.supportMonths,true)} month after launch is included. Maintenance after that is optional, as set out under Pricing.</dd></div>
+        <div><dt>Changes</dt><dd>Work outside this scope is priced and scheduled before it starts.</dd></div>
+        <div><dt>Ownership</dt><dd>The brokerage owns the code, the data and every account. The code is handed over in a Git repository once paid in full.</dd></div>
+        <div><dt>Not included</dt><dd>Later-phase features; DocuSign, Stripe, MLS and hosting fees; legal review of forms and policies.</dd></div>
+        <div><dt>Validity</dt><dd>Valid until ${longDate(M.validUntil)}.</dd></div>
+      </dl>
+    </div>
+  </div></section>
+
+  <section class="section" aria-labelledby="questions"><div class="wrap">
+    ${sectionHead("questions","Questions by section","Each question has the assumption the price is based on. A different answer may change the price or timeline.")}
+    <ol class="qs">${P.questions.map(([s,q])=>`<li><b>${escape(s)}</b><span>${escape(q)}</span></li>`).join("")}</ol>
+  </div></section>
+
+</main>
+<footer class="site-footer"><div class="wrap footer-inner"><span class="identity"><img class="avatar" src="${M.photo}" alt="" width="32" height="32">${escape(M.author)}</span><span>Quote ${escape(M.number)}</span></div></footer>`;
+        root.dataset.quoteValidated="true";
+      }
+
+      const THEME_KEY="backoffice-proposal-theme";
+      const systemDark=matchMedia("(prefers-color-scheme: dark)");
+      const effectiveTheme=()=>root.dataset.theme||(systemDark.matches?"dark":"light");
+      function syncThemeButton(){const dark=effectiveTheme()==="dark";const b=$("#theme-toggle");if(!b)return;b.innerHTML=`${icons[dark?"sun":"moon"]}<span>${dark?"Light":"Dark"}</span>`;b.setAttribute("aria-label",`Switch to ${dark?"light":"dark"} theme`);}
+      const details=()=>Array.from(document.querySelectorAll("details.it"));
+      function syncExpandButton(){const b=$("#expand-all");if(!b)return;const all=details().every(d=>d.open);b.textContent=all?"Collapse all":"Expand all";b.setAttribute("aria-expanded",String(all));}
+      let printOpened=[];
+      function openForPrint(){printOpened=details().filter(d=>!d.open);printOpened.forEach(d=>d.open=true);}
+      function restoreAfterPrint(){printOpened.forEach(d=>d.open=false);printOpened=[];syncExpandButton();}
+      try {
+        validateAndBuild();
+        try{const saved=localStorage.getItem(THEME_KEY);if(saved==="light"||saved==="dark")root.dataset.theme=saved;}catch{}
+        render(); syncThemeButton(); syncExpandButton();
+        systemDark.addEventListener("change",syncThemeButton);
+        $("#theme-toggle").addEventListener("click",()=>{const next=effectiveTheme()==="dark"?"light":"dark";root.dataset.theme=next;try{localStorage.setItem(THEME_KEY,next);}catch{}syncThemeButton();});
+        $("#print-button").addEventListener("click",async()=>{if(document.fonts)await document.fonts.ready;window.print();});
+        $("#expand-all").addEventListener("click",()=>{const open=!details().every(d=>d.open);details().forEach(d=>d.open=open);syncExpandButton();});
+        details().forEach(d=>d.addEventListener("toggle",syncExpandButton));
+        addEventListener("beforeprint",openForPrint); addEventListener("afterprint",restoreAfterPrint);
+        matchMedia("print").addEventListener("change",e=>e.matches?openForPrint():restoreAfterPrint());
+      } catch(error) {
+        console.error(error);
+        $("#app").innerHTML='<div class="error" role="alert"><h1>The quote needs a data check.</h1><p>A price or item could not be validated. Check the PROPOSAL object before sharing this page.</p></div>';
+      }
+    })();
+  </script>
+</body>
+</html>
