@@ -421,10 +421,10 @@
       maintenance: { hourly: 20, monthlyCap: 500, noticeDays: 30, replyDays: 1 },
       groups: { q: "Quick Start", s: "Standard adds", c: "Complete adds", a: "Option A add-on (any version)" },
       items: [
-        { id: "setup", number: "F", sec: "§2, §15", group: "q", name: "Setup, logins and roles", price: 500, ready: 2, delivers: "The web app, for desktop and phone, branded with her logo and colors. Broker, Agent and Admin/TC roles: agents see only their own deals, contacts and money. 2FA login, invites, active and inactive users, and “act on behalf of” for the broker. Daily backups. Database structured for the later-phase modules.", access: "Logo, colors, the user list, and hosting accounts in her name.", done: "Each role sees only what it should, 2FA works and a backup restores." },
-        { id: "automation", number: "1", sec: "§1", group: "q", name: "Document automation", price: 1200, ready: 5, delivers: "When a contract is fully signed, the deal is created or updated on its own: sales price (replacing the list price), option period and fee, closing date, earnest money, financing type, parties and commission. The agent’s plan sets up the commission, the deal type loads its checklist, and due dates count from the contract dates. Status moves to pending on signing and to closed once the closing date passes and the CDA is signed. Agents get due-soon and past-due emails; the broker gets one daily summary. One click sends the signed contract to the title company.", access: "A signed sample contract for each deal type, and her due-date rules.", done: "A test contract signed through DocuSign creates a complete deal with the right price, dates, commission and checklist, without typing.", note: "Fields are read from the signed TREC contract." },
+        { id: "setup", number: "F", sec: "§2, §15", group: "q", name: "Setup, logins and roles", price: 500, ready: 2, delivers: "The web app, for desktop and phone, branded with her logo and colors. Broker, Agent and Admin/TC roles: agents see only their own deals, contacts and money. 2FA login, invites, active and inactive users, and “act on behalf of” for the broker. Agent profiles hold license number and expiry, commission plan, cap, yearly goal and billing. Daily backups. Database structured for the later-phase modules.", access: "Logo, colors, the user list, and hosting accounts in her name.", done: "Each role sees only what it should, 2FA works and a backup restores." },
+        { id: "automation", number: "1", sec: "§1", group: "q", name: "Document automation", price: 1200, ready: 5, delivers: "When a contract is fully signed, the deal is created or updated on its own: sales price (replacing the list price), option period and fee, closing date, earnest money, financing type, parties and commission. The agent’s plan sets up the commission, the deal type loads its checklist, and due dates count from the contract dates. The county appraisal summary and MLS agent sheet are required on every contract; a deal missing either is flagged. Status moves to pending on signing and to closed once the closing date passes and the CDA is signed. Agents get due-soon and past-due emails; the broker gets one daily summary. One click sends the signed contract to the title company.", access: "A signed sample contract for each deal type, and her due-date rules.", done: "A test contract signed through DocuSign creates a complete deal with the right price, dates, commission and checklist, without typing.", note: "Fields are read from the signed TREC contract." },
         { id: "dashboard", number: "3", sec: "§3", group: "q", name: "Dashboard and goal tracker", price: 250, ready: 6, delivers: "Goal gauge (percent of goal and time left) by sales volume or company dollar; broker and agent views with cap progress bars; recent deals and useful links. It counts closed and pending deals, so it no longer reads 0%.", access: "Each agent’s yearly goal.", done: "Closing a test deal moves the gauge and the cap bar." },
-        { id: "transactions", number: "4", sec: "§4", group: "q", name: "Transactions", price: 950, ready: 3, delivers: "Deal list with search by address, contact or MLS #; views for active, pending, closed, cancelled, closing this month and needs attention; a red flag on deals with past-due documents. Deal page with details and property fields, status actions, checklists (to do, uploaded, submitted, approved, rejected, exempt), documents with an unsorted bucket, contacts with roles, a client portal link, commissions and a simple history. The same checklist can’t be added to a deal twice.", access: "Which of her current deal fields she still uses.", done: "Closed deals are easy to find, and a buyer’s portal link shows only the shared documents." },
+        { id: "transactions", number: "4", sec: "§4", group: "q", name: "Transactions", price: 950, ready: 3, delivers: "Deal list with search by address, contact or MLS #; views for active, pending, closed, cancelled, closing this month and needs attention; a red flag on deals with past-due documents. Deal page with details and property fields (earnest money as fields only, no trust accounting), status actions, checklists (to do, uploaded, submitted, approved, rejected, exempt), documents with an unsorted bucket, contacts with roles, a client portal link, commissions and a simple history. The same checklist can’t be added to a deal twice.", access: "Which of her current deal fields she still uses.", done: "Closed deals are easy to find, and a buyer’s portal link shows only the shared documents." },
         { id: "commissions", number: "5", sec: "§5, §4", group: "q", name: "Commission plans, caps and CDA", price: 600, ready: 5, delivers: "Plan templates (split, cap, flat fees, E&O) assigned once per agent: 90/10, Flat Fee, Flat Fee (2), Rental, “$1,500 or less” and her custom plans. Each agent has a cap progress bar, and the split stops at the cap. Listing and buying sides with several agents each, showing agent net and company share. The CDA uses the contract price and goes to the broker for e-sign, then to title.", access: "The rules for each plan, each agent’s cap, and year-to-date totals for agents already partway to cap.", done: "A deal that crosses an agent’s cap pays the agent 100% of the rest, and the CDA shows the contract price." },
         { id: "review", number: "6", sec: "§6", group: "q", name: "Broker review queue", price: 300, ready: 3, delivers: "One queue of deals with documents waiting. Review screen with the PDF and deal info side by side; approve, or reject as incomplete or incorrect with a comment. The agent gets an email for every approval and every rejection.", access: "Nothing extra.", done: "Rejecting a test document emails the agent the reason within a minute." },
         { id: "tasks", number: "7", sec: "§7", group: "q", name: "Task list and essential emails", price: 200, ready: 4, delivers: "One list of open tasks and documents across deals, overdue items in red. Emails for the essentials only: submitted, approved, rejected, due soon, past due, pending, closed and CDA ready.", access: "Nothing extra.", done: "An overdue test task shows in red and its email arrives." },
@@ -432,7 +432,7 @@
         { id: "contacts", number: "9", sec: "§9", group: "q", name: "Contacts with lead source", price: 150, ready: 3, delivers: "Contact list with search and types (buyer, seller, agent, other), and a form with lead source and assigned agent. The broker sees where each agent’s business comes from.", access: "Her list of lead sources.", done: "Each agent’s deals can be split by lead source." },
         { id: "esign", number: "10", sec: "§10", group: "q", name: "DocuSign", price: 300, ready: 5, delivers: "Agents keep signing through DocuSign as today; licensed forms aren’t rebuilt. Signed documents come back to the deal automatically and go to every signer, and signing emails carry the brokerage logo. Sending for signature and submitting for review happen in one step.", access: "Admin access to her DocuSign account.", done: "A contract signed in DocuSign lands in the right deal on its own." },
         { id: "migration", number: "14", sec: "§14", group: "q", name: "Migration of active deals", price: 200, ready: 6, delivers: "Active and pending deals with their documents, plus contacts, users and commission plans, move over from BrokerMint’s exports. Duplicate checklist items and leftover California tasks are cleaned up on the way. Closed deals come over as a CSV for reference.", access: "BrokerMint exports of data and documents.", done: "Ten spot-checked deals match BrokerMint, with no duplicates." },
-        { id: "launch", number: "L", sec: "", group: "q", name: "Testing, training and launch", price: 150, ready: 6, readyNote: "Then go live", delivers: "Testing with the broker on real deals, a recorded training for her and her agents, a short guide, launch, and one month of fixes after launch.", access: "A few hours of the broker’s time before launch.", done: "She and her agents are trained and working in the new system." },
+        { id: "launch", number: "L", sec: "", group: "q", name: "Testing, training and launch", price: 150, ready: 6, delivers: "Testing with the broker on real deals, a recorded training for her and her agents, a short guide, launch, and one month of fixes after launch.", access: "A few hours of the broker’s time before launch.", done: "She and her agents are trained and working in the new system." },
         { id: "billing", number: "11", sec: "§11", group: "s", name: "Stripe agent billing", price: 450, ready: 6, delivers: "Agents keep a card or bank account on file through Stripe. The $50 monthly office fee charges automatically, and one-off fees (E&O, transaction fees) charge when added. Each agent’s charges, payments and balance show on their profile, and the broker gets a payment status report.", access: "A Stripe account in her name.", done: "A test agent is charged $50 on schedule and the payment shows on their ledger." },
         { id: "calendar", number: "12", sec: "§12", group: "s", name: "Google Calendar deadlines", price: 200, ready: 6, delivers: "Option expiration, financing, closing and task due dates appear on each agent’s and the broker’s Google Calendar, and move when the dates change.", access: "Each user connects their Google account once.", done: "Changing a closing date moves the calendar event." },
         { id: "reports", number: "13", sec: "§13", group: "s", name: "Reports", price: 250, ready: 7, delivers: "Production by agent and month, closed and pending deals, cap progress, source of business and billing status, filtered by date, agent and status, with CSV export.", access: "Nothing extra.", done: "Each report matches the test deals and exports to CSV." },
@@ -463,17 +463,16 @@
       ],
       costNotes: [
         "DocuSign API plans start at about $50/month, needed only if her current plan has no API access.",
-        "Stripe: 2.9% + 30¢ per card payment, 0.8% per bank payment (max $5).",
+        "Stripe (Standard and Complete): 2.9% + 30¢ per card payment or 0.8% per bank payment (max $5), plus 0.7% for Stripe Billing.",
         "zipForms: free to Texas REALTORS members; any Lone Wolf partner fee confirmed on application.",
         "GMAR: one-time connection fee of about $35."
       ],
       findings: [
-        "53 deals, none closed or cancelled, so the dashboard reads 0%.",
-        "Commissions show $0 on listings, and no plan has a cap set. Caps are tracked by hand.",
-        "Lead source is blank on every deal and contact.",
-        "Some deals have the same checklist added two or three times, so every item appears twice.",
-        "The task list is cluttered with California disclosures that aren’t in her Texas templates.",
-        "Agent billing is set up but unused."
+        "The pipeline shows 23 deals closed from June to October, but the goal gauge still reads 0%.",
+        "Most of her 29 listings show a 0% gross commission, so office and agent figures are unreliable. Caps are tracked by hand.",
+        "Lead source is empty on every listing in the listings report.",
+        "At least one deal has its checklist attached twice, so every item appears twice.",
+        "The task list is cluttered with overdue California disclosures that aren’t in her Texas templates."
       ],
       stack: [
         ["App", "Next.js and TypeScript, built for desktop and phone"],
@@ -488,7 +487,7 @@
       ],
       experience: [
         ["DocuSign", "eSignature API: sending envelopes, Connect webhooks on completion, retrieving signed documents."],
-        ["zipForms / Lone Wolf", "Partner API access is granted by Lone Wolf. The application goes in during week 1; DocuSign runs the automation until it is approved."],
+        ["zipForms / Lone Wolf", "Partner API access is granted by Lone Wolf. The application goes in during week 1; DocuSign runs the automation until it is approved. If she moves to Lone Wolf’s newer Transact, its API follows the same approval route."],
         ["Stripe", "Stripe Billing subscriptions with saved cards and bank accounts. Card data stays with Stripe."],
         ["MLS feeds", "GMAR delivers through the Bridge RESO Web API. The approval path is mapped from MLS licensing work on Nook & Acre: data licence signed by the broker, GMAR approval, Bridge credentials."]
       ],
@@ -640,7 +639,7 @@
   </section>
 
   <section class="section" aria-labelledby="options"><div class="wrap">
-    ${sectionHead("options","Versions and pricing",`Each version includes the one before it. Option A adds ${dollars(AO.price)} and ${AO.weeks} weeks to any version.`)}
+    ${sectionHead("options","Versions and pricing")}
     <div class="cmp v3">
       <div class="cmp-labels" aria-hidden="true"><div class="opt-head"></div><div>Option B (core)</div><div>Option A</div><div>Live in</div><div>Running costs</div><div>Includes</div></div>
       ${vs.map(versionCell).join("")}
@@ -654,7 +653,7 @@
     <p class="fine">All prices in USD.</p>
     <div class="hosting">
       <h3 class="sub">Maintenance</h3>
-      <p class="sub-lede">Optional, from the second month after launch.</p>
+      <p class="sub-lede">Optional, after the first month.</p>
       <div class="plan">
         <div class="plan-price"><p class="big">${dollars(Mt.hourly)} <small>/ hour</small></p><p class="price-sub">Capped at ${dollars(Mt.monthlyCap)} a month (${capHours} hours)</p></div>
         <div>
@@ -666,21 +665,21 @@
   </div></section>
 
   <section class="section" aria-labelledby="findings"><div class="wrap">
-    ${sectionHead("findings","Current issues","From the 50 BrokerMint screenshots. Every version fixes these.")}
+    ${sectionHead("findings","Issues in her current BrokerMint")}
     <ul class="rules">${P.findings.map(f=>`<li>${f}</li>`).join("")}</ul>
   </div></section>
 
   <section class="section" aria-labelledby="scope"><div class="wrap">
     ${sectionHead("scope","Scope")}
     <div class="part">
-      <div class="scope-tools"><span>Numbered by spec section. Columns 1–3 are the versions; A is the Option A add-on.</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
+      <div class="scope-tools"><span>1–3: versions · A: Option A add-on</span><button type="button" class="linkbtn" id="expand-all" aria-controls="scope-list">Expand all</button></div>
       <table class="scope-tbl" role="presentation"><thead><tr><td><div class="srow scope-head" aria-hidden="true"><span>Item</span><span>Price</span><span>Ready by</span>${vs.map(v=>`<span class="c" title="${escape(v.name)}">${escape(v.short)}</span>`).join("")}<span class="c" title="Option A add-on">A</span><span></span></div></td></tr></thead>
       <tbody id="scope-list">${renderScope()}</tbody></table>
     </div>
   </div></section>
 
   <section class="section" aria-labelledby="delivery"><div class="wrap">
-    ${sectionHead("delivery","Timeline","Weeks from kickoff, excluding the Christmas week.")}
+    ${sectionHead("delivery","Timeline")}
     <div class="part">
       <h3 class="sub">Plan</h3>
       <div class="tl" style="--cols:${cols}" role="img" aria-label="Quick Start live week ${Q.weeks}, Standard week ${S.weeks}, Complete week ${C.weeks}; Option A adds ${AO.weeks} weeks.">
@@ -712,7 +711,7 @@
   </div></section>
 
   <section class="section" aria-labelledby="commercial"><div class="wrap">
-    ${sectionHead("commercial","Running costs and terms","Monthly estimates, the same for every version, paid by the brokerage directly to each provider.")}
+    ${sectionHead("commercial","Running costs and terms")}
     <div class="part">
       <div class="costs">
         <div class="costs-head"><h3 class="sub">Monthly running costs</h3></div>
